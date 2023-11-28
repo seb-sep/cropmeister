@@ -2,7 +2,10 @@ module github.com/seb-sep/cropmeister
 
 go 1.19
 
-require github.com/gofiber/fiber/v2 v2.51.0
+require (
+	github.com/go-sql-driver/mysql v1.7.1
+	github.com/gofiber/fiber/v2 v2.51.0
+)
 
 require (
 	github.com/andybalholm/brotli v1.0.6 // indirect
