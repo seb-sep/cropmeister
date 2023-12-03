@@ -2,7 +2,7 @@ Steps:
 
 Download Go: https://go.dev/doc/install
 
-Download sqlc: `brew install sqlc`
+Download sqlc and go: `brew install sqlc go`
 
 Clone the repo
 
