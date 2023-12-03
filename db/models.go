@@ -8,8 +8,101 @@ import (
 	"database/sql"
 )
 
-type Author struct {
-	ID   int64
-	Name string
-	Bio  sql.NullString
+type Crop struct {
+	CropType           sql.NullString
+	PhRangeWeight      sql.NullFloat64
+	PhRangeDesired     sql.NullFloat64
+	WaterNeededWeight  sql.NullFloat64
+	WaterNeededDesired sql.NullFloat64
+	SunRangeWeight     sql.NullFloat64
+	SunRangeDesired    sql.NullFloat64
+	Banned             sql.NullBool
+}
+
+type CropBuyer struct {
+	Name               sql.NullString
+	QuantitiesRequired sql.NullInt32
+	CropType           sql.NullString
+	TargetPrice        sql.NullInt32
+}
+
+type CropInvestigator struct {
+	Name   string
+	Usdaid sql.NullInt32
+}
+
+type CropInvestor struct {
+	Name            string
+	BuyPrice        sql.NullInt32
+	InvestibleMoney sql.NullInt32
+	SellPrice       sql.NullInt32
+}
+
+type DistrictCode struct {
+	MaxWater sql.NullInt32
+	MaxFert  sql.NullInt32
+	CropType sql.NullString
+	CodeID   sql.NullInt32
+}
+
+type Enforce struct {
+	Usdaid int32
+	CodeID int32
+}
+
+type Farm struct {
+	Name          string
+	FarmValue     sql.NullInt32
+	FarmID        sql.NullInt32
+	AddressStreet sql.NullString
+	AddressCity   sql.NullString
+	AddressState  sql.NullString
+	AddressZip    sql.NullString
+}
+
+type Farmer struct {
+	Name       string
+	Budget     sql.NullInt32
+	NetWorth   sql.NullInt32
+	FarmID     sql.NullInt32
+	PurchaseID sql.NullInt32
+}
+
+type Harvest struct {
+	Quantity       sql.NullInt32
+	TimeYear       sql.NullInt32
+	TimeSeason     sql.NullString
+	PhBase         sql.NullFloat64
+	PhFertilized   sql.NullFloat64
+	WaterRain      sql.NullFloat64
+	WaterSprinkler sql.NullFloat64
+	Sun            sql.NullInt32
+	Price          sql.NullFloat64
+	CropType       sql.NullString
+	FarmID         sql.NullInt32
+	Extinct        sql.NullBool
+}
+
+type InvestsIn struct {
+	Name   sql.NullString
+	FarmID sql.NullInt32
+}
+
+type MonitorsBuyer struct {
+	Name     string
+	CropType string
+}
+
+type MonitorsInvestment struct {
+	Name     sql.NullString
+	CropType sql.NullString
+}
+
+type Purchase struct {
+	PurchaseID       sql.NullInt32
+	CropType         sql.NullString
+	PurchaseComplete sql.NullBool
+	TotalPrice       sql.NullFloat64
+	TotalQuantity    sql.NullInt32
+	PurchaseDate     sql.NullTime
 }
