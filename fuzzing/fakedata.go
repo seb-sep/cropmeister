@@ -42,11 +42,11 @@ func toSqlNullTime(value string) sql.NullTime {
 	return sql.NullTime{Time: date, Valid: true}
 }
 
-func generateFarm() db.Farm {
+func generateFarm(farmid sql.NullInt32) db.Farm {
 	farm := db.Farm{
 		Name:          faker.Name(),
 		FarmValue:     generateRandomInt(1, 100),
-		FarmID:        generateRandomInt(1, 100),
+		FarmID:        farmid,
 		AddressStreet: toSqlNullString(faker.GetRealAddress().Address),
 		AddressCity:   toSqlNullString(faker.GetRealAddress().City),
 		AddressState:  toSqlNullString(faker.GetRealAddress().State),
@@ -55,9 +55,9 @@ func generateFarm() db.Farm {
 	return farm
 }
 
-func generateCrop() db.Crop {
+func generateCrop(cropType sql.NullString) db.Crop {
 	crop := db.Crop{
-		CropType:           toSqlNullString(faker.Word()),
+		CropType:           cropType,
 		PhRangeWeight:      generateRandomFloat(0, 1),
 		PhRangeDesired:     generateRandomFloat(1, 100),
 		WaterNeededWeight:  generateRandomFloat(0, 1),
@@ -69,10 +69,10 @@ func generateCrop() db.Crop {
 	return crop
 }
 
-func generatePurchase() db.Purchase {
+func generatePurchase(purchaseID sql.NullInt32, cropType sql.NullString) db.Purchase {
 	purchase := db.Purchase{
-		PurchaseID:       generateRandomInt(1, 100),
-		CropType:         toSqlNullString(faker.Word()),
+		PurchaseID:       purchaseID,
+		CropType:         cropType,
 		PurchaseComplete: generateRandomBool(),
 		TotalPrice:       generateRandomFloat(1, 50000),
 		TotalQuantity:    generateRandomInt(1, 100),
@@ -81,9 +81,9 @@ func generatePurchase() db.Purchase {
 	return purchase
 }
 
-func generateCropInvestor() db.CropInvestor {
+func generateCropInvestor(name string) db.CropInvestor {
 	cropInvestor := db.CropInvestor{
-		Name:            faker.Name(),
+		Name:            name,
 		BuyPrice:        generateRandomInt(1, 50000),
 		InvestibleMoney: generateRandomInt(1, 1000000),
 		SellPrice:       generateRandomInt(1, 60000),
@@ -91,53 +91,30 @@ func generateCropInvestor() db.CropInvestor {
 	return cropInvestor
 }
 
-func generateCropInvestigator() db.CropInvestigator {
+func generateCropInvestigator(name string) db.CropInvestigator {
 	cropInvestigator := db.CropInvestigator{
-		Name:   faker.Name(),
+		Name:   name,
 		Usdaid: generateRandomInt(1, 100),
 	}
 	return cropInvestigator
 }
 
-func generateDistrictCode() db.DistrictCode {
+func generateDistrictCode(codeID sql.NullInt32, cropType sql.NullString) db.DistrictCode {
 	districtCode := db.DistrictCode{
 		MaxWater: generateRandomInt(1, 100),
 		MaxFert:  generateRandomInt(1, 100),
-		CropType: toSqlNullString(faker.Word()),
-		CodeID:   generateRandomInt(1, 100),
+		CropType: cropType,
+		CodeID:   codeID,
 	}
 	return districtCode
 }
 
-func generateCropBuyer() db.CropBuyer {
+func generateCropBuyer(name sql.NullString, cropType sql.NullString) db.CropBuyer {
 	cropBuyer := db.CropBuyer{
-		Name:               toSqlNullString(faker.Name()),
+		Name:               name,
 		QuantitiesRequired: generateRandomInt(1, 10),
-		CropType:           toSqlNullString(faker.Name()),
+		CropType:           cropType,
 		TargetPrice:        generateRandomInt(1, 100),
 	}
 	return cropBuyer
-}
-
-func main() {
-	farm := generateFarm()
-	fmt.Println(farm)
-
-	crop := generateCrop()
-	fmt.Println(crop)
-
-	purchase := generatePurchase()
-	fmt.Println(purchase)
-
-	cropInvestor := generateCropInvestor()
-	fmt.Println(cropInvestor)
-
-	cropInvestigator := generateCropInvestigator()
-	fmt.Println(cropInvestigator)
-
-	districtCode := generateDistrictCode()
-	fmt.Println(districtCode)
-
-	cropBuyer := generateCropBuyer()
-	fmt.Println(cropBuyer)
 }
