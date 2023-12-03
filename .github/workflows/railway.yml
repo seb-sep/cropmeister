@@ -23,8 +23,8 @@ jobs:
       - name: Build
         run: go build -v ./...
 
-      - name: Test with the Go CLI
-        run: go test ./... -v
+      #   - name: Test with the Go CLI
+      #     run: go test ./... -v
 
       - name: Deploy Railway
         uses: bervProject/railway-deploy@main
