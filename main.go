@@ -1,21 +1,20 @@
 package main
 
 import (
-	"context"
 	"database/sql"
 	"fmt"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/seb-sep/cropmeister/db"
 
 	"os"
 
 	_ "github.com/go-sql-driver/mysql"
-	"github.com/seb-sep/cropmeister/db"
 )
 
 func main() {
 	app := fiber.New()
-	ctx := context.Background()
+	// ctx := context.Background()
 	dbUrl := os.Getenv("DATABASE_URL")
 	msql, err := sql.Open("mysql", dbUrl)
 	if err != nil {
@@ -32,12 +31,7 @@ func main() {
 	})
 
 	app.Get("/", func(c *fiber.Ctx) error {
-		authors, _ := queries.ListAuthors(ctx)
-		names := []string{}
-		for _, author := range authors {
-			names = append(names, author.Name)
-		}
-		return c.JSON(names)
+		return c.SendString("hello world!")
 	})
 
 	harvest := app.Group("/harvest")

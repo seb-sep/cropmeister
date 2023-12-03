@@ -10,69 +10,185 @@ import (
 	"database/sql"
 )
 
-const createAuthor = `-- name: CreateAuthor :execresult
-INSERT INTO authors (
-  name, bio
-) VALUES (
-  ?, ?
-)
+const addCropBuyer = `-- name: AddCropBuyer :exec
+INSERT INTO Crop_Buyer (Name, Quantities_Required, Crop_Type, Target_Price)
+VALUES (?, ?, ?, ?)
 `
 
-type CreateAuthorParams struct {
-	Name string
-	Bio  sql.NullString
+type AddCropBuyerParams struct {
+	Name               sql.NullString
+	QuantitiesRequired sql.NullInt32
+	CropType           sql.NullString
+	TargetPrice        sql.NullInt32
 }
 
-func (q *Queries) CreateAuthor(ctx context.Context, arg CreateAuthorParams) (sql.Result, error) {
-	return q.db.ExecContext(ctx, createAuthor, arg.Name, arg.Bio)
-}
-
-const deleteAuthor = `-- name: DeleteAuthor :exec
-DELETE FROM authors
-WHERE id = ?
-`
-
-func (q *Queries) DeleteAuthor(ctx context.Context, id int64) error {
-	_, err := q.db.ExecContext(ctx, deleteAuthor, id)
+func (q *Queries) AddCropBuyer(ctx context.Context, arg AddCropBuyerParams) error {
+	_, err := q.db.ExecContext(ctx, addCropBuyer,
+		arg.Name,
+		arg.QuantitiesRequired,
+		arg.CropType,
+		arg.TargetPrice,
+	)
 	return err
 }
 
-const getAuthor = `-- name: GetAuthor :one
-SELECT id, name, bio FROM authors
-WHERE id = ? LIMIT 1
+const addEnforces = `-- name: AddEnforces :exec
+INSERT INTO Enforces (USDAID, Code_ID)
+VALUES (?,?)
 `
 
-func (q *Queries) GetAuthor(ctx context.Context, id int64) (Author, error) {
-	row := q.db.QueryRowContext(ctx, getAuthor, id)
-	var i Author
-	err := row.Scan(&i.ID, &i.Name, &i.Bio)
-	return i, err
+type AddEnforcesParams struct {
+	Usdaid int32
+	CodeID int32
 }
 
-const listAuthors = `-- name: ListAuthors :many
-SELECT id, name, bio FROM authors
-ORDER BY name
+func (q *Queries) AddEnforces(ctx context.Context, arg AddEnforcesParams) error {
+	_, err := q.db.ExecContext(ctx, addEnforces, arg.Usdaid, arg.CodeID)
+	return err
+}
+
+const addFarm = `-- name: AddFarm :exec
+INSERT INTO Farm (Name, Farm_Value, Address_Street, Address_City, Address_State, Address_Zip)
+VALUES (?, ?, ?, ?, ?, ?)
 `
 
-func (q *Queries) ListAuthors(ctx context.Context) ([]Author, error) {
-	rows, err := q.db.QueryContext(ctx, listAuthors)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	var items []Author
-	for rows.Next() {
-		var i Author
-		if err := rows.Scan(&i.ID, &i.Name, &i.Bio); err != nil {
-			return nil, err
-		}
-		items = append(items, i)
-	}
-	if err := rows.Close(); err != nil {
-		return nil, err
-	}
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-	return items, nil
+type AddFarmParams struct {
+	Name          string
+	FarmValue     sql.NullInt32
+	AddressStreet sql.NullString
+	AddressCity   sql.NullString
+	AddressState  sql.NullString
+	AddressZip    sql.NullString
+}
+
+func (q *Queries) AddFarm(ctx context.Context, arg AddFarmParams) error {
+	_, err := q.db.ExecContext(ctx, addFarm,
+		arg.Name,
+		arg.FarmValue,
+		arg.AddressStreet,
+		arg.AddressCity,
+		arg.AddressState,
+		arg.AddressZip,
+	)
+	return err
+}
+
+const addFarmer = `-- name: AddFarmer :exec
+INSERT INTO Farmer (Name, Budget, Net_Worth, Farm_ID, Purchase_ID)
+VALUES (?, ?, ?, ?, ?)
+`
+
+type AddFarmerParams struct {
+	Name       string
+	Budget     sql.NullInt32
+	NetWorth   sql.NullInt32
+	FarmID     sql.NullInt32
+	PurchaseID sql.NullInt32
+}
+
+func (q *Queries) AddFarmer(ctx context.Context, arg AddFarmerParams) error {
+	_, err := q.db.ExecContext(ctx, addFarmer,
+		arg.Name,
+		arg.Budget,
+		arg.NetWorth,
+		arg.FarmID,
+		arg.PurchaseID,
+	)
+	return err
+}
+
+const addHarvest = `-- name: AddHarvest :exec
+INSERT INTO Harvest (
+  Quantity,
+  Time_Year,
+  Time_Season,
+  Ph_Base,
+  Ph_Fertilized,
+  Water_Rain,
+  Water_Sprinkler,
+  Sun,
+  Price,
+  Crop_Type,
+  Farm_ID,
+  Extinct
+)
+VALUES (?,?,?,?,?,?,?,?,?,?,?,?)
+`
+
+type AddHarvestParams struct {
+	Quantity       sql.NullInt32
+	TimeYear       sql.NullInt32
+	TimeSeason     sql.NullString
+	PhBase         sql.NullFloat64
+	PhFertilized   sql.NullFloat64
+	WaterRain      sql.NullFloat64
+	WaterSprinkler sql.NullFloat64
+	Sun            sql.NullInt32
+	Price          sql.NullFloat64
+	CropType       sql.NullString
+	FarmID         sql.NullInt32
+	Extinct        sql.NullBool
+}
+
+func (q *Queries) AddHarvest(ctx context.Context, arg AddHarvestParams) error {
+	_, err := q.db.ExecContext(ctx, addHarvest,
+		arg.Quantity,
+		arg.TimeYear,
+		arg.TimeSeason,
+		arg.PhBase,
+		arg.PhFertilized,
+		arg.WaterRain,
+		arg.WaterSprinkler,
+		arg.Sun,
+		arg.Price,
+		arg.CropType,
+		arg.FarmID,
+		arg.Extinct,
+	)
+	return err
+}
+
+const addInvestMonitor = `-- name: AddInvestMonitor :exec
+INSERT INTO Monitors_Investments (Name, Crop_Type)
+VALUES (?,?)
+`
+
+type AddInvestMonitorParams struct {
+	Name     sql.NullString
+	CropType sql.NullString
+}
+
+func (q *Queries) AddInvestMonitor(ctx context.Context, arg AddInvestMonitorParams) error {
+	_, err := q.db.ExecContext(ctx, addInvestMonitor, arg.Name, arg.CropType)
+	return err
+}
+
+const addInvestsIn = `-- name: AddInvestsIn :exec
+INSERT INTO Invests_In (Name, Farm_ID)
+VALUES (?,?)
+`
+
+type AddInvestsInParams struct {
+	Name   sql.NullString
+	FarmID sql.NullInt32
+}
+
+func (q *Queries) AddInvestsIn(ctx context.Context, arg AddInvestsInParams) error {
+	_, err := q.db.ExecContext(ctx, addInvestsIn, arg.Name, arg.FarmID)
+	return err
+}
+
+const addMonitorsBuyer = `-- name: AddMonitorsBuyer :exec
+INSERT INTO Monitors_Buyer (Name, Crop_Type)
+VALUES (?,?)
+`
+
+type AddMonitorsBuyerParams struct {
+	Name     string
+	CropType string
+}
+
+func (q *Queries) AddMonitorsBuyer(ctx context.Context, arg AddMonitorsBuyerParams) error {
+	_, err := q.db.ExecContext(ctx, addMonitorsBuyer, arg.Name, arg.CropType)
+	return err
 }
