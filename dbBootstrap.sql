@@ -22,6 +22,7 @@ CREATE TABLE IF NOT EXISTS Farm
 
 CREATE TABLE IF NOT EXISTS Crop
 (
+  BasePrice           DECIMAL(5, 2),
   CropType            VARCHAR(255),
   PhRange_Weight      DECIMAL(5, 2),
   PhRange_Desired     DECIMAL(5, 2),
