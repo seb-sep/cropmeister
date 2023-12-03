@@ -25,9 +25,13 @@ func main() {
 	defer msql.Close()
 
 	queries := db.New(msql)
+	// add the db to the fiber context
+	app.Use(func(c *fiber.Ctx) error {
+		c.Locals("db", queries)
+		return c.Next()
+	})
 
 	app.Get("/", func(c *fiber.Ctx) error {
-
 		authors, _ := queries.ListAuthors(ctx)
 		names := []string{}
 		for _, author := range authors {
@@ -36,77 +40,67 @@ func main() {
 		return c.JSON(names)
 	})
 
-	app.Get("/harvest", func(c *fiber.Ctx) error {
+	harvest := app.Group("/harvest")
+	harvest.Get("", func(c *fiber.Ctx) error {
+		return c.JSON("harvest")
+	})
+	harvest.Post("", func(c *fiber.Ctx) error {
+		return c.JSON("harvest")
+	})
+	harvest.Get("/:type", func(c *fiber.Ctx) error {
+		return c.JSON("harvest")
+	})
+	harvest.Put("/:type", func(c *fiber.Ctx) error {
+		return c.JSON("harvest")
+	})
+	harvest.Delete("/:type", func(c *fiber.Ctx) error {
 		return c.JSON("harvest")
 	})
 
-	app.Post("/harvest", func(c *fiber.Ctx) error {
-		return c.JSON("harvest")
-	})
-
-	app.Get("/crop/:type", func(c *fiber.Ctx) error {
+	crop := app.Group("/crop")
+	crop.Get("/:type", func(c *fiber.Ctx) error {
 		return c.JSON("crop")
 	})
-	app.Put("/crop/:type", func(c *fiber.Ctx) error {
+	crop.Put("/:type", func(c *fiber.Ctx) error {
 		return c.JSON("crop")
 	})
-	app.Delete("/crop/:type", func(c *fiber.Ctx) error {
+	crop.Delete("/:type", func(c *fiber.Ctx) error {
 		return c.JSON("crop")
 	})
 
-	app.Get("/farm", func(c *fiber.Ctx) error {
+	farm := app.Group("/farm")
+	farm.Get("", func(c *fiber.Ctx) error {
 		return c.JSON("farm")
 	})
-	app.Post("/farm", func(c *fiber.Ctx) error {
+	farm.Post("", func(c *fiber.Ctx) error {
 		return c.JSON("farm")
 	})
-
-	app.Get("/farm/:id", func(c *fiber.Ctx) error {
+	farm.Get("/:id", func(c *fiber.Ctx) error {
 		return c.JSON("farm")
 	})
-
-	app.Put("/farm/:id", func(c *fiber.Ctx) error {
-		return c.JSON("farm")
-	})
-
-	app.Delete("/farm/:id", func(c *fiber.Ctx) error {
+	farm.Put("/:id", func(c *fiber.Ctx) error {
 		return c.JSON("farm")
 	})
 
-	app.Get("/harvest/:type", func(c *fiber.Ctx) error {
-		return c.JSON("harvest")
-	})
-	app.Put("/harvest/:type", func(c *fiber.Ctx) error {
-		return c.JSON("harvest")
-	})
-	app.Delete("/harvest/:type", func(c *fiber.Ctx) error {
-		return c.JSON("harvest")
+	farm.Delete("/:id", func(c *fiber.Ctx) error {
+		return c.JSON("farm")
 	})
 
-	app.Get("/purchase", func(c *fiber.Ctx) error {
+	purchase := app.Group("/purchase")
+	purchase.Get("", func(c *fiber.Ctx) error {
 		return c.JSON("purchase")
 	})
-
-	app.Post("/purchase", func(c *fiber.Ctx) error {
+	purchase.Post("", func(c *fiber.Ctx) error {
 		return c.JSON("purchase")
 	})
-
-	app.Get("/purchase/:id", func(c *fiber.Ctx) error {
+	purchase.Get("/:id", func(c *fiber.Ctx) error {
 		return c.JSON("purchase")
 	})
-	app.Put("/purchase/:id", func(c *fiber.Ctx) error {
+	purchase.Put("/:id", func(c *fiber.Ctx) error {
 		return c.JSON("purchase")
 	})
-	app.Delete("/purchase/:id", func(c *fiber.Ctx) error {
+	purchase.Delete("/:id", func(c *fiber.Ctx) error {
 		return c.JSON("purchase")
-	})
-
-	app.Get("/farmer/:id", func(c *fiber.Ctx) error {
-		return c.JSON("farmer")
-	})
-
-	app.Post("/farmer/:id", func(c *fiber.Ctx) error {
-		return c.JSON("farmer")
 	})
 
 	app.Get("/cropinspector", func(c *fiber.Ctx) error {
@@ -116,52 +110,57 @@ func main() {
 		return c.JSON("cropinspector")
 	})
 
-	app.Get("/districtcode/crop/:type", func(c *fiber.Ctx) error {
+	farmer := app.Group("/farmer")
+	farmer.Get("/:id", func(c *fiber.Ctx) error {
+		return c.JSON("farmer")
+	})
+	farmer.Post("/:id", func(c *fiber.Ctx) error {
+		return c.JSON("farmer")
+	})
+
+	districtcode := app.Group("/districtcode")
+	districtcode.Get("", func(c *fiber.Ctx) error {
 		return c.JSON("districtcode")
 	})
-	app.Post("/districtcode/crop/:type", func(c *fiber.Ctx) error {
+	districtcode.Post("", func(c *fiber.Ctx) error {
+		return c.JSON("districtcode")
+	})
+	districtcode.Get("/crop/:type", func(c *fiber.Ctx) error {
+		return c.JSON("districtcode")
+	})
+	districtcode.Post("/crop/:type", func(c *fiber.Ctx) error {
+		return c.JSON("districtcode")
+	})
+	districtcode.Get("/inspector/:id", func(c *fiber.Ctx) error {
+		return c.JSON("districtcode")
+	})
+	districtcode.Post("/inspector/:id", func(c *fiber.Ctx) error {
+		return c.JSON("districtcode")
+	})
+	districtcode.Get("/code/:id", func(c *fiber.Ctx) error {
+		return c.JSON("districtcode")
+	})
+	districtcode.Put("/code/:id", func(c *fiber.Ctx) error {
+		return c.JSON("districtcode")
+	})
+	districtcode.Delete("/code/:id", func(c *fiber.Ctx) error {
 		return c.JSON("districtcode")
 	})
 
-	app.Get("/districtcode/inspector/:id", func(c *fiber.Ctx) error {
-		return c.JSON("districtcode")
-	})
-	app.Post("/districtcode/inspector/:id", func(c *fiber.Ctx) error {
-		return c.JSON("districtcode")
-	})
-
-	app.Get("/districtcode/code/:id", func(c *fiber.Ctx) error {
-		return c.JSON("districtcode")
-	})
-	app.Put("/districtcode/code/:id", func(c *fiber.Ctx) error {
-		return c.JSON("districtcode")
-	})
-	app.Delete("/districtcode/code/:id", func(c *fiber.Ctx) error {
-		return c.JSON("districtcode")
-	})
-
-	app.Get("/districtcode", func(c *fiber.Ctx) error {
-		return c.JSON("districtcode")
-	})
-
-	app.Post("/districtcode", func(c *fiber.Ctx) error {
-		return c.JSON("districtcode")
-	})
-
-	app.Get("/cropinspector/:id", func(c *fiber.Ctx) error {
+	cropinspector := app.Group("/cropinspector")
+	cropinspector.Get("/:id", func(c *fiber.Ctx) error {
 		return c.JSON("cropinspector")
 	})
-	app.Put("/cropinspector/:id", func(c *fiber.Ctx) error {
+	cropinspector.Put("/:id", func(c *fiber.Ctx) error {
 		return c.JSON("cropinspector")
 	})
-	app.Get("/cropinspector/:id", func(c *fiber.Ctx) error {
+	cropinspector.Get("/:id", func(c *fiber.Ctx) error {
 		return c.JSON("cropinspector")
 	})
-
-	app.Get("/cropinspector/code/:id", func(c *fiber.Ctx) error {
+	cropinspector.Get("/code/:id", func(c *fiber.Ctx) error {
 		return c.JSON("cropinspector")
 	})
-	app.Post("/cropinspector/code/:id", func(c *fiber.Ctx) error {
+	cropinspector.Post("/code/:id", func(c *fiber.Ctx) error {
 		return c.JSON("cropinspector")
 	})
 
