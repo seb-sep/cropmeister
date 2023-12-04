@@ -14,6 +14,7 @@ CREATE TABLE IF NOT EXISTS Farm
   Address_City   VARCHAR(255),
   Address_State  VARCHAR(255),
   Address_Zip    VARCHAR(10),
+  Active         BOOLEAN,
   PRIMARY KEY (FarmID)
 );
 
@@ -22,15 +23,16 @@ CREATE TABLE IF NOT EXISTS Farm
 
 CREATE TABLE IF NOT EXISTS Crop
 (
-  BasePrice           DECIMAL(5, 2),
+  BasePrice           Real,
   CropType            VARCHAR(255),
-  PhRange_Weight      DECIMAL(5, 2),
-  PhRange_Desired     DECIMAL(5, 2),
-  WaterNeeded_Weight  DECIMAL(5, 2),
-  WaterNeeded_Desired DECIMAL(5, 2),
-  SunRange_Weight     DECIMAL(5, 2),
-  SunRange_Desired    DECIMAL(5, 2),
-  Banned	      BOOLEAN,
+  PhRange_Weight      REAL,
+  PhRange_Desired     Real,
+  WaterNeeded_Weight  Real,
+  WaterNeeded_Desired Real,
+  SunRange_Weight     Real,
+  SunRange_Desired    Real,
+  Restricted	      BOOLEAN,
+  Restricted_Penalty  REAL,
   PRIMARY KEY (CropType)
 );
 
@@ -42,9 +44,10 @@ CREATE TABLE IF NOT EXISTS Purchase
   PurchaseID       INT AUTO_INCREMENT,
   CropType         VARCHAR(255),
   PurchaseComplete BOOLEAN,
-  TotalPrice       DECIMAL(5, 2),
+  TotalPrice       Real,
   TotalQuantity    INT,
   PurchaseDate     DATE,
+  Canceled         BOOLEAN, 
   PRIMARY KEY (PurchaseID),
   FOREIGN KEY (CropType) REFERENCES Crop (CropType)
 );
@@ -120,12 +123,12 @@ CREATE TABLE IF NOT EXISTS Harvest
   Quantity        INT,
   Time_Year       YEAR,
   Time_Season     VARCHAR(255),
-  Ph_Base         DECIMAL(5, 2),
-  Ph_Fertilized   DECIMAL(5, 2),
-  Water_Rain      DECIMAL(5, 2),
-  Water_Sprinkler DECIMAL(5, 2),
+  Ph_Base         Real,
+  Ph_Fertilized   Real,
+  Water_Rain      Real,
+  Water_Sprinkler Real,
   Sun             INT,
-  Price           DECIMAL(5, 2),
+  Price           Real,
   CropType        VARCHAR(255),
   FarmID          INT,
   Extinct         BOOLEAN,

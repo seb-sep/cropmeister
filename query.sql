@@ -1,3 +1,119 @@
+-- Get Harvest
+SELECT * FROM Harvest;
+
+-- Post Harvest
+INSERT INTO Harvest (Quantity, Time_Year, Time_Season, Ph_Base, Ph_Fertilized, Water_Rain, Water_Sprinkler, Sun, Price,
+                     CropType, FarmID, Extinct)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+
+-- Get Crop {croptype}
+SELECT *,
+       (BasePrice +
+        (Crop.WaterNeeded_Weight - Crop.WaterNeeded_Desired) +
+        (Crop.SunRange_Weight - Crop.SunRange_Desired) -
+        CASE
+            WHEN Restricted THEN BasePrice * 0.5
+            ELSE 0
+        END) AS CalculatedPrice
+FROM Crop
+WHERE CropType = ?;
+
+-- Put Crop {croptype}
+UPDATE Crop
+SET
+    BasePrice = ?,
+    PhRange_Weight = ?,
+    PhRange_Desired = ?,
+    WaterNeeded_Weight = ?,
+    WaterNeeded_Desired = ?,
+    SunRange_Weight = ?,
+    SunRange_Desired = ?,
+    Banned = ?
+WHERE CropType = ?;
+
+-- Delete Crop {croptype}
+UPDATE Crop
+SET Banned = TRUE
+WHERE CropType = ?;
+
+-- Get Farm
+SELECT * FROM Farm;
+
+-- Post Farm
+INSERT INTO Farm (Name, FarmValue, FarmID, Address_Street, Address_City, Address_State, Address_Zip)
+VALUES (?, ?, ?, ?, ?, ?, ?);
+
+-- Get Farm/{FarmID}
+SELECT * FROM Farm
+WHERE FarmID = ?;
+
+-- Put Farm/{FarmID}
+UPDATE Farm
+SET
+    Name = ?,
+    FarmValue = ?,
+    Address_Street = ?,
+    Address_City = ?,
+    Address_State = ?,
+    Address_Zip = ?
+WHERE FarmID = ?;
+
+-- Delete Farm/{FarmID}
+UPDATE Farm
+SET Active = FALSE
+WHERE FarmID = ?;
+
+-- Get Harvest/{CropType}
+SELECT * FROM Harvest
+WHERE CropType = ?;
+
+-- Put Harvest/{CropType}
+UPDATE Harvest
+SET
+    Quantity = ?,
+    Time_Year = ?,
+    Time_Season = ?,
+    Ph_Base = ?,
+    Ph_Fertilized = ?,
+    Water_Rain = ?,
+    Water_Sprinkler = ?,
+    Sun = ?,
+    Price = ?,
+    FarmID = ?,
+    Extinct = ?
+WHERE CropType = ?;
+
+-- Delete Harvest/{CropType}
+UPDATE Harvest
+SET Extinct = TRUE
+WHERE CropType = ?;
+
+-- Get Purchase
+SELECT * FROM Purchase;
+
+-- Post Purchase
+INSERT INTO Purchase (CropType, PurchaseComplete, TotalPrice, TotalQuantity, PurchaseDate)
+VALUES (?, ?, ?, ?, ?);
+
+-- Get Purchase/{PurchaseID}
+SELECT * FROM Purchase
+WHERE PurchaseID = ?;
+
+-- Put Purchase/{PurchaseID}
+UPDATE Purchase
+SET
+    CropType = ?,
+    PurchaseComplete = ?,
+    TotalPrice = ?,
+    TotalQuantity = ?,
+    PurchaseDate = ?
+WHERE PurchaseID = ?;
+
+-- Delete Purchase/{PurchaseID}
+UPDATE Purchase
+SET Canceled = TRUE
+WHERE PurchaseID = ?;
+
 -- name: AddCropBuyer :exec
 INSERT INTO Crop_Buyer (Name, Quantities_Required, Crop_Type, Target_Price)
 VALUES (?, ?, ?, ?);
