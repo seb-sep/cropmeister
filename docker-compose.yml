@@ -1,0 +1,27 @@
+version: '3.8'
+services:
+  mysql:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: 32gH2dggc3d1fhg1Cbb5dbB414C
+      MYSQL_DATABASE: cropmeister
+      MYSQL_USER: myuser
+      MYSQL_PASSWORD: 32gH2dggc3d1fhg1Cbb5dbB414C
+    ports:
+      - 18409:3306
+
+  go:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - mysql
+    environment:
+      - DATABASE_URL=mysql://root:32gH2dggc3d1fhg1Cbb5dbB414C@localhost:18409/cropmeister
+
+  nginx:
+    image: nginx:latest
+    volumes:
+      - ./static:/usr/share/nginx/html
+    ports:
+      - 80:80
