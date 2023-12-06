@@ -2,17 +2,16 @@ CREATE TABLE IF NOT EXISTS Farm
 (
   Name           VARCHAR(255) NOT NULL,
   Farm_Value      INT,
-  Farm_ID         INT,
+  Farm_ID         INT PRIMARY KEY AUTO_INCREMENT,
   Address_Street VARCHAR(255),
   Address_City   VARCHAR(255),
   Address_State  VARCHAR(255),
   Address_Zip    VARCHAR(10),
-  PRIMARY KEY (Farm_ID)
 );
 
 CREATE TABLE IF NOT EXISTS Crop
 (
-  Crop_Type            VARCHAR(255),
+  Crop_Type            VARCHAR(255) PRIMARY KEY AUTO_INCREMENT,
   Ph_Range_Weight      REAL,
   Ph_Range_Desired     REAL,
   Water_Needed_Weight  REAL,
@@ -20,56 +19,50 @@ CREATE TABLE IF NOT EXISTS Crop
   Sun_Range_Weight     REAL,
   Sun_Range_Desired    REAL,
   Base_Price           REAL,
-  Banned	      BOOLEAN,
-  PRIMARY KEY (Crop_Type)
+  Banned	      BOOLEAN
 );
 
 CREATE TABLE IF NOT EXISTS Purchase
 (
-  Purchase_ID       INT AUTO_INCREMENT,
+  Purchase_ID       INT PRIMARY KEY AUTO_INCREMENT,
   Crop_Type         VARCHAR(255),
   Farm_ID           INT,
   Purchase_Complete BOOLEAN,
   Total_Price       REAL,
   Total_Quantity    INT,
   Purchase_Date     DATE,
-  PRIMARY KEY (Purchase_ID),
   FOREIGN KEY (Crop_Type) REFERENCES Crop (Crop_Type)
 );
 
 CREATE TABLE IF NOT EXISTS Crop_Investor
 (
-  Name            VARCHAR(255) NOT NULL,
+  Name            VARCHAR(255) PRIMARY KEY,
   Buy_Price        INT,
   Investible_Money INT,
   Sell_Price       INT,
-  PRIMARY KEY (Name)
 );
 
 CREATE TABLE IF NOT EXISTS Crop_Investigator
 (
   Name   VARCHAR(255) NOT NULL,
-  USDAID INT,
-  PRIMARY KEY (USDAID)
+  USDAID INT PRIMARY KEY AUTO_INCREMENT,
 );
 
 CREATE TABLE IF NOT EXISTS District_Code
 (
+  Code_ID   INT PRIMARY KEY AUTO_INCREMENT,
   Max_Water INT,
   Max_Fert  INT,
   Crop_Type VARCHAR(255),
-  Code_ID   INT,
-  PRIMARY KEY (Code_ID),
   FOREIGN KEY (Crop_Type) REFERENCES Crop (Crop_Type)
 );
 
 CREATE TABLE IF NOT EXISTS Crop_Buyer
 (
-  Name                VARCHAR(255),
+  Name                VARCHAR(255) PRIMARY KEY,
   Quantities_Required INT,
   Crop_Type            VARCHAR(255),
   Target_Price         INT,
-  PRIMARY KEY (Name),
   FOREIGN KEY (Crop_Type) REFERENCES Crop (Crop_Type)
 );
 
@@ -97,6 +90,7 @@ CREATE TABLE IF NOT EXISTS Harvest
   Crop_Type       VARCHAR(255),
   Farm_ID         INT,
   Extinct         BOOLEAN,
+  PRIMARY KEY (Farm_ID, Crop_Type, Harvest_Date),
   FOREIGN KEY (Crop_Type) REFERENCES Crop (Crop_Type),
   FOREIGN KEY (Farm_ID) REFERENCES Farm (Farm_ID)
 );
@@ -113,7 +107,6 @@ CREATE TABLE IF NOT EXISTS Invests_In
 (
   Name   VARCHAR(255),
   Farm_ID INT,
-  -- PRIMARY KEY (Name),
   FOREIGN KEY (Name) REFERENCES Crop_Investor (Name),
   FOREIGN KEY (Farm_ID) REFERENCES Farm(Farm_ID)
 );

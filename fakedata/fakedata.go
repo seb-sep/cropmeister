@@ -23,11 +23,10 @@ func generateFarm(farmid sql.NullInt32) db.Farm {
 
 func generateFarmer(farmid sql.NullInt32) db.Farmer {
 	farmer := db.Farmer{
-		Name:       faker.Name(),
-		FarmID:     farmid,
-		Budget:     generateRandomInt(1, 100000),
-		NetWorth:   generateRandomInt(1, 1000000),
-		PurchaseID: generateRandomInt(1, 100),
+		Name:     faker.Name(),
+		FarmID:   farmid,
+		Budget:   generateRandomInt(1, 100000),
+		NetWorth: generateRandomInt(1, 1000000),
 	}
 	return farmer
 }
@@ -57,7 +56,7 @@ func generateHarvest(farmID sql.NullInt32, cropType sql.NullString) db.Harvest {
 	return harvest
 }
 
-func generateCrop(cropType sql.NullString) db.Crop {
+func generateCrop(cropType string) db.Crop {
 	crop := db.Crop{
 		CropType:           cropType,
 		PhRangeWeight:      generateRandomFloat(0, 1),
