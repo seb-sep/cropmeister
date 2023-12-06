@@ -246,7 +246,7 @@ SET Banned = TRUE
 WHERE Crop_Type = ?
 `
 
-func (q *Queries) BanCrop(ctx context.Context, cropType sql.NullString) (sql.Result, error) {
+func (q *Queries) BanCrop(ctx context.Context, cropType string) (sql.Result, error) {
 	return q.db.ExecContext(ctx, banCrop, cropType)
 }
 
@@ -332,7 +332,7 @@ WHERE Crop_Type = ?
 `
 
 type GetCropDataRow struct {
-	CropType           sql.NullString
+	CropType           string
 	PhRangeWeight      sql.NullFloat64
 	PhRangeDesired     sql.NullFloat64
 	WaterNeededWeight  sql.NullFloat64
@@ -344,7 +344,7 @@ type GetCropDataRow struct {
 	Calculatedprice    int32
 }
 
-func (q *Queries) GetCropData(ctx context.Context, cropType sql.NullString) ([]GetCropDataRow, error) {
+func (q *Queries) GetCropData(ctx context.Context, cropType string) ([]GetCropDataRow, error) {
 	rows, err := q.db.QueryContext(ctx, getCropData, cropType)
 	if err != nil {
 		return nil, err
@@ -753,7 +753,7 @@ type UpdateCropParams struct {
 	SunRangeWeight     sql.NullFloat64
 	SunRangeDesired    sql.NullFloat64
 	Banned             sql.NullBool
-	CropType           sql.NullString
+	CropType           string
 }
 
 func (q *Queries) UpdateCrop(ctx context.Context, arg UpdateCropParams) (sql.Result, error) {

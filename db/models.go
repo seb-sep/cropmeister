@@ -9,7 +9,7 @@ import (
 )
 
 type Crop struct {
-	CropType           sql.NullString
+	CropType           string
 	PhRangeWeight      sql.NullFloat64
 	PhRangeDesired     sql.NullFloat64
 	WaterNeededWeight  sql.NullFloat64

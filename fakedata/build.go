@@ -41,7 +41,7 @@ func GenerateFakeInstances() {
 		districts := make([]db.DistrictCode, len(cropNames)*5)
 		for i := 0; i < len(cropNames); i++ {
 			cropBuyers[i] = generateCropBuyer(toSqlNullString(buyerName), toSqlNullString(cropNames[i]))
-			crops[i] = generateCrop(toSqlNullString(cropNames[i]))
+			crops[i] = generateCrop(cropNames[i])
 			districts[i] = generateDistrictCode(generateRandomInt(1, 100), toSqlNullString(cropNames[i]))
 
 			for j := 0; j < 5; j++ {

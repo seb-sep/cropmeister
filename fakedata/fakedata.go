@@ -56,7 +56,7 @@ func generateHarvest(farmID sql.NullInt32, cropType sql.NullString) db.Harvest {
 	return harvest
 }
 
-func generateCrop(cropType sql.NullString) db.Crop {
+func generateCrop(cropType string) db.Crop {
 	crop := db.Crop{
 		CropType:           cropType,
 		PhRangeWeight:      generateRandomFloat(0, 1),

@@ -13,6 +13,8 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
+var dbUrl = os.Getenv("DATABASE_URL")
+
 func main() {
 
 	// app init
