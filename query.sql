@@ -91,8 +91,8 @@ WHERE Crop_Type = ?;
 SELECT * FROM Purchase;
 
 -- Post Purchase
-INSERT INTO Purchase (Harvest_ID, Purchase_Complete, Total_Price, Total_Quantity, Purchase_Date)
-VALUES (?, ?, ?, ?, ?);
+INSERT INTO Purchase (Crop_Type, Farm_ID, Purchase_Complete, Total_Price, Total_Quantity, Purchase_Date)
+VALUES (?, ?, ?, ?, ?, ?);
 
 -- Get Purchase/{Purchase_ID}
 SELECT * FROM Purchase
@@ -101,7 +101,8 @@ WHERE Purchase_ID = ?;
 -- Put Purchase/{Purchase_ID}
 UPDATE Purchase
 SET
-    Harvest_ID = ?,
+    Crop_Type = ?, 
+    Farm_ID = ?,
     Purchase_Complete = ?,
     Total_Price = ?,
     Total_Quantity = ?,

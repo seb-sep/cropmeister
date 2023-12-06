@@ -1,46 +1,12 @@
-package main
+package fakedata
 
 import (
-	"fmt"
-
-	"time"
-
 	"github.com/seb-sep/cropmeister/db"
-
-	"math/rand"
 
 	"database/sql"
 
 	"github.com/go-faker/faker/v4"
 )
-
-func generateRandomInt(min, max int) sql.NullInt32 {
-	value := rand.Intn(max-min+1) + min
-	return sql.NullInt32{Int32: int32(value), Valid: true}
-}
-
-func generateRandomFloat(min, max int) sql.NullFloat64 {
-	value := float64(rand.Intn(max-min+1)+min) + rand.Float64()
-	return sql.NullFloat64{Float64: value, Valid: true}
-}
-
-func generateRandomBool() sql.NullBool {
-	value := rand.Intn(2) == 1
-	return sql.NullBool{Bool: value, Valid: true}
-}
-
-func toSqlNullString(value string) sql.NullString {
-	return sql.NullString{String: value, Valid: true}
-}
-
-func toSqlNullTime(value string) sql.NullTime {
-	layout := "2006-01-02" // Specify the layout of the input string
-	date, err := time.Parse(layout, value)
-	if err != nil {
-		fmt.Println(err)
-	}
-	return sql.NullTime{Time: date, Valid: true}
-}
 
 func generateFarm(farmid sql.NullInt32) db.Farm {
 	farm := db.Farm{
@@ -55,6 +21,42 @@ func generateFarm(farmid sql.NullInt32) db.Farm {
 	return farm
 }
 
+func generateFarmer(farmid sql.NullInt32) db.Farmer {
+	farmer := db.Farmer{
+		Name:       faker.Name(),
+		FarmID:     farmid,
+		Budget:     generateRandomInt(1, 100000),
+		NetWorth:   generateRandomInt(1, 1000000),
+		PurchaseID: generateRandomInt(1, 100),
+	}
+	return farmer
+}
+
+func generateHarvest(farmID sql.NullInt32, cropType sql.NullString) db.Harvest {
+
+	phb := generateRandomPlainFloat(0, 10)
+	phf := generateRandomPlainFloat(0, 5)
+	wr := generateRandomPlainFloat(0, 10)
+	ws := generateRandomPlainFloat(0, 5)
+	s := generateRandomPlainFloat(0, 10)
+	p := CalculatePrice(phb+phf, wr+ws, s)
+
+	harvest := db.Harvest{
+		FarmID:         farmID,
+		CropType:       cropType,
+		Quantity:       generateRandomInt(1, 100),
+		Extinct:        generateRandomBool(),
+		HarvestDate:    toSqlNullTime(faker.Date()),
+		PhBase:         toSqlNullFloat(s),
+		Sun:            toSqlNullInt(s),
+		PhFertilized:   toSqlNullFloat(phf),
+		WaterRain:      toSqlNullFloat(wr),
+		WaterSprinkler: toSqlNullFloat(ws),
+		Price:          toSqlNullFloat(p),
+	}
+	return harvest
+}
+
 func generateCrop(cropType sql.NullString) db.Crop {
 	crop := db.Crop{
 		CropType:           cropType,
@@ -64,15 +66,17 @@ func generateCrop(cropType sql.NullString) db.Crop {
 		WaterNeededDesired: generateRandomFloat(1, 100),
 		SunRangeWeight:     generateRandomFloat(0, 1),
 		SunRangeDesired:    generateRandomFloat(1, 100),
+		BasePrice:          generateRandomFloat(1, 10),
 		Banned:             generateRandomBool(),
 	}
 	return crop
 }
 
-func generatePurchase(purchaseID sql.NullInt32, cropType sql.NullString) db.Purchase {
+func generatePurchase(purchaseID sql.NullInt32, CropType sql.NullString, FarmID sql.NullInt32) db.Purchase {
 	purchase := db.Purchase{
 		PurchaseID:       purchaseID,
-		CropType:         cropType,
+		CropType:         CropType,
+		FarmID:           FarmID,
 		PurchaseComplete: generateRandomBool(),
 		TotalPrice:       generateRandomFloat(1, 50000),
 		TotalQuantity:    generateRandomInt(1, 100),

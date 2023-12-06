@@ -100,7 +100,8 @@ type MonitorsInvestment struct {
 
 type Purchase struct {
 	PurchaseID       sql.NullInt32
-	HarvestID        sql.NullInt32
+	CropType         sql.NullString
+	FarmID           sql.NullInt32
 	PurchaseComplete sql.NullBool
 	TotalPrice       sql.NullFloat64
 	TotalQuantity    sql.NullInt32

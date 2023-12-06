@@ -27,7 +27,8 @@ CREATE TABLE IF NOT EXISTS Crop
 CREATE TABLE IF NOT EXISTS Purchase
 (
   Purchase_ID       INT AUTO_INCREMENT,
-  Harvest_ID        INT,
+  Crop_Type         VARCHAR(255),
+  Farm_ID           INT,
   Purchase_Complete BOOLEAN,
   Total_Price       REAL,
   Total_Quantity    INT,
