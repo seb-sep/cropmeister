@@ -21,7 +21,7 @@ type Crop struct {
 }
 
 type CropBuyer struct {
-	Name               sql.NullString
+	Name               string
 	QuantitiesRequired sql.NullInt32
 	CropType           sql.NullString
 	TargetPrice        sql.NullInt32
@@ -29,7 +29,7 @@ type CropBuyer struct {
 
 type CropInvestigator struct {
 	Name   string
-	Usdaid sql.NullInt32
+	Usdaid int32
 }
 
 type CropInvestor struct {
@@ -40,10 +40,10 @@ type CropInvestor struct {
 }
 
 type DistrictCode struct {
+	CodeID   int32
 	MaxWater sql.NullInt32
 	MaxFert  sql.NullInt32
 	CropType sql.NullString
-	CodeID   sql.NullInt32
 }
 
 type Enforce struct {
@@ -54,7 +54,7 @@ type Enforce struct {
 type Farm struct {
 	Name          string
 	FarmValue     sql.NullInt32
-	FarmID        sql.NullInt32
+	FarmID        int32
 	AddressStreet sql.NullString
 	AddressCity   sql.NullString
 	AddressState  sql.NullString
@@ -98,7 +98,7 @@ type MonitorsInvestment struct {
 }
 
 type Purchase struct {
-	PurchaseID       sql.NullInt32
+	PurchaseID       int32
 	CropType         sql.NullString
 	FarmID           sql.NullInt32
 	PurchaseComplete sql.NullBool

@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS Farm
   Address_Street VARCHAR(255),
   Address_City   VARCHAR(255),
   Address_State  VARCHAR(255),
-  Address_Zip    VARCHAR(10),
+  Address_Zip    VARCHAR(10)
 );
 
 CREATE TABLE IF NOT EXISTS Crop
@@ -39,13 +39,13 @@ CREATE TABLE IF NOT EXISTS Crop_Investor
   Name            VARCHAR(255) PRIMARY KEY,
   Buy_Price        INT,
   Investible_Money INT,
-  Sell_Price       INT,
+  Sell_Price       INT
 );
 
 CREATE TABLE IF NOT EXISTS Crop_Investigator
 (
   Name   VARCHAR(255) NOT NULL,
-  USDAID INT PRIMARY KEY AUTO_INCREMENT,
+  USDAID INT PRIMARY KEY AUTO_INCREMENT
 );
 
 CREATE TABLE IF NOT EXISTS District_Code

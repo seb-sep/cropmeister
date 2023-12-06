@@ -16,7 +16,7 @@ VALUES (?, ?, ?, ?)
 `
 
 type AddCropBuyerParams struct {
-	Name               sql.NullString
+	Name               string
 	QuantitiesRequired sql.NullInt32
 	CropType           sql.NullString
 	TargetPrice        sql.NullInt32
@@ -38,7 +38,7 @@ VALUES (?, ?)
 
 type AddCropInvestigatorParams struct {
 	Name   string
-	Usdaid sql.NullInt32
+	Usdaid int32
 }
 
 func (q *Queries) AddCropInvestigator(ctx context.Context, arg AddCropInvestigatorParams) (sql.Result, error) {
@@ -54,7 +54,7 @@ type AddDistrictCodeParams struct {
 	MaxWater sql.NullInt32
 	MaxFert  sql.NullInt32
 	CropType sql.NullString
-	CodeID   sql.NullInt32
+	CodeID   int32
 }
 
 func (q *Queries) AddDistrictCode(ctx context.Context, arg AddDistrictCodeParams) (sql.Result, error) {
@@ -255,7 +255,7 @@ DELETE FROM Crop_Investigator
 WHERE USDAID = ?
 `
 
-func (q *Queries) DeleteCropInvestigator(ctx context.Context, usdaid sql.NullInt32) (sql.Result, error) {
+func (q *Queries) DeleteCropInvestigator(ctx context.Context, usdaid int32) (sql.Result, error) {
 	return q.db.ExecContext(ctx, deleteCropInvestigator, usdaid)
 }
 
@@ -264,7 +264,7 @@ DELETE FROM District_Code
 WHERE Code_ID = ?
 `
 
-func (q *Queries) DeleteDistrictCode(ctx context.Context, codeID sql.NullInt32) (sql.Result, error) {
+func (q *Queries) DeleteDistrictCode(ctx context.Context, codeID int32) (sql.Result, error) {
 	return q.db.ExecContext(ctx, deleteDistrictCode, codeID)
 }
 
@@ -274,7 +274,7 @@ SET Active = FALSE
 WHERE Farm_ID = ?
 `
 
-func (q *Queries) DeleteFarm(ctx context.Context, farmID sql.NullInt32) (sql.Result, error) {
+func (q *Queries) DeleteFarm(ctx context.Context, farmID int32) (sql.Result, error) {
 	return q.db.ExecContext(ctx, deleteFarm, farmID)
 }
 
@@ -294,7 +294,7 @@ SET Canceled = TRUE
 WHERE Purchase_ID = ?
 `
 
-func (q *Queries) DeletePurchase(ctx context.Context, purchaseID sql.NullInt32) (sql.Result, error) {
+func (q *Queries) DeletePurchase(ctx context.Context, purchaseID int32) (sql.Result, error) {
 	return q.db.ExecContext(ctx, deletePurchase, purchaseID)
 }
 
@@ -303,7 +303,7 @@ SELECT name, farm_value, farm_id, address_street, address_city, address_state, a
 WHERE Farm_ID = ?
 `
 
-func (q *Queries) GeTFarm(ctx context.Context, farmID sql.NullInt32) (Farm, error) {
+func (q *Queries) GeTFarm(ctx context.Context, farmID int32) (Farm, error) {
 	row := q.db.QueryRowContext(ctx, geTFarm, farmID)
 	var i Farm
 	err := row.Scan(
@@ -384,7 +384,7 @@ FROM Crop_Investigator
 WHERE USDAID = ?
 `
 
-func (q *Queries) GetCropInvestigator(ctx context.Context, usdaid sql.NullInt32) (CropInvestigator, error) {
+func (q *Queries) GetCropInvestigator(ctx context.Context, usdaid int32) (CropInvestigator, error) {
 	row := q.db.QueryRowContext(ctx, getCropInvestigator, usdaid)
 	var i CropInvestigator
 	err := row.Scan(&i.Name, &i.Usdaid)
@@ -420,25 +420,25 @@ func (q *Queries) GetCropInvestigators(ctx context.Context) ([]CropInvestigator,
 }
 
 const getDistrictCode = `-- name: GetDistrictCode :one
-SELECT max_water, max_fert, crop_type, code_id
+SELECT code_id, max_water, max_fert, crop_type
 FROM District_Code
 WHERE Code_ID = ?
 `
 
-func (q *Queries) GetDistrictCode(ctx context.Context, codeID sql.NullInt32) (DistrictCode, error) {
+func (q *Queries) GetDistrictCode(ctx context.Context, codeID int32) (DistrictCode, error) {
 	row := q.db.QueryRowContext(ctx, getDistrictCode, codeID)
 	var i DistrictCode
 	err := row.Scan(
+		&i.CodeID,
 		&i.MaxWater,
 		&i.MaxFert,
 		&i.CropType,
-		&i.CodeID,
 	)
 	return i, err
 }
 
 const getDistrictCodes = `-- name: GetDistrictCodes :many
-SELECT max_water, max_fert, crop_type, code_id
+SELECT code_id, max_water, max_fert, crop_type
 FROM District_Code
 `
 
@@ -452,10 +452,10 @@ func (q *Queries) GetDistrictCodes(ctx context.Context) ([]DistrictCode, error) 
 	for rows.Next() {
 		var i DistrictCode
 		if err := rows.Scan(
+			&i.CodeID,
 			&i.MaxWater,
 			&i.MaxFert,
 			&i.CropType,
-			&i.CodeID,
 		); err != nil {
 			return nil, err
 		}
@@ -471,7 +471,7 @@ func (q *Queries) GetDistrictCodes(ctx context.Context) ([]DistrictCode, error) 
 }
 
 const getDistrictsForInspector = `-- name: GetDistrictsForInspector :many
-SELECT name, usdaid, max_water, max_fert, crop_type, code_id 
+SELECT name, usdaid, code_id, max_water, max_fert, crop_type 
 FROM Crop_Investigator
 JOIN District_Code
 ON Crop_Investigator.USDAID = District_Code.Code_ID
@@ -480,14 +480,14 @@ WHERE USDAID = ?
 
 type GetDistrictsForInspectorRow struct {
 	Name     string
-	Usdaid   sql.NullInt32
+	Usdaid   int32
+	CodeID   int32
 	MaxWater sql.NullInt32
 	MaxFert  sql.NullInt32
 	CropType sql.NullString
-	CodeID   sql.NullInt32
 }
 
-func (q *Queries) GetDistrictsForInspector(ctx context.Context, usdaid sql.NullInt32) ([]GetDistrictsForInspectorRow, error) {
+func (q *Queries) GetDistrictsForInspector(ctx context.Context, usdaid int32) ([]GetDistrictsForInspectorRow, error) {
 	rows, err := q.db.QueryContext(ctx, getDistrictsForInspector, usdaid)
 	if err != nil {
 		return nil, err
@@ -499,10 +499,10 @@ func (q *Queries) GetDistrictsForInspector(ctx context.Context, usdaid sql.NullI
 		if err := rows.Scan(
 			&i.Name,
 			&i.Usdaid,
+			&i.CodeID,
 			&i.MaxWater,
 			&i.MaxFert,
 			&i.CropType,
-			&i.CodeID,
 		); err != nil {
 			return nil, err
 		}
@@ -518,7 +518,7 @@ func (q *Queries) GetDistrictsForInspector(ctx context.Context, usdaid sql.NullI
 }
 
 const getDistrictsWithCrop = `-- name: GetDistrictsWithCrop :many
-SELECT max_water, max_fert, crop_type, code_id
+SELECT code_id, max_water, max_fert, crop_type
 FROM District_Code
 WHERE Crop_Type = ?
 `
@@ -533,10 +533,10 @@ func (q *Queries) GetDistrictsWithCrop(ctx context.Context, cropType sql.NullStr
 	for rows.Next() {
 		var i DistrictCode
 		if err := rows.Scan(
+			&i.CodeID,
 			&i.MaxWater,
 			&i.MaxFert,
 			&i.CropType,
-			&i.CodeID,
 		); err != nil {
 			return nil, err
 		}
@@ -645,7 +645,7 @@ func (q *Queries) GetHarvests(ctx context.Context, cropType sql.NullString) ([]H
 }
 
 const getInspectorForDistrict = `-- name: GetInspectorForDistrict :one
-SELECT max_water, max_fert, crop_type, code_id, name, usdaid
+SELECT code_id, max_water, max_fert, crop_type, name, usdaid
 FROM District_Code
 JOIN Crop_Investigator
 ON District_Code.Code_ID = Crop_Investigator.Code_ID
@@ -653,22 +653,22 @@ WHERE Code_ID = ?
 `
 
 type GetInspectorForDistrictRow struct {
+	CodeID   int32
 	MaxWater sql.NullInt32
 	MaxFert  sql.NullInt32
 	CropType sql.NullString
-	CodeID   sql.NullInt32
 	Name     string
-	Usdaid   sql.NullInt32
+	Usdaid   int32
 }
 
-func (q *Queries) GetInspectorForDistrict(ctx context.Context, codeID sql.NullInt32) (GetInspectorForDistrictRow, error) {
+func (q *Queries) GetInspectorForDistrict(ctx context.Context, codeID int32) (GetInspectorForDistrictRow, error) {
 	row := q.db.QueryRowContext(ctx, getInspectorForDistrict, codeID)
 	var i GetInspectorForDistrictRow
 	err := row.Scan(
+		&i.CodeID,
 		&i.MaxWater,
 		&i.MaxFert,
 		&i.CropType,
-		&i.CodeID,
 		&i.Name,
 		&i.Usdaid,
 	)
@@ -680,7 +680,7 @@ SELECT purchase_id, crop_type, farm_id, purchase_complete, total_price, total_qu
 WHERE Purchase_ID = ?
 `
 
-func (q *Queries) GetPurchase(ctx context.Context, purchaseID sql.NullInt32) (Purchase, error) {
+func (q *Queries) GetPurchase(ctx context.Context, purchaseID int32) (Purchase, error) {
 	row := q.db.QueryRowContext(ctx, getPurchase, purchaseID)
 	var i Purchase
 	err := row.Scan(
@@ -778,7 +778,7 @@ WHERE USDAID = ?
 
 type UpdateCropInvestigatorParams struct {
 	Name   string
-	Usdaid sql.NullInt32
+	Usdaid int32
 }
 
 func (q *Queries) UpdateCropInvestigator(ctx context.Context, arg UpdateCropInvestigatorParams) (sql.Result, error) {
@@ -796,8 +796,8 @@ type UpdateDistrictCodeParams struct {
 	MaxWater sql.NullInt32
 	MaxFert  sql.NullInt32
 	CropType sql.NullString
-	CodeID   sql.NullInt32
-	CodeID_2 sql.NullInt32
+	CodeID   int32
+	CodeID_2 int32
 }
 
 func (q *Queries) UpdateDistrictCode(ctx context.Context, arg UpdateDistrictCodeParams) (sql.Result, error) {
@@ -829,7 +829,7 @@ type UpdateFarmParams struct {
 	AddressCity   sql.NullString
 	AddressState  sql.NullString
 	AddressZip    sql.NullString
-	FarmID        sql.NullInt32
+	FarmID        int32
 }
 
 func (q *Queries) UpdateFarm(ctx context.Context, arg UpdateFarmParams) (sql.Result, error) {
@@ -909,7 +909,7 @@ type UpdatePurchaseParams struct {
 	TotalPrice       sql.NullFloat64
 	TotalQuantity    sql.NullInt32
 	PurchaseDate     sql.NullTime
-	PurchaseID       sql.NullInt32
+	PurchaseID       int32
 }
 
 func (q *Queries) UpdatePurchase(ctx context.Context, arg UpdatePurchaseParams) (sql.Result, error) {
