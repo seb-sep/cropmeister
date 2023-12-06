@@ -100,8 +100,7 @@ func (q *Queries) AddFarmer(ctx context.Context, arg AddFarmerParams) error {
 const addHarvest = `-- name: AddHarvest :exec
 INSERT INTO Harvest (
   Quantity,
-  Time_Year,
-  Time_Season,
+  Harvest_Date,
   Ph_Base,
   Ph_Fertilized,
   Water_Rain,
@@ -112,13 +111,12 @@ INSERT INTO Harvest (
   Farm_ID,
   Extinct
 )
-VALUES (?,?,?,?,?,?,?,?,?,?,?,?)
+VALUES (?,?,?,?,?,?,?,?,?,?,?)
 `
 
 type AddHarvestParams struct {
 	Quantity       sql.NullInt32
-	TimeYear       sql.NullInt32
-	TimeSeason     sql.NullString
+	HarvestDate    sql.NullTime
 	PhBase         sql.NullFloat64
 	PhFertilized   sql.NullFloat64
 	WaterRain      sql.NullFloat64
@@ -133,8 +131,7 @@ type AddHarvestParams struct {
 func (q *Queries) AddHarvest(ctx context.Context, arg AddHarvestParams) error {
 	_, err := q.db.ExecContext(ctx, addHarvest,
 		arg.Quantity,
-		arg.TimeYear,
-		arg.TimeSeason,
+		arg.HarvestDate,
 		arg.PhBase,
 		arg.PhFertilized,
 		arg.WaterRain,

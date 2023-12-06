@@ -2,117 +2,116 @@
 SELECT * FROM Harvest;
 
 -- Post Harvest
-INSERT INTO Harvest (Quantity, Time_Year, Time_Season, Ph_Base, Ph_Fertilized, Water_Rain, Water_Sprinkler, Sun, Price,
-                     CropType, FarmID, Extinct)
-VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+INSERT INTO Harvest (Quantity, Harvest_Date, Ph_Base, Ph_Fertilized, Water_Rain, Water_Sprinkler, Sun, Price,
+                     Crop_Type, Farm_ID, Extinct)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
 
--- Get Crop {croptype}
+-- Get Crop {Crop_Type}
 SELECT *,
-       (BasePrice +
-        (Crop.WaterNeeded_Weight - Crop.WaterNeeded_Desired) +
-        (Crop.SunRange_Weight - Crop.SunRange_Desired) -
+       (Base_Price +
+        (Crop.Water_Needed_Weight - Crop.WaterNeeded_Desired) +
+        (Crop.Sun_Range_Weight - Crop.SunRange_Desired) -
         CASE
-            WHEN Restricted THEN BasePrice * 0.5
+            WHEN Restricted THEN Base_Price * 0.5
             ELSE 0
         END) AS CalculatedPrice
 FROM Crop
-WHERE CropType = ?;
+WHERE Crop_Type = ?;
 
--- Put Crop {croptype}
+-- Put Crop {Crop_Type}
 UPDATE Crop
 SET
-    BasePrice = ?,
-    PhRange_Weight = ?,
-    PhRange_Desired = ?,
-    WaterNeeded_Weight = ?,
-    WaterNeeded_Desired = ?,
-    SunRange_Weight = ?,
-    SunRange_Desired = ?,
+    Base_Price = ?,
+    Ph_Range_Weight = ?,
+    Ph_Range_Desired = ?,
+    Water_Needed_Weight = ?,
+    Water_Needed_Desired = ?,
+    Sun_Range_Weight = ?,
+    Sun_Range_Desired = ?,
     Banned = ?
-WHERE CropType = ?;
+WHERE Crop_Type = ?;
 
--- Delete Crop {croptype}
+-- Delete Crop {Crop+Type}
 UPDATE Crop
 SET Banned = TRUE
-WHERE CropType = ?;
+WHERE Crop_Type = ?;
 
 -- Get Farm
 SELECT * FROM Farm;
 
 -- Post Farm
-INSERT INTO Farm (Name, FarmValue, FarmID, Address_Street, Address_City, Address_State, Address_Zip)
+INSERT INTO Farm (Name, Farm_Value, Farm_ID, Address_Street, Address_City, Address_State, Address_Zip)
 VALUES (?, ?, ?, ?, ?, ?, ?);
 
--- Get Farm/{FarmID}
+-- Get Farm/{Farm_ID}
 SELECT * FROM Farm
-WHERE FarmID = ?;
+WHERE Farm_ID = ?;
 
--- Put Farm/{FarmID}
+-- Put Farm/{Farm_ID}
 UPDATE Farm
 SET
     Name = ?,
-    FarmValue = ?,
+    Farm_Value = ?,
     Address_Street = ?,
     Address_City = ?,
     Address_State = ?,
     Address_Zip = ?
-WHERE FarmID = ?;
+WHERE Farm_ID = ?;
 
--- Delete Farm/{FarmID}
+-- Delete Farm/{Farm_ID}
 UPDATE Farm
 SET Active = FALSE
-WHERE FarmID = ?;
+WHERE Farm_ID = ?;
 
--- Get Harvest/{CropType}
+-- Get Harvest/{Crop_Type}
 SELECT * FROM Harvest
-WHERE CropType = ?;
+WHERE Crop_Type = ?;
 
--- Put Harvest/{CropType}
+-- Put Harvest/{Crop_Type}
 UPDATE Harvest
 SET
     Quantity = ?,
-    Time_Year = ?,
-    Time_Season = ?,
+    Harvest_Date = ?,
     Ph_Base = ?,
     Ph_Fertilized = ?,
     Water_Rain = ?,
     Water_Sprinkler = ?,
     Sun = ?,
     Price = ?,
-    FarmID = ?,
+    Farm_ID = ?,
     Extinct = ?
-WHERE CropType = ?;
+WHERE Crop_Type = ?;
 
--- Delete Harvest/{CropType}
+-- Delete Harvest/{Crop_Type}
 UPDATE Harvest
 SET Extinct = TRUE
-WHERE CropType = ?;
+WHERE Crop_Type = ?;
 
 -- Get Purchase
 SELECT * FROM Purchase;
 
 -- Post Purchase
-INSERT INTO Purchase (CropType, PurchaseComplete, TotalPrice, TotalQuantity, PurchaseDate)
+INSERT INTO Purchase (Harvest_ID, Purchase_Complete, Total_Price, Total_Quantity, Purchase_Date)
 VALUES (?, ?, ?, ?, ?);
 
--- Get Purchase/{PurchaseID}
+-- Get Purchase/{Purchase_ID}
 SELECT * FROM Purchase
-WHERE PurchaseID = ?;
+WHERE Purchase_ID = ?;
 
--- Put Purchase/{PurchaseID}
+-- Put Purchase/{Purchase_ID}
 UPDATE Purchase
 SET
-    CropType = ?,
-    PurchaseComplete = ?,
-    TotalPrice = ?,
-    TotalQuantity = ?,
-    PurchaseDate = ?
-WHERE PurchaseID = ?;
+    Harvest_ID = ?,
+    Purchase_Complete = ?,
+    Total_Price = ?,
+    Total_Quantity = ?,
+    Purchase_Date = ?
+WHERE Purchase_ID = ?;
 
--- Delete Purchase/{PurchaseID}
+-- Delete Purchase/{Purchase_ID}
 UPDATE Purchase
 SET Canceled = TRUE
-WHERE PurchaseID = ?;
+WHERE Purchase_ID = ?;
 
 -- name: AddCropBuyer :exec
 INSERT INTO Crop_Buyer (Name, Quantities_Required, Crop_Type, Target_Price)
@@ -129,8 +128,7 @@ VALUES (?, ?, ?, ?, ?, ?);
 -- name: AddHarvest :exec
 INSERT INTO Harvest (
   Quantity,
-  Time_Year,
-  Time_Season,
+  Harvest_Date,
   Ph_Base,
   Ph_Fertilized,
   Water_Rain,
@@ -141,7 +139,7 @@ INSERT INTO Harvest (
   Farm_ID,
   Extinct
 )
-VALUES (?,?,?,?,?,?,?,?,?,?,?,?);
+VALUES (?,?,?,?,?,?,?,?,?,?,?);
 
 -- name: AddMonitorsBuyer :exec
 INSERT INTO Monitors_Buyer (Name, Crop_Type)
@@ -159,16 +157,16 @@ VALUES (?,?);
 INSERT INTO Monitors_Investments (Name, Crop_Type)
 VALUES (?,?);
 
--- /Farmer/{FarmID}
+-- /Farmer/{Farm_ID}
 -- Get
 SELECT *
 FROM Farmer
-WHERE FarmID = ?;
+WHERE Farm_ID = ?;
 -- Post
-INSERT INTO Farmer (Name, Budget, NetWorth, FarmID, PurchaseID)
-SELECT *
-FROM Farmer
-WHERE FarmID = ?;
+-- INSERT INTO Farmer (Name, Budget, NetWorth, Farm_ID, Purchase_ID)     //TODO: this is broken, please fix
+-- SELECT *
+-- FROM Farmer
+-- WHERE Farm_ID = ?;
 
 -- /CropInspector
 -- Get
@@ -178,38 +176,38 @@ FROM Crop_Investigator;
 INSERT INTO Crop_Investigator (Name, USDAID)
 VALUES (?, ?);
 
--- /DistinctCode/Crop/{CropType}
+-- /DistinctCode/Crop/{Crop_Type}
 -- Get
 SELECT *
 FROM District_Code
-WHERE CropType = ?;
+WHERE Crop_Type = ?;
 -- Post
-INSERT INTO District_Code (MaxWater, MaxFert, CropType, CodeID)
-SELECT *
-FROM District_Code
-WHERE CropType = ?;
+-- INSERT INTO District_Code (Max_Water, Max_Fert, Crop_Type, Code_ID)   //TODO: this is broken, please fix
+-- SELECT *
+-- FROM District_Code
+-- WHERE Crop_Type = ?;
 
 -- /DistrictCode/Inspector/{USDAID}
 -- Get
-SELECT *
-FROM District_Code
-WHERE farm.Crop_Investigator.USDAID = ?;
+-- SELECT *
+-- FROM District_Code                     //TODO: this is broken, please fix
+-- WHERE farm.Crop_Investigator.USDAID = ?;
 -- Post
-INSERT INTO District_Code (MaxWater, MaxFert, CropType, CodeID)
-SELECT *
-FROM District_Code
-WHERE farm.Crop_Investigator.USDAID = ?;
+-- INSERT INTO District_Code (Max_Water, Max_Fert, Crop_Type, Code_ID)
+-- SELECT *
+-- FROM District_Code
+-- WHERE farm.Crop_Investigator.USDAID = ?;
 
--- /CropInspector/Code/{CodeID}
+-- /CropInspector/Code/{Code_ID}
 -- Get
-SELECT *
-FROM Crop_Investigator
-WHERE farm.District_Code.CodeID = ?;
+-- SELECT *
+-- FROM Crop_Investigator
+-- WHERE farm.District_Code.Code_ID = ?;
 -- Post
-INSERT INTO Crop_Investigator (Name, USDAID)
-SELECT *
-FROM Crop_Investigator
-WHERE farm.District_Code.CodeID = ?;
+-- INSERT INTO Crop_Investigator (Name, USDAID) //TODO: these are broken, please fix
+-- SELECT *
+-- FROM Crop_Investigator
+-- WHERE farm.District_Code.Code_ID = ?;
 
 -- /CodeInspector/{USDAID}
 -- Get
@@ -229,19 +227,19 @@ WHERE USDAID = ?;
 SELECT *
 FROM District_Code;
 -- Post
-INSERT INTO District_Code (MaxWater, MaxFert, CropType, CodeID)
+INSERT INTO District_Code (Max_Water, Max_Fert, Crop_Type, Code_ID)
 VALUES (?, ?, ?, ?);
 
--- DistrictCode/Code/{CodeID}
+-- DistrictCode/Code/{Code_ID}
 -- Get
 SELECT *
 FROM District_Code
-WHERE CodeID = ?;
+WHERE Code_ID = ?;
 -- Put
 UPDATE District_Code
-SET MaxWater = ?, MaxFert = ?,
-    CropType = ?, CodeID = ?
-WHERE CodeID = ?;
+SET Max_Water = ?, Max_Fert = ?,
+    Crop_Type = ?, Code_ID = ?
+WHERE Code_ID = ?;
 -- Delete
 DELETE FROM District_Code
-WHERE CodeID = ?;
+WHERE Code_ID = ?;

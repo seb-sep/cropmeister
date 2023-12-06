@@ -16,6 +16,7 @@ type Crop struct {
 	WaterNeededDesired sql.NullFloat64
 	SunRangeWeight     sql.NullFloat64
 	SunRangeDesired    sql.NullFloat64
+	BasePrice          sql.NullFloat64
 	Banned             sql.NullBool
 }
 
@@ -70,8 +71,7 @@ type Farmer struct {
 
 type Harvest struct {
 	Quantity       sql.NullInt32
-	TimeYear       sql.NullInt32
-	TimeSeason     sql.NullString
+	HarvestDate    sql.NullTime
 	PhBase         sql.NullFloat64
 	PhFertilized   sql.NullFloat64
 	WaterRain      sql.NullFloat64
@@ -100,7 +100,7 @@ type MonitorsInvestment struct {
 
 type Purchase struct {
 	PurchaseID       sql.NullInt32
-	CropType         sql.NullString
+	HarvestID        sql.NullInt32
 	PurchaseComplete sql.NullBool
 	TotalPrice       sql.NullFloat64
 	TotalQuantity    sql.NullInt32

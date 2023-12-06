@@ -19,6 +19,7 @@ CREATE TABLE IF NOT EXISTS Crop
   Water_Needed_Desired REAL,
   Sun_Range_Weight     REAL,
   Sun_Range_Desired    REAL,
+  Base_Price           REAL,
   Banned	      BOOLEAN,
   PRIMARY KEY (Crop_Type)
 );
@@ -26,7 +27,7 @@ CREATE TABLE IF NOT EXISTS Crop
 CREATE TABLE IF NOT EXISTS Purchase
 (
   Purchase_ID       INT AUTO_INCREMENT,
-  Crop_Type         VARCHAR(255),
+  Harvest_ID        INT,
   Purchase_Complete BOOLEAN,
   Total_Price       REAL,
   Total_Quantity    INT,
@@ -86,16 +87,15 @@ CREATE TABLE IF NOT EXISTS Farmer
 CREATE TABLE IF NOT EXISTS Harvest
 (
   Quantity        INT,
-  Time_Year       YEAR,
-  Time_Season     VARCHAR(255),
+  Harvest_Date    DATE,
   Ph_Base         REAL,
   Ph_Fertilized   REAL,
   Water_Rain      REAL,
   Water_Sprinkler REAL,
   Sun             INT,
   Price           REAL,
-  Crop_Type        VARCHAR(255),
-  Farm_ID          INT,
+  Crop_Type       VARCHAR(255),
+  Farm_ID         INT,
   Extinct         BOOLEAN,
   FOREIGN KEY (Crop_Type) REFERENCES Crop (Crop_Type),
   FOREIGN KEY (Farm_ID) REFERENCES Farm (Farm_ID)
