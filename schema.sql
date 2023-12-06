@@ -79,8 +79,7 @@ CREATE TABLE IF NOT EXISTS Farmer
   Budget        INT,
   Net_Worth      INT,
   Farm_ID        INT,
-  Purchase_ID    INT,
-  -- PRIMARY KEY (Name),
+  PRIMARY KEY (Farm_ID, Name),
   FOREIGN KEY (Farm_ID) REFERENCES Farm (Farm_ID),
   FOREIGN KEY (Purchase_ID) REFERENCES Purchase (Purchase_ID)
 );

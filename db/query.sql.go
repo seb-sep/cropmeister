@@ -10,7 +10,7 @@ import (
 	"database/sql"
 )
 
-const addCropBuyer = `-- name: AddCropBuyer :exec
+const addCropBuyer = `-- name: AddCropBuyer :execresult
 INSERT INTO Crop_Buyer (Name, Quantities_Required, Crop_Type, Target_Price)
 VALUES (?, ?, ?, ?)
 `
@@ -22,17 +22,51 @@ type AddCropBuyerParams struct {
 	TargetPrice        sql.NullInt32
 }
 
-func (q *Queries) AddCropBuyer(ctx context.Context, arg AddCropBuyerParams) error {
-	_, err := q.db.ExecContext(ctx, addCropBuyer,
+func (q *Queries) AddCropBuyer(ctx context.Context, arg AddCropBuyerParams) (sql.Result, error) {
+	return q.db.ExecContext(ctx, addCropBuyer,
 		arg.Name,
 		arg.QuantitiesRequired,
 		arg.CropType,
 		arg.TargetPrice,
 	)
-	return err
 }
 
-const addEnforces = `-- name: AddEnforces :exec
+const addCropInvestigator = `-- name: AddCropInvestigator :execresult
+INSERT INTO Crop_Investigator (Name, USDAID)
+VALUES (?, ?)
+`
+
+type AddCropInvestigatorParams struct {
+	Name   string
+	Usdaid sql.NullInt32
+}
+
+func (q *Queries) AddCropInvestigator(ctx context.Context, arg AddCropInvestigatorParams) (sql.Result, error) {
+	return q.db.ExecContext(ctx, addCropInvestigator, arg.Name, arg.Usdaid)
+}
+
+const addDistrictCode = `-- name: AddDistrictCode :execresult
+INSERT INTO District_Code (Max_Water, Max_Fert, Crop_Type, Code_ID)   
+VALUES (?, ?, ?, ?)
+`
+
+type AddDistrictCodeParams struct {
+	MaxWater sql.NullInt32
+	MaxFert  sql.NullInt32
+	CropType sql.NullString
+	CodeID   sql.NullInt32
+}
+
+func (q *Queries) AddDistrictCode(ctx context.Context, arg AddDistrictCodeParams) (sql.Result, error) {
+	return q.db.ExecContext(ctx, addDistrictCode,
+		arg.MaxWater,
+		arg.MaxFert,
+		arg.CropType,
+		arg.CodeID,
+	)
+}
+
+const addEnforces = `-- name: AddEnforces :execresult
 INSERT INTO Enforces (USDAID, Code_ID)
 VALUES (?,?)
 `
@@ -42,12 +76,11 @@ type AddEnforcesParams struct {
 	CodeID int32
 }
 
-func (q *Queries) AddEnforces(ctx context.Context, arg AddEnforcesParams) error {
-	_, err := q.db.ExecContext(ctx, addEnforces, arg.Usdaid, arg.CodeID)
-	return err
+func (q *Queries) AddEnforces(ctx context.Context, arg AddEnforcesParams) (sql.Result, error) {
+	return q.db.ExecContext(ctx, addEnforces, arg.Usdaid, arg.CodeID)
 }
 
-const addFarm = `-- name: AddFarm :exec
+const addFarm = `-- name: AddFarm :execresult
 INSERT INTO Farm (Name, Farm_Value, Address_Street, Address_City, Address_State, Address_Zip)
 VALUES (?, ?, ?, ?, ?, ?)
 `
@@ -61,8 +94,8 @@ type AddFarmParams struct {
 	AddressZip    sql.NullString
 }
 
-func (q *Queries) AddFarm(ctx context.Context, arg AddFarmParams) error {
-	_, err := q.db.ExecContext(ctx, addFarm,
+func (q *Queries) AddFarm(ctx context.Context, arg AddFarmParams) (sql.Result, error) {
+	return q.db.ExecContext(ctx, addFarm,
 		arg.Name,
 		arg.FarmValue,
 		arg.AddressStreet,
@@ -70,34 +103,30 @@ func (q *Queries) AddFarm(ctx context.Context, arg AddFarmParams) error {
 		arg.AddressState,
 		arg.AddressZip,
 	)
-	return err
 }
 
-const addFarmer = `-- name: AddFarmer :exec
-INSERT INTO Farmer (Name, Budget, Net_Worth, Farm_ID, Purchase_ID)
-VALUES (?, ?, ?, ?, ?)
+const addFarmer = `-- name: AddFarmer :execresult
+INSERT INTO Farmer (Name, Budget, Net_Worth, Farm_ID)
+VALUES (?, ?, ?, ?)
 `
 
 type AddFarmerParams struct {
-	Name       string
-	Budget     sql.NullInt32
-	NetWorth   sql.NullInt32
-	FarmID     sql.NullInt32
-	PurchaseID sql.NullInt32
+	Name     string
+	Budget   sql.NullInt32
+	NetWorth sql.NullInt32
+	FarmID   sql.NullInt32
 }
 
-func (q *Queries) AddFarmer(ctx context.Context, arg AddFarmerParams) error {
-	_, err := q.db.ExecContext(ctx, addFarmer,
+func (q *Queries) AddFarmer(ctx context.Context, arg AddFarmerParams) (sql.Result, error) {
+	return q.db.ExecContext(ctx, addFarmer,
 		arg.Name,
 		arg.Budget,
 		arg.NetWorth,
 		arg.FarmID,
-		arg.PurchaseID,
 	)
-	return err
 }
 
-const addHarvest = `-- name: AddHarvest :exec
+const addHarvest = `-- name: AddHarvest :execresult
 INSERT INTO Harvest (
   Quantity,
   Harvest_Date,
@@ -128,8 +157,8 @@ type AddHarvestParams struct {
 	Extinct        sql.NullBool
 }
 
-func (q *Queries) AddHarvest(ctx context.Context, arg AddHarvestParams) error {
-	_, err := q.db.ExecContext(ctx, addHarvest,
+func (q *Queries) AddHarvest(ctx context.Context, arg AddHarvestParams) (sql.Result, error) {
+	return q.db.ExecContext(ctx, addHarvest,
 		arg.Quantity,
 		arg.HarvestDate,
 		arg.PhBase,
@@ -142,10 +171,9 @@ func (q *Queries) AddHarvest(ctx context.Context, arg AddHarvestParams) error {
 		arg.FarmID,
 		arg.Extinct,
 	)
-	return err
 }
 
-const addInvestMonitor = `-- name: AddInvestMonitor :exec
+const addInvestMonitor = `-- name: AddInvestMonitor :execresult
 INSERT INTO Monitors_Investments (Name, Crop_Type)
 VALUES (?,?)
 `
@@ -155,12 +183,11 @@ type AddInvestMonitorParams struct {
 	CropType sql.NullString
 }
 
-func (q *Queries) AddInvestMonitor(ctx context.Context, arg AddInvestMonitorParams) error {
-	_, err := q.db.ExecContext(ctx, addInvestMonitor, arg.Name, arg.CropType)
-	return err
+func (q *Queries) AddInvestMonitor(ctx context.Context, arg AddInvestMonitorParams) (sql.Result, error) {
+	return q.db.ExecContext(ctx, addInvestMonitor, arg.Name, arg.CropType)
 }
 
-const addInvestsIn = `-- name: AddInvestsIn :exec
+const addInvestsIn = `-- name: AddInvestsIn :execresult
 INSERT INTO Invests_In (Name, Farm_ID)
 VALUES (?,?)
 `
@@ -170,12 +197,11 @@ type AddInvestsInParams struct {
 	FarmID sql.NullInt32
 }
 
-func (q *Queries) AddInvestsIn(ctx context.Context, arg AddInvestsInParams) error {
-	_, err := q.db.ExecContext(ctx, addInvestsIn, arg.Name, arg.FarmID)
-	return err
+func (q *Queries) AddInvestsIn(ctx context.Context, arg AddInvestsInParams) (sql.Result, error) {
+	return q.db.ExecContext(ctx, addInvestsIn, arg.Name, arg.FarmID)
 }
 
-const addMonitorsBuyer = `-- name: AddMonitorsBuyer :exec
+const addMonitorsBuyer = `-- name: AddMonitorsBuyer :execresult
 INSERT INTO Monitors_Buyer (Name, Crop_Type)
 VALUES (?,?)
 `
@@ -185,7 +211,715 @@ type AddMonitorsBuyerParams struct {
 	CropType string
 }
 
-func (q *Queries) AddMonitorsBuyer(ctx context.Context, arg AddMonitorsBuyerParams) error {
-	_, err := q.db.ExecContext(ctx, addMonitorsBuyer, arg.Name, arg.CropType)
-	return err
+func (q *Queries) AddMonitorsBuyer(ctx context.Context, arg AddMonitorsBuyerParams) (sql.Result, error) {
+	return q.db.ExecContext(ctx, addMonitorsBuyer, arg.Name, arg.CropType)
+}
+
+const addPurchase = `-- name: AddPurchase :execresult
+INSERT INTO Purchase (Crop_Type, Farm_ID, Purchase_Complete, Total_Price, Total_Quantity, Purchase_Date)
+VALUES (?, ?, ?, ?, ?, ?)
+`
+
+type AddPurchaseParams struct {
+	CropType         sql.NullString
+	FarmID           sql.NullInt32
+	PurchaseComplete sql.NullBool
+	TotalPrice       sql.NullFloat64
+	TotalQuantity    sql.NullInt32
+	PurchaseDate     sql.NullTime
+}
+
+func (q *Queries) AddPurchase(ctx context.Context, arg AddPurchaseParams) (sql.Result, error) {
+	return q.db.ExecContext(ctx, addPurchase,
+		arg.CropType,
+		arg.FarmID,
+		arg.PurchaseComplete,
+		arg.TotalPrice,
+		arg.TotalQuantity,
+		arg.PurchaseDate,
+	)
+}
+
+const banCrop = `-- name: BanCrop :execresult
+UPDATE Crop
+SET Banned = TRUE
+WHERE Crop_Type = ?
+`
+
+func (q *Queries) BanCrop(ctx context.Context, cropType sql.NullString) (sql.Result, error) {
+	return q.db.ExecContext(ctx, banCrop, cropType)
+}
+
+const deleteCropInvestigator = `-- name: DeleteCropInvestigator :execresult
+DELETE FROM Crop_Investigator
+WHERE USDAID = ?
+`
+
+func (q *Queries) DeleteCropInvestigator(ctx context.Context, usdaid sql.NullInt32) (sql.Result, error) {
+	return q.db.ExecContext(ctx, deleteCropInvestigator, usdaid)
+}
+
+const deleteDistrictCode = `-- name: DeleteDistrictCode :execresult
+DELETE FROM District_Code
+WHERE Code_ID = ?
+`
+
+func (q *Queries) DeleteDistrictCode(ctx context.Context, codeID sql.NullInt32) (sql.Result, error) {
+	return q.db.ExecContext(ctx, deleteDistrictCode, codeID)
+}
+
+const deleteFarm = `-- name: DeleteFarm :execresult
+UPDATE Farm
+SET Active = FALSE
+WHERE Farm_ID = ?
+`
+
+func (q *Queries) DeleteFarm(ctx context.Context, farmID sql.NullInt32) (sql.Result, error) {
+	return q.db.ExecContext(ctx, deleteFarm, farmID)
+}
+
+const deleteHarvest = `-- name: DeleteHarvest :execresult
+UPDATE Harvest
+SET Extinct = TRUE
+WHERE Crop_Type = ?
+`
+
+func (q *Queries) DeleteHarvest(ctx context.Context, cropType sql.NullString) (sql.Result, error) {
+	return q.db.ExecContext(ctx, deleteHarvest, cropType)
+}
+
+const deletePurchase = `-- name: DeletePurchase :execresult
+UPDATE Purchase
+SET Canceled = TRUE
+WHERE Purchase_ID = ?
+`
+
+func (q *Queries) DeletePurchase(ctx context.Context, purchaseID sql.NullInt32) (sql.Result, error) {
+	return q.db.ExecContext(ctx, deletePurchase, purchaseID)
+}
+
+const geTFarm = `-- name: GeTFarm :one
+SELECT name, farm_value, farm_id, address_street, address_city, address_state, address_zip FROM Farm
+WHERE Farm_ID = ?
+`
+
+func (q *Queries) GeTFarm(ctx context.Context, farmID sql.NullInt32) (Farm, error) {
+	row := q.db.QueryRowContext(ctx, geTFarm, farmID)
+	var i Farm
+	err := row.Scan(
+		&i.Name,
+		&i.FarmValue,
+		&i.FarmID,
+		&i.AddressStreet,
+		&i.AddressCity,
+		&i.AddressState,
+		&i.AddressZip,
+	)
+	return i, err
+}
+
+const getCropData = `-- name: GetCropData :many
+SELECT crop_type, ph_range_weight, ph_range_desired, water_needed_weight, water_needed_desired, sun_range_weight, sun_range_desired, base_price, banned,
+       (Base_Price +
+        (Crop.Water_Needed_Weight - Crop.WaterNeeded_Desired) +
+        (Crop.Sun_Range_Weight - Crop.SunRange_Desired) -
+        CASE
+            WHEN Restricted THEN Base_Price * 0.5
+            ELSE 0
+        END) AS CalculatedPrice
+FROM Crop
+WHERE Crop_Type = ?
+`
+
+type GetCropDataRow struct {
+	CropType           sql.NullString
+	PhRangeWeight      sql.NullFloat64
+	PhRangeDesired     sql.NullFloat64
+	WaterNeededWeight  sql.NullFloat64
+	WaterNeededDesired sql.NullFloat64
+	SunRangeWeight     sql.NullFloat64
+	SunRangeDesired    sql.NullFloat64
+	BasePrice          sql.NullFloat64
+	Banned             sql.NullBool
+	Calculatedprice    int32
+}
+
+func (q *Queries) GetCropData(ctx context.Context, cropType sql.NullString) ([]GetCropDataRow, error) {
+	rows, err := q.db.QueryContext(ctx, getCropData, cropType)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []GetCropDataRow
+	for rows.Next() {
+		var i GetCropDataRow
+		if err := rows.Scan(
+			&i.CropType,
+			&i.PhRangeWeight,
+			&i.PhRangeDesired,
+			&i.WaterNeededWeight,
+			&i.WaterNeededDesired,
+			&i.SunRangeWeight,
+			&i.SunRangeDesired,
+			&i.BasePrice,
+			&i.Banned,
+			&i.Calculatedprice,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const getCropInvestigator = `-- name: GetCropInvestigator :one
+SELECT name, usdaid
+FROM Crop_Investigator
+WHERE USDAID = ?
+`
+
+func (q *Queries) GetCropInvestigator(ctx context.Context, usdaid sql.NullInt32) (CropInvestigator, error) {
+	row := q.db.QueryRowContext(ctx, getCropInvestigator, usdaid)
+	var i CropInvestigator
+	err := row.Scan(&i.Name, &i.Usdaid)
+	return i, err
+}
+
+const getCropInvestigators = `-- name: GetCropInvestigators :many
+SELECT name, usdaid
+FROM Crop_Investigator
+`
+
+func (q *Queries) GetCropInvestigators(ctx context.Context) ([]CropInvestigator, error) {
+	rows, err := q.db.QueryContext(ctx, getCropInvestigators)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []CropInvestigator
+	for rows.Next() {
+		var i CropInvestigator
+		if err := rows.Scan(&i.Name, &i.Usdaid); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const getDistrictCode = `-- name: GetDistrictCode :one
+SELECT max_water, max_fert, crop_type, code_id
+FROM District_Code
+WHERE Code_ID = ?
+`
+
+func (q *Queries) GetDistrictCode(ctx context.Context, codeID sql.NullInt32) (DistrictCode, error) {
+	row := q.db.QueryRowContext(ctx, getDistrictCode, codeID)
+	var i DistrictCode
+	err := row.Scan(
+		&i.MaxWater,
+		&i.MaxFert,
+		&i.CropType,
+		&i.CodeID,
+	)
+	return i, err
+}
+
+const getDistrictCodes = `-- name: GetDistrictCodes :many
+SELECT max_water, max_fert, crop_type, code_id
+FROM District_Code
+`
+
+func (q *Queries) GetDistrictCodes(ctx context.Context) ([]DistrictCode, error) {
+	rows, err := q.db.QueryContext(ctx, getDistrictCodes)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []DistrictCode
+	for rows.Next() {
+		var i DistrictCode
+		if err := rows.Scan(
+			&i.MaxWater,
+			&i.MaxFert,
+			&i.CropType,
+			&i.CodeID,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const getDistrictsForInspector = `-- name: GetDistrictsForInspector :many
+SELECT name, usdaid, max_water, max_fert, crop_type, code_id 
+FROM Crop_Investigator
+JOIN District_Code
+ON Crop_Investigator.USDAID = District_Code.Code_ID
+WHERE USDAID = ?
+`
+
+type GetDistrictsForInspectorRow struct {
+	Name     string
+	Usdaid   sql.NullInt32
+	MaxWater sql.NullInt32
+	MaxFert  sql.NullInt32
+	CropType sql.NullString
+	CodeID   sql.NullInt32
+}
+
+func (q *Queries) GetDistrictsForInspector(ctx context.Context, usdaid sql.NullInt32) ([]GetDistrictsForInspectorRow, error) {
+	rows, err := q.db.QueryContext(ctx, getDistrictsForInspector, usdaid)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []GetDistrictsForInspectorRow
+	for rows.Next() {
+		var i GetDistrictsForInspectorRow
+		if err := rows.Scan(
+			&i.Name,
+			&i.Usdaid,
+			&i.MaxWater,
+			&i.MaxFert,
+			&i.CropType,
+			&i.CodeID,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const getDistrictsWithCrop = `-- name: GetDistrictsWithCrop :many
+SELECT max_water, max_fert, crop_type, code_id
+FROM District_Code
+WHERE Crop_Type = ?
+`
+
+func (q *Queries) GetDistrictsWithCrop(ctx context.Context, cropType sql.NullString) ([]DistrictCode, error) {
+	rows, err := q.db.QueryContext(ctx, getDistrictsWithCrop, cropType)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []DistrictCode
+	for rows.Next() {
+		var i DistrictCode
+		if err := rows.Scan(
+			&i.MaxWater,
+			&i.MaxFert,
+			&i.CropType,
+			&i.CodeID,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const getFarmer = `-- name: GetFarmer :one
+SELECT name, budget, net_worth, farm_id
+FROM Farmer
+WHERE Farm_ID = ?
+`
+
+func (q *Queries) GetFarmer(ctx context.Context, farmID sql.NullInt32) (Farmer, error) {
+	row := q.db.QueryRowContext(ctx, getFarmer, farmID)
+	var i Farmer
+	err := row.Scan(
+		&i.Name,
+		&i.Budget,
+		&i.NetWorth,
+		&i.FarmID,
+	)
+	return i, err
+}
+
+const getFarms = `-- name: GetFarms :many
+SELECT name, farm_value, farm_id, address_street, address_city, address_state, address_zip FROM Farm
+`
+
+func (q *Queries) GetFarms(ctx context.Context) ([]Farm, error) {
+	rows, err := q.db.QueryContext(ctx, getFarms)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []Farm
+	for rows.Next() {
+		var i Farm
+		if err := rows.Scan(
+			&i.Name,
+			&i.FarmValue,
+			&i.FarmID,
+			&i.AddressStreet,
+			&i.AddressCity,
+			&i.AddressState,
+			&i.AddressZip,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const getHarvests = `-- name: GetHarvests :many
+SELECT quantity, harvest_date, ph_base, ph_fertilized, water_rain, water_sprinkler, sun, price, crop_type, farm_id, extinct FROM Harvest
+WHERE Crop_Type = ?
+`
+
+func (q *Queries) GetHarvests(ctx context.Context, cropType sql.NullString) ([]Harvest, error) {
+	rows, err := q.db.QueryContext(ctx, getHarvests, cropType)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []Harvest
+	for rows.Next() {
+		var i Harvest
+		if err := rows.Scan(
+			&i.Quantity,
+			&i.HarvestDate,
+			&i.PhBase,
+			&i.PhFertilized,
+			&i.WaterRain,
+			&i.WaterSprinkler,
+			&i.Sun,
+			&i.Price,
+			&i.CropType,
+			&i.FarmID,
+			&i.Extinct,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const getInspectorForDistrict = `-- name: GetInspectorForDistrict :one
+SELECT max_water, max_fert, crop_type, code_id, name, usdaid
+FROM District_Code
+JOIN Crop_Investigator
+ON District_Code.Code_ID = Crop_Investigator.Code_ID
+WHERE Code_ID = ?
+`
+
+type GetInspectorForDistrictRow struct {
+	MaxWater sql.NullInt32
+	MaxFert  sql.NullInt32
+	CropType sql.NullString
+	CodeID   sql.NullInt32
+	Name     string
+	Usdaid   sql.NullInt32
+}
+
+func (q *Queries) GetInspectorForDistrict(ctx context.Context, codeID sql.NullInt32) (GetInspectorForDistrictRow, error) {
+	row := q.db.QueryRowContext(ctx, getInspectorForDistrict, codeID)
+	var i GetInspectorForDistrictRow
+	err := row.Scan(
+		&i.MaxWater,
+		&i.MaxFert,
+		&i.CropType,
+		&i.CodeID,
+		&i.Name,
+		&i.Usdaid,
+	)
+	return i, err
+}
+
+const getPurchase = `-- name: GetPurchase :one
+SELECT purchase_id, crop_type, farm_id, purchase_complete, total_price, total_quantity, purchase_date FROM Purchase
+WHERE Purchase_ID = ?
+`
+
+func (q *Queries) GetPurchase(ctx context.Context, purchaseID sql.NullInt32) (Purchase, error) {
+	row := q.db.QueryRowContext(ctx, getPurchase, purchaseID)
+	var i Purchase
+	err := row.Scan(
+		&i.PurchaseID,
+		&i.CropType,
+		&i.FarmID,
+		&i.PurchaseComplete,
+		&i.TotalPrice,
+		&i.TotalQuantity,
+		&i.PurchaseDate,
+	)
+	return i, err
+}
+
+const getPurchases = `-- name: GetPurchases :many
+SELECT purchase_id, crop_type, farm_id, purchase_complete, total_price, total_quantity, purchase_date FROM Purchase
+`
+
+func (q *Queries) GetPurchases(ctx context.Context) ([]Purchase, error) {
+	rows, err := q.db.QueryContext(ctx, getPurchases)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []Purchase
+	for rows.Next() {
+		var i Purchase
+		if err := rows.Scan(
+			&i.PurchaseID,
+			&i.CropType,
+			&i.FarmID,
+			&i.PurchaseComplete,
+			&i.TotalPrice,
+			&i.TotalQuantity,
+			&i.PurchaseDate,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const updateCrop = `-- name: UpdateCrop :execresult
+UPDATE Crop
+SET
+    Base_Price = ?,
+    Ph_Range_Weight = ?,
+    Ph_Range_Desired = ?,
+    Water_Needed_Weight = ?,
+    Water_Needed_Desired = ?,
+    Sun_Range_Weight = ?,
+    Sun_Range_Desired = ?,
+    Banned = ?
+WHERE Crop_Type = ?
+`
+
+type UpdateCropParams struct {
+	BasePrice          sql.NullFloat64
+	PhRangeWeight      sql.NullFloat64
+	PhRangeDesired     sql.NullFloat64
+	WaterNeededWeight  sql.NullFloat64
+	WaterNeededDesired sql.NullFloat64
+	SunRangeWeight     sql.NullFloat64
+	SunRangeDesired    sql.NullFloat64
+	Banned             sql.NullBool
+	CropType           sql.NullString
+}
+
+func (q *Queries) UpdateCrop(ctx context.Context, arg UpdateCropParams) (sql.Result, error) {
+	return q.db.ExecContext(ctx, updateCrop,
+		arg.BasePrice,
+		arg.PhRangeWeight,
+		arg.PhRangeDesired,
+		arg.WaterNeededWeight,
+		arg.WaterNeededDesired,
+		arg.SunRangeWeight,
+		arg.SunRangeDesired,
+		arg.Banned,
+		arg.CropType,
+	)
+}
+
+const updateCropInvestigator = `-- name: UpdateCropInvestigator :execresult
+UPDATE Crop_Investigator
+SET Name = ?
+WHERE USDAID = ?
+`
+
+type UpdateCropInvestigatorParams struct {
+	Name   string
+	Usdaid sql.NullInt32
+}
+
+func (q *Queries) UpdateCropInvestigator(ctx context.Context, arg UpdateCropInvestigatorParams) (sql.Result, error) {
+	return q.db.ExecContext(ctx, updateCropInvestigator, arg.Name, arg.Usdaid)
+}
+
+const updateDistrictCode = `-- name: UpdateDistrictCode :execresult
+UPDATE District_Code
+SET Max_Water = ?, Max_Fert = ?,
+    Crop_Type = ?, Code_ID = ?
+WHERE Code_ID = ?
+`
+
+type UpdateDistrictCodeParams struct {
+	MaxWater sql.NullInt32
+	MaxFert  sql.NullInt32
+	CropType sql.NullString
+	CodeID   sql.NullInt32
+	CodeID_2 sql.NullInt32
+}
+
+func (q *Queries) UpdateDistrictCode(ctx context.Context, arg UpdateDistrictCodeParams) (sql.Result, error) {
+	return q.db.ExecContext(ctx, updateDistrictCode,
+		arg.MaxWater,
+		arg.MaxFert,
+		arg.CropType,
+		arg.CodeID,
+		arg.CodeID_2,
+	)
+}
+
+const updateFarm = `-- name: UpdateFarm :execresult
+UPDATE Farm
+SET
+    Name = ?,
+    Farm_Value = ?,
+    Address_Street = ?,
+    Address_City = ?,
+    Address_State = ?,
+    Address_Zip = ?
+WHERE Farm_ID = ?
+`
+
+type UpdateFarmParams struct {
+	Name          string
+	FarmValue     sql.NullInt32
+	AddressStreet sql.NullString
+	AddressCity   sql.NullString
+	AddressState  sql.NullString
+	AddressZip    sql.NullString
+	FarmID        sql.NullInt32
+}
+
+func (q *Queries) UpdateFarm(ctx context.Context, arg UpdateFarmParams) (sql.Result, error) {
+	return q.db.ExecContext(ctx, updateFarm,
+		arg.Name,
+		arg.FarmValue,
+		arg.AddressStreet,
+		arg.AddressCity,
+		arg.AddressState,
+		arg.AddressZip,
+		arg.FarmID,
+	)
+}
+
+const updateHarvest = `-- name: UpdateHarvest :execresult
+UPDATE Harvest
+SET
+    Quantity = ?,
+    Harvest_Date = ?,
+    Ph_Base = ?,
+    Ph_Fertilized = ?,
+    Water_Rain = ?,
+    Water_Sprinkler = ?,
+    Sun = ?,
+    Price = ?,
+    Farm_ID = ?,
+    Extinct = ?
+WHERE Crop_Type = ?
+`
+
+type UpdateHarvestParams struct {
+	Quantity       sql.NullInt32
+	HarvestDate    sql.NullTime
+	PhBase         sql.NullFloat64
+	PhFertilized   sql.NullFloat64
+	WaterRain      sql.NullFloat64
+	WaterSprinkler sql.NullFloat64
+	Sun            sql.NullInt32
+	Price          sql.NullFloat64
+	FarmID         sql.NullInt32
+	Extinct        sql.NullBool
+	CropType       sql.NullString
+}
+
+func (q *Queries) UpdateHarvest(ctx context.Context, arg UpdateHarvestParams) (sql.Result, error) {
+	return q.db.ExecContext(ctx, updateHarvest,
+		arg.Quantity,
+		arg.HarvestDate,
+		arg.PhBase,
+		arg.PhFertilized,
+		arg.WaterRain,
+		arg.WaterSprinkler,
+		arg.Sun,
+		arg.Price,
+		arg.FarmID,
+		arg.Extinct,
+		arg.CropType,
+	)
+}
+
+const updatePurchase = `-- name: UpdatePurchase :execresult
+UPDATE Purchase
+SET
+    Crop_Type = ?, 
+    Farm_ID = ?,
+    Purchase_Complete = ?,
+    Total_Price = ?,
+    Total_Quantity = ?,
+    Purchase_Date = ?
+WHERE Purchase_ID = ?
+`
+
+type UpdatePurchaseParams struct {
+	CropType         sql.NullString
+	FarmID           sql.NullInt32
+	PurchaseComplete sql.NullBool
+	TotalPrice       sql.NullFloat64
+	TotalQuantity    sql.NullInt32
+	PurchaseDate     sql.NullTime
+	PurchaseID       sql.NullInt32
+}
+
+func (q *Queries) UpdatePurchase(ctx context.Context, arg UpdatePurchaseParams) (sql.Result, error) {
+	return q.db.ExecContext(ctx, updatePurchase,
+		arg.CropType,
+		arg.FarmID,
+		arg.PurchaseComplete,
+		arg.TotalPrice,
+		arg.TotalQuantity,
+		arg.PurchaseDate,
+		arg.PurchaseID,
+	)
 }

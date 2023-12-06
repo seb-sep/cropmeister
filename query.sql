@@ -1,12 +1,7 @@
 -- Get Harvest
 SELECT * FROM Harvest;
 
--- Post Harvest
-INSERT INTO Harvest (Quantity, Harvest_Date, Ph_Base, Ph_Fertilized, Water_Rain, Water_Sprinkler, Sun, Price,
-                     Crop_Type, Farm_ID, Extinct)
-VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
-
--- Get Crop {Crop_Type}
+-- name: GetCropData :many
 SELECT *,
        (Base_Price +
         (Crop.Water_Needed_Weight - Crop.WaterNeeded_Desired) +
@@ -18,7 +13,7 @@ SELECT *,
 FROM Crop
 WHERE Crop_Type = ?;
 
--- Put Crop {Crop_Type}
+-- name: UpdateCrop :execresult
 UPDATE Crop
 SET
     Base_Price = ?,
@@ -31,23 +26,23 @@ SET
     Banned = ?
 WHERE Crop_Type = ?;
 
--- Delete Crop {Crop+Type}
+-- name: BanCrop :execresult
 UPDATE Crop
 SET Banned = TRUE
 WHERE Crop_Type = ?;
 
--- Get Farm
+-- name: GetFarms :many
 SELECT * FROM Farm;
 
--- Post Farm
-INSERT INTO Farm (Name, Farm_Value, Farm_ID, Address_Street, Address_City, Address_State, Address_Zip)
-VALUES (?, ?, ?, ?, ?, ?, ?);
+-- name: AddFarm :execresult
+INSERT INTO Farm (Name, Farm_Value, Address_Street, Address_City, Address_State, Address_Zip)
+VALUES (?, ?, ?, ?, ?, ?);
 
--- Get Farm/{Farm_ID}
+-- name: GeTFarm :one
 SELECT * FROM Farm
 WHERE Farm_ID = ?;
 
--- Put Farm/{Farm_ID}
+-- name: UpdateFarm :execresult
 UPDATE Farm
 SET
     Name = ?,
@@ -58,16 +53,16 @@ SET
     Address_Zip = ?
 WHERE Farm_ID = ?;
 
--- Delete Farm/{Farm_ID}
+-- name: DeleteFarm :execresult
 UPDATE Farm
 SET Active = FALSE
 WHERE Farm_ID = ?;
 
--- Get Harvest/{Crop_Type}
+-- name: GetHarvests :many
 SELECT * FROM Harvest
 WHERE Crop_Type = ?;
 
--- Put Harvest/{Crop_Type}
+-- name: UpdateHarvest :execresult
 UPDATE Harvest
 SET
     Quantity = ?,
@@ -82,23 +77,23 @@ SET
     Extinct = ?
 WHERE Crop_Type = ?;
 
--- Delete Harvest/{Crop_Type}
+-- name: DeleteHarvest :execresult
 UPDATE Harvest
 SET Extinct = TRUE
 WHERE Crop_Type = ?;
 
--- Get Purchase
+-- name: GetPurchases :many
 SELECT * FROM Purchase;
 
--- Post Purchase
+-- name: AddPurchase :execresult
 INSERT INTO Purchase (Crop_Type, Farm_ID, Purchase_Complete, Total_Price, Total_Quantity, Purchase_Date)
 VALUES (?, ?, ?, ?, ?, ?);
 
--- Get Purchase/{Purchase_ID}
+-- name: GetPurchase :one
 SELECT * FROM Purchase
 WHERE Purchase_ID = ?;
 
--- Put Purchase/{Purchase_ID}
+-- name: UpdatePurchase :execresult
 UPDATE Purchase
 SET
     Crop_Type = ?, 
@@ -109,24 +104,16 @@ SET
     Purchase_Date = ?
 WHERE Purchase_ID = ?;
 
--- Delete Purchase/{Purchase_ID}
+-- name: DeletePurchase :execresult
 UPDATE Purchase
 SET Canceled = TRUE
 WHERE Purchase_ID = ?;
 
--- name: AddCropBuyer :exec
+-- name: AddCropBuyer :execresult
 INSERT INTO Crop_Buyer (Name, Quantities_Required, Crop_Type, Target_Price)
 VALUES (?, ?, ?, ?);
 
--- name: AddFarmer :exec
-INSERT INTO Farmer (Name, Budget, Net_Worth, Farm_ID, Purchase_ID)
-VALUES (?, ?, ?, ?, ?);
-
--- name: AddFarm :exec
-INSERT INTO Farm (Name, Farm_Value, Address_Street, Address_City, Address_State, Address_Zip)
-VALUES (?, ?, ?, ?, ?, ?);
-
--- name: AddHarvest :exec
+-- name: AddHarvest :execresult
 INSERT INTO Harvest (
   Quantity,
   Harvest_Date,
@@ -142,102 +129,94 @@ INSERT INTO Harvest (
 )
 VALUES (?,?,?,?,?,?,?,?,?,?,?);
 
--- name: AddMonitorsBuyer :exec
+-- name: AddMonitorsBuyer :execresult
 INSERT INTO Monitors_Buyer (Name, Crop_Type)
 VALUES (?,?);
 
--- name: AddInvestsIn :exec
+-- name: AddInvestsIn :execresult
 INSERT INTO Invests_In (Name, Farm_ID)
 VALUES (?,?);
 
--- name: AddEnforces :exec
+-- name: AddEnforces :execresult
 INSERT INTO Enforces (USDAID, Code_ID)
 VALUES (?,?);
 
--- name: AddInvestMonitor :exec
+-- name: AddInvestMonitor :execresult
 INSERT INTO Monitors_Investments (Name, Crop_Type)
 VALUES (?,?);
 
--- /Farmer/{Farm_ID}
--- Get
+-- name: GetFarmer :one
 SELECT *
 FROM Farmer
 WHERE Farm_ID = ?;
 
--- Post
+-- name: AddFarmer :execresult
 INSERT INTO Farmer (Name, Budget, Net_Worth, Farm_ID)
 VALUES (?, ?, ?, ?);
 
--- /CropInspector
--- Get
+-- name: GetCropInvestigators :many
 SELECT *
 FROM Crop_Investigator;
--- Post
+
+-- name: AddCropInvestigator :execresult
 INSERT INTO Crop_Investigator (Name, USDAID)
 VALUES (?, ?);
 
--- /DistinctCode/Crop/{Crop_Type}
--- Get
+-- name: GetDistrictsWithCrop :many
 SELECT *
 FROM District_Code
 WHERE Crop_Type = ?;
 
--- Post
+-- name: AddDistrictCode :execresult
 INSERT INTO District_Code (Max_Water, Max_Fert, Crop_Type, Code_ID)   
 VALUES (?, ?, ?, ?);
 
--- /DistrictCode/Inspector/{USDAID}
--- Get
-SELECT *
-FROM District_Code   
-WHERE (SELECT * 
+-- name: GetDistrictsForInspector :many
+SELECT * 
 FROM Crop_Investigator
-WHERE USDAID = ?);
-                 
--- Post
-INSERT INTO District_Code (Max_Water, Max_Fert, Crop_Type, Code_ID)
-VALUES (?, ?, ?, ?);
+JOIN District_Code
+ON Crop_Investigator.USDAID = District_Code.Code_ID
+WHERE USDAID = ?;
 
--- /CropInspector/Code/{Code_ID}
--- Get
+
+-- name: GetInspectorForDistrict :one
 SELECT *
-FROM Crop_Investigator
-WHERE farm.District_Code.Code_ID = ?;
--- Post
-INSERT INTO Crop_Investigator (Name, USDAID) 
-VALUES (?, ?);
+FROM District_Code
+JOIN Crop_Investigator
+ON District_Code.Code_ID = Crop_Investigator.Code_ID
+WHERE Code_ID = ?;
 
--- /CodeInspector/{USDAID}
--- Get
+-- name: GetCropInvestigator :one
 SELECT *
 FROM Crop_Investigator
 WHERE USDAID = ?;
--- Put
+
+-- name: UpdateCropInvestigator :execresult
 UPDATE Crop_Investigator
 SET Name = ?
 WHERE USDAID = ?;
--- Delete
+
+
+-- name: DeleteCropInvestigator :execresult
 DELETE FROM Crop_Investigator
 WHERE USDAID = ?;
 
--- /DistrictCode
--- Get
+-- name: GetDistrictCodes :many
 SELECT *
 FROM District_Code;
--- Post
-INSERT INTO District_Code (Max_Water, Max_Fert, Crop_Type, Code_ID)
-VALUES (?, ?, ?, ?);
 
--- DistrictCode/Code/{Code_ID}
--- Get
+
+-- name: GetDistrictCode :one
 SELECT *
 FROM District_Code
 WHERE Code_ID = ?;
--- Put
+
+-- name: UpdateDistrictCode :execresult
 UPDATE District_Code
 SET Max_Water = ?, Max_Fert = ?,
     Crop_Type = ?, Code_ID = ?
 WHERE Code_ID = ?;
--- Delete
+
+-- name: DeleteDistrictCode :execresult
 DELETE FROM District_Code
 WHERE Code_ID = ?;

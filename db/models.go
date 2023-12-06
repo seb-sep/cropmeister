@@ -62,11 +62,10 @@ type Farm struct {
 }
 
 type Farmer struct {
-	Name       string
-	Budget     sql.NullInt32
-	NetWorth   sql.NullInt32
-	FarmID     sql.NullInt32
-	PurchaseID sql.NullInt32
+	Name     string
+	Budget   sql.NullInt32
+	NetWorth sql.NullInt32
+	FarmID   sql.NullInt32
 }
 
 type Harvest struct {
