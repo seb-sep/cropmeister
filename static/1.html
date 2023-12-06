@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="generic.css">
+</head>
+
+<body>
+    <form action="/createperson" method="POST">
+        <h1>Create Farmer:</h1>
+        <label for="name">Name:</label>
+        <input type="text" id="name" required name="name">
+
+        <label for="gender">Gender:</label>
+        <input type="radio" id="male" name="gender" value="male">
+        <label for="male">Male</label>
+        <input type="radio" id="female" name="gender" value="female" required>
+        <label for="female">Female</label>
+
+        <label for="hobby">Hobby:</label>
+        <input type="checkbox" id="hobby1" name="hobby" value="reading">
+        <label for="hobby1">Reading</label>
+        <input type="checkbox" id="hobby2" name="hobby" value="gaming">
+        <label for="hobby2">Gaming</label>
+
+        <label for="bio">Bio:</label>
+        <textarea id="bio" name="bio"></textarea>
+
+        <label for="country">Country:</label>
+        <select id="country" name="country">
+            <option value="usa">USA</option>
+            <option value="uk">UK</option>
+            <option value="canada">Canada</option>
+        </select>
+
+        <input type="submit" value="Submit">
+    </form>
+</body>
+
+</html>
