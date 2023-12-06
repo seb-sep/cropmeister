@@ -60,5 +60,7 @@ func main() {
 	cropinspector := app.Group("/cropinspector")
 	routes.CropInspectorRoutes(cropinspector)
 
-	app.Listen(":3000")
+	if err := app.Listen(":3000"); err != nil {
+		fmt.Println(err)
+	}
 }
