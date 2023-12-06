@@ -8,7 +8,7 @@ import (
 	"github.com/go-faker/faker/v4"
 )
 
-func generateFarm(farmid sql.NullInt32) db.Farm {
+func generateFarm(farmid int32) db.Farm {
 	farm := db.Farm{
 		Name:          faker.Name(),
 		FarmValue:     generateRandomInt(1, 100),
@@ -71,11 +71,11 @@ func generateCrop(cropType string) db.Crop {
 	return crop
 }
 
-func generatePurchase(purchaseID sql.NullInt32, CropType sql.NullString, FarmID sql.NullInt32) db.Purchase {
+func generatePurchase(purchaseID int32, CropType sql.NullString, FarmID int32) db.Purchase {
 	purchase := db.Purchase{
 		PurchaseID:       purchaseID,
 		CropType:         CropType,
-		FarmID:           FarmID,
+		FarmID:           sql.NullInt32{Int32: FarmID, Valid: true},
 		PurchaseComplete: generateRandomBool(),
 		TotalPrice:       generateRandomFloat(1, 50000),
 		TotalQuantity:    generateRandomInt(1, 100),
@@ -97,12 +97,12 @@ func generateCropInvestor(name string) db.CropInvestor {
 func generateCropInvestigator(name string) db.CropInvestigator {
 	cropInvestigator := db.CropInvestigator{
 		Name:   name,
-		Usdaid: generateRandomInt(1, 100),
+		Usdaid: generateRandomInt(1, 100).Int32,
 	}
 	return cropInvestigator
 }
 
-func generateDistrictCode(codeID sql.NullInt32, cropType sql.NullString) db.DistrictCode {
+func generateDistrictCode(codeID int32, cropType sql.NullString) db.DistrictCode {
 	districtCode := db.DistrictCode{
 		MaxWater: generateRandomInt(1, 100),
 		MaxFert:  generateRandomInt(1, 100),
@@ -112,7 +112,7 @@ func generateDistrictCode(codeID sql.NullInt32, cropType sql.NullString) db.Dist
 	return districtCode
 }
 
-func generateCropBuyer(name sql.NullString, cropType sql.NullString) db.CropBuyer {
+func generateCropBuyer(name string, cropType sql.NullString) db.CropBuyer {
 	cropBuyer := db.CropBuyer{
 		Name:               name,
 		QuantitiesRequired: generateRandomInt(1, 10),

@@ -27,7 +27,7 @@ func GenerateFakeInstances() {
 		cropInvestor := generateCropInvestor(investorName)
 		cropInvestigator := generateCropInvestigator(investigatorName)
 		farmer := generateFarmer(farmerId)
-		farm := generateFarm(farmId)
+		farm := generateFarm(farmId.Int32)
 
 		fakeWord := func() string {
 			return faker.Word()
@@ -40,14 +40,14 @@ func GenerateFakeInstances() {
 		purchases := make([]db.Purchase, len(cropNames)*5)
 		districts := make([]db.DistrictCode, len(cropNames)*5)
 		for i := 0; i < len(cropNames); i++ {
-			cropBuyers[i] = generateCropBuyer(toSqlNullString(buyerName), toSqlNullString(cropNames[i]))
+			cropBuyers[i] = generateCropBuyer(buyerName, toSqlNullString(cropNames[i]))
 			crops[i] = generateCrop(cropNames[i])
-			districts[i] = generateDistrictCode(generateRandomInt(1, 100), toSqlNullString(cropNames[i]))
+			districts[i] = generateDistrictCode(generateRandomInt(1, 100).Int32, toSqlNullString(cropNames[i]))
 
 			for j := 0; j < 5; j++ {
 				hrv := generateHarvest(farmId, toSqlNullString(cropNames[i]))
 				harvests[j+(i*5)] = hrv
-				purchases[j+(i*5)] = generatePurchase(generateRandomInt(1, 100), hrv.CropType, farm.FarmID)
+				purchases[j+(i*5)] = generatePurchase(generateRandomInt(1, 100).Int32, hrv.CropType, farm.FarmID)
 			}
 		}
 
