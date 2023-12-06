@@ -163,11 +163,10 @@ VALUES (?,?);
 SELECT *
 FROM Farmer
 WHERE Farm_ID = ?;
+
 -- Post
--- INSERT INTO Farmer (Name, Budget, NetWorth, Farm_ID, Purchase_ID)     //TODO: this is broken, please fix
--- SELECT *
--- FROM Farmer
--- WHERE Farm_ID = ?;
+INSERT INTO Farmer (Name, Budget, Net_Worth, Farm_ID)
+VALUES (?, ?, ?, ?);
 
 -- /CropInspector
 -- Get
@@ -182,33 +181,31 @@ VALUES (?, ?);
 SELECT *
 FROM District_Code
 WHERE Crop_Type = ?;
+
 -- Post
--- INSERT INTO District_Code (Max_Water, Max_Fert, Crop_Type, Code_ID)   //TODO: this is broken, please fix
--- SELECT *
--- FROM District_Code
--- WHERE Crop_Type = ?;
+INSERT INTO District_Code (Max_Water, Max_Fert, Crop_Type, Code_ID)   
+VALUES (?, ?, ?, ?);
 
 -- /DistrictCode/Inspector/{USDAID}
 -- Get
--- SELECT *
--- FROM District_Code                     //TODO: this is broken, please fix
--- WHERE farm.Crop_Investigator.USDAID = ?;
+SELECT *
+FROM District_Code   
+WHERE (SELECT * 
+FROM Crop_Investigator
+WHERE USDAID = ?);
+                 
 -- Post
--- INSERT INTO District_Code (Max_Water, Max_Fert, Crop_Type, Code_ID)
--- SELECT *
--- FROM District_Code
--- WHERE farm.Crop_Investigator.USDAID = ?;
+INSERT INTO District_Code (Max_Water, Max_Fert, Crop_Type, Code_ID)
+VALUES (?, ?, ?, ?);
 
 -- /CropInspector/Code/{Code_ID}
 -- Get
--- SELECT *
--- FROM Crop_Investigator
--- WHERE farm.District_Code.Code_ID = ?;
+SELECT *
+FROM Crop_Investigator
+WHERE farm.District_Code.Code_ID = ?;
 -- Post
--- INSERT INTO Crop_Investigator (Name, USDAID) //TODO: these are broken, please fix
--- SELECT *
--- FROM Crop_Investigator
--- WHERE farm.District_Code.Code_ID = ?;
+INSERT INTO Crop_Investigator (Name, USDAID) 
+VALUES (?, ?);
 
 -- /CodeInspector/{USDAID}
 -- Get

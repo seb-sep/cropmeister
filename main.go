@@ -34,6 +34,11 @@ func main() {
 		return c.SendString("hello world!")
 	})
 
+	app.Get("/addValues", func(c *fiber.Ctx) error {
+		//GenerateFakeInstances()// TODO: this is broken?!?!!??!
+		return c.JSON("ARGH")
+	})
+
 	harvest := app.Group("/harvest")
 	harvest.Get("", func(c *fiber.Ctx) error {
 		return c.JSON("harvest")

@@ -1,6 +1,8 @@
 package fakedata
 
 import (
+	"fmt"
+
 	"github.com/go-faker/faker/v4"
 	"github.com/seb-sep/cropmeister/db"
 )
@@ -50,5 +52,6 @@ func GenerateFakeInstances() {
 		}
 
 		//TODO: push schema to table
+		fmt.Println(farmer, cropInvestor, cropInvestigator)
 	}
 }
