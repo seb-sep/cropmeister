@@ -151,11 +151,13 @@ CREATE TABLE IF NOT EXISTS Enforces
 CREATE TABLE IF NOT EXISTS Monitors_Investments
 (
   Name     VARCHAR(255),
+  Farm_ID INT,
   Crop_Type VARCHAR(255),
+  Harvest_Year YEAR,
   CONSTRAINT investor
     FOREIGN KEY (Name) REFERENCES Crop_Investor (Name)
     ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT crop
-    FOREIGN KEY (Crop_Type) REFERENCES Harvest (Crop_Type)
+    FOREIGN KEY (Farm_ID, Crop_Type, Harvest_Year) REFERENCES Harvest (Farm_ID, Crop_Type, Harvest_Year)
     ON DELETE CASCADE ON UPDATE CASCADE
 );
