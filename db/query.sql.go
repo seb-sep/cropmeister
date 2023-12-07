@@ -759,7 +759,7 @@ func (q *Queries) GetHarvests(ctx context.Context, cropType string) ([]Harvest, 
 	return items, nil
 }
 
-const getInspectorForDistrict = `-- name: GetInspectorForDistrict :one
+const getInspectorForDistrict = `-- name: GetInspectorForDistrict :many
 SELECT code_id, max_water, max_fert, crop_type, name, usdaid
 FROM District_Code
 JOIN Crop_Inspector 
@@ -776,18 +776,34 @@ type GetInspectorForDistrictRow struct {
 	Usdaid   int32
 }
 
-func (q *Queries) GetInspectorForDistrict(ctx context.Context, codeID int32) (GetInspectorForDistrictRow, error) {
-	row := q.db.QueryRowContext(ctx, getInspectorForDistrict, codeID)
-	var i GetInspectorForDistrictRow
-	err := row.Scan(
-		&i.CodeID,
-		&i.MaxWater,
-		&i.MaxFert,
-		&i.CropType,
-		&i.Name,
-		&i.Usdaid,
-	)
-	return i, err
+func (q *Queries) GetInspectorForDistrict(ctx context.Context, codeID int32) ([]GetInspectorForDistrictRow, error) {
+	rows, err := q.db.QueryContext(ctx, getInspectorForDistrict, codeID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []GetInspectorForDistrictRow
+	for rows.Next() {
+		var i GetInspectorForDistrictRow
+		if err := rows.Scan(
+			&i.CodeID,
+			&i.MaxWater,
+			&i.MaxFert,
+			&i.CropType,
+			&i.Name,
+			&i.Usdaid,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
 }
 
 const getPurchase = `-- name: GetPurchase :one

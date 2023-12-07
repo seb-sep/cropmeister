@@ -7,6 +7,11 @@ import (
 	"github.com/seb-sep/cropmeister/db"
 )
 
+type AddCropInspectorRequest struct {
+	Name   string `json:"name"`
+	Usdaid int32  `json:"usdaid"`
+}
+
 func CropInspectorRoutes(cropinspector fiber.Router) {
 	ctx := context.Background()
 
@@ -21,23 +26,40 @@ func CropInspectorRoutes(cropinspector fiber.Router) {
 
 	cropinspector.Post("", func(c *fiber.Ctx) error {
 		queries := c.Locals("db").(*db.Queries)
-		res, _ := queries.AddCropInspector(ctx, db.AddCropInspectorParams{})
+		var body AddCropInspectorRequest
+		err := c.BodyParser(body)
+		if err != nil {
+			return c.Status(500).SendString(err.Error())
+		}
+
+		res, _ := queries.AddCropInspector(ctx, db.AddCropInspectorParams{body.Name, body.Usdaid})
 		return c.JSON(res)
 	})
+
 	cropinspector.Get("/:id", func(c *fiber.Ctx) error {
 		queries := c.Locals("db").(*db.Queries)
 		id, err := c.ParamsInt("id")
+		if err != nil {
+			return c.Status(500).SendString(err.Error())
+		}
 		inspector, err := queries.GetCropInspector(ctx, int32(id))
 		if err != nil {
 			return c.Status(500).SendString(err.Error())
 		}
 		return c.JSON(inspector)
 	})
+
 	cropinspector.Put("/:id", func(c *fiber.Ctx) error {
 		queries := c.Locals("db").(*db.Queries)
 		id, err := c.ParamsInt("id")
+		if err != nil {
+			return c.Status(500).SendString(err.Error())
+		}
 		var name map[string]string
 		err = c.BodyParser(name)
+		if err != nil {
+			return c.Status(500).SendString(err.Error())
+		}
 		inspector, err := queries.UpdateCropInspector(ctx, db.UpdateCropInspectorParams{
 			Name:   name["name"],
 			Usdaid: int32(id),
@@ -47,18 +69,28 @@ func CropInspectorRoutes(cropinspector fiber.Router) {
 		}
 		return c.JSON(inspector)
 	})
+
+	// Get the crop inspectors for a district
 	cropinspector.Get("/code/:id", func(c *fiber.Ctx) error {
 		queries := c.Locals("db").(*db.Queries)
 		id, err := c.ParamsInt("id")
+		if err != nil {
+			return c.Status(500).SendString(err.Error())
+		}
 		inspector, err := queries.GetInspectorForDistrict(ctx, int32(id))
 		if err != nil {
 			return c.Status(500).SendString(err.Error())
 		}
 		return c.JSON(inspector)
 	})
+
+	// Delete a crop inspector by id
 	cropinspector.Delete("/:id", func(c *fiber.Ctx) error {
 		queries := c.Locals("db").(*db.Queries)
 		id, err := c.ParamsInt("id")
+		if err != nil {
+			return c.Status(500).SendString(err.Error())
+		}
 		inspector, err := queries.DeleteCropInspector(ctx, int32(id))
 		if err != nil {
 			return c.Status(500).SendString(err.Error())

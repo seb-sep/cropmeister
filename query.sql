@@ -199,7 +199,7 @@ ON Crop_Inspector.USDAID = District_Code.Code_ID
 WHERE USDAID = ?;
 
 
--- name: GetInspectorForDistrict :one
+-- name: GetInspectorForDistrict :many
 SELECT *
 FROM District_Code
 JOIN Crop_Inspector 
