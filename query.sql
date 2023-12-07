@@ -77,12 +77,12 @@ SET
     Sun = ?,
     Price = ?,
     Extinct = ?
-WHERE Crop_Type = ? AND Harvest_Date = ? AND Farm_ID = ?;
+WHERE Crop_Type = ? AND Harvest_Year = ? AND Farm_ID = ?;
 
 -- name: DeleteHarvest :execresult
 UPDATE Harvest
 SET Extinct = TRUE
-WHERE Crop_Type = ? AND Harvest_Date = ? AND Farm_ID = ?;
+WHERE Crop_Type = ? AND Harvest_Year = ? AND Farm_ID = ?;
 
 -- name: GetPurchases :many
 SELECT * FROM Purchase;
@@ -118,7 +118,7 @@ VALUES (?, ?, ?, ?);
 -- name: AddHarvest :execresult
 INSERT INTO Harvest (
   Quantity,
-  Harvest_Date,
+  Harvest_Year,
   Ph_Base,
   Ph_Fertilized,
   Water_Rain,
@@ -153,8 +153,8 @@ VALUES (?,?);
 
 -- name: GetFarmer :one
 SELECT *
-FROM Farmer
-WHERE Farm_ID = ?;
+FROM Farmer f
+WHERE f.Farm_ID = ? AND f.Name = ?;
 
 -- name: AddFarmer :execresult
 INSERT INTO Farmer (Name, Budget, Net_Worth, Farm_ID)

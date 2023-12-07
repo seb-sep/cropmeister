@@ -8,7 +8,6 @@ package db
 import (
 	"context"
 	"database/sql"
-	"time"
 )
 
 const addCropBuyer = `-- name: AddCropBuyer :execresult
@@ -127,9 +126,9 @@ VALUES (?, ?, ?, ?)
 
 type AddFarmerParams struct {
 	Name     string
-	Budget   sql.NullInt32
-	NetWorth sql.NullInt32
-	FarmID   sql.NullInt32
+	Budget   sql.NullFloat64
+	NetWorth sql.NullFloat64
+	FarmID   int32
 }
 
 func (q *Queries) AddFarmer(ctx context.Context, arg AddFarmerParams) (sql.Result, error) {
@@ -144,7 +143,7 @@ func (q *Queries) AddFarmer(ctx context.Context, arg AddFarmerParams) (sql.Resul
 const addHarvest = `-- name: AddHarvest :execresult
 INSERT INTO Harvest (
   Quantity,
-  Harvest_Date,
+  Harvest_Year,
   Ph_Base,
   Ph_Fertilized,
   Water_Rain,
@@ -160,7 +159,7 @@ VALUES (?,?,?,?,?,?,?,?,?,?,?)
 
 type AddHarvestParams struct {
 	Quantity       sql.NullInt32
-	HarvestDate    time.Time
+	HarvestYear    int32
 	PhBase         sql.NullFloat64
 	PhFertilized   sql.NullFloat64
 	WaterRain      sql.NullFloat64
@@ -175,7 +174,7 @@ type AddHarvestParams struct {
 func (q *Queries) AddHarvest(ctx context.Context, arg AddHarvestParams) (sql.Result, error) {
 	return q.db.ExecContext(ctx, addHarvest,
 		arg.Quantity,
-		arg.HarvestDate,
+		arg.HarvestYear,
 		arg.PhBase,
 		arg.PhFertilized,
 		arg.WaterRain,
@@ -306,17 +305,17 @@ func (q *Queries) DeleteFarm(ctx context.Context, farmID int32) (sql.Result, err
 const deleteHarvest = `-- name: DeleteHarvest :execresult
 UPDATE Harvest
 SET Extinct = TRUE
-WHERE Crop_Type = ? AND Harvest_Date = ? AND Farm_ID = ?
+WHERE Crop_Type = ? AND Harvest_Year = ? AND Farm_ID = ?
 `
 
 type DeleteHarvestParams struct {
 	CropType    string
-	HarvestDate time.Time
+	HarvestYear int32
 	FarmID      int32
 }
 
 func (q *Queries) DeleteHarvest(ctx context.Context, arg DeleteHarvestParams) (sql.Result, error) {
-	return q.db.ExecContext(ctx, deleteHarvest, arg.CropType, arg.HarvestDate, arg.FarmID)
+	return q.db.ExecContext(ctx, deleteHarvest, arg.CropType, arg.HarvestYear, arg.FarmID)
 }
 
 const deletePurchase = `-- name: DeletePurchase :execresult
@@ -350,7 +349,7 @@ func (q *Queries) GeTFarm(ctx context.Context, farmID int32) (Farm, error) {
 }
 
 const getAllHarvests = `-- name: GetAllHarvests :many
-SELECT quantity, harvest_date, ph_base, ph_fertilized, water_rain, water_sprinkler, sun, price, crop_type, farm_id, extinct FROM Harvest
+SELECT quantity, harvest_year, ph_base, ph_fertilized, water_rain, water_sprinkler, sun, price, crop_type, farm_id, extinct FROM Harvest
 `
 
 func (q *Queries) GetAllHarvests(ctx context.Context) ([]Harvest, error) {
@@ -364,7 +363,7 @@ func (q *Queries) GetAllHarvests(ctx context.Context) ([]Harvest, error) {
 		var i Harvest
 		if err := rows.Scan(
 			&i.Quantity,
-			&i.HarvestDate,
+			&i.HarvestYear,
 			&i.PhBase,
 			&i.PhFertilized,
 			&i.WaterRain,
@@ -623,12 +622,17 @@ func (q *Queries) GetDistrictsWithCrop(ctx context.Context, cropType sql.NullStr
 
 const getFarmer = `-- name: GetFarmer :one
 SELECT name, budget, net_worth, farm_id
-FROM Farmer
-WHERE Farm_ID = ?
+FROM Farmer f
+WHERE f.Farm_ID = ? AND f.Name = ?
 `
 
-func (q *Queries) GetFarmer(ctx context.Context, farmID sql.NullInt32) (Farmer, error) {
-	row := q.db.QueryRowContext(ctx, getFarmer, farmID)
+type GetFarmerParams struct {
+	FarmID int32
+	Name   string
+}
+
+func (q *Queries) GetFarmer(ctx context.Context, arg GetFarmerParams) (Farmer, error) {
+	row := q.db.QueryRowContext(ctx, getFarmer, arg.FarmID, arg.Name)
 	var i Farmer
 	err := row.Scan(
 		&i.Name,
@@ -675,7 +679,7 @@ func (q *Queries) GetFarms(ctx context.Context) ([]Farm, error) {
 }
 
 const getHarvests = `-- name: GetHarvests :many
-SELECT quantity, harvest_date, ph_base, ph_fertilized, water_rain, water_sprinkler, sun, price, crop_type, farm_id, extinct FROM Harvest
+SELECT quantity, harvest_year, ph_base, ph_fertilized, water_rain, water_sprinkler, sun, price, crop_type, farm_id, extinct FROM Harvest
 WHERE Crop_Type = ?
 `
 
@@ -690,7 +694,7 @@ func (q *Queries) GetHarvests(ctx context.Context, cropType string) ([]Harvest, 
 		var i Harvest
 		if err := rows.Scan(
 			&i.Quantity,
-			&i.HarvestDate,
+			&i.HarvestYear,
 			&i.PhBase,
 			&i.PhFertilized,
 			&i.WaterRain,
@@ -938,7 +942,7 @@ SET
     Sun = ?,
     Price = ?,
     Extinct = ?
-WHERE Crop_Type = ? AND Harvest_Date = ? AND Farm_ID = ?
+WHERE Crop_Type = ? AND Harvest_Year = ? AND Farm_ID = ?
 `
 
 type UpdateHarvestParams struct {
@@ -951,7 +955,7 @@ type UpdateHarvestParams struct {
 	Price          sql.NullFloat64
 	Extinct        sql.NullBool
 	CropType       string
-	HarvestDate    time.Time
+	HarvestYear    int32
 	FarmID         int32
 }
 
@@ -966,7 +970,7 @@ func (q *Queries) UpdateHarvest(ctx context.Context, arg UpdateHarvestParams) (s
 		arg.Price,
 		arg.Extinct,
 		arg.CropType,
-		arg.HarvestDate,
+		arg.HarvestYear,
 		arg.FarmID,
 	)
 }

@@ -6,7 +6,6 @@ package db
 
 import (
 	"database/sql"
-	"time"
 )
 
 type Crop struct {
@@ -65,14 +64,14 @@ type Farm struct {
 
 type Farmer struct {
 	Name     string
-	Budget   sql.NullInt32
-	NetWorth sql.NullInt32
-	FarmID   sql.NullInt32
+	Budget   sql.NullFloat64
+	NetWorth sql.NullFloat64
+	FarmID   int32
 }
 
 type Harvest struct {
 	Quantity       sql.NullInt32
-	HarvestDate    time.Time
+	HarvestYear    int32
 	PhBase         sql.NullFloat64
 	PhFertilized   sql.NullFloat64
 	WaterRain      sql.NullFloat64

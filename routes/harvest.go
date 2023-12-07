@@ -2,7 +2,6 @@ package routes
 
 import (
 	"context"
-	"database/sql"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/seb-sep/cropmeister/db"
@@ -29,8 +28,8 @@ func HarvestRoutes(harvest fiber.Router) {
 
 		// TODO: Add more fields
 		res, err := queries.AddHarvest(ctx, db.AddHarvestParams{
-			FarmID:   sql.NullInt32{Int32: int32(farm), Valid: true},
-			CropType: sql.NullString{String: cropType, Valid: true},
+			FarmID:   int32(farm),
+			CropType: cropType,
 		})
 		if err != nil {
 			return c.Status(500).SendString(err.Error())
@@ -41,7 +40,7 @@ func HarvestRoutes(harvest fiber.Router) {
 	harvest.Get("/:type", func(c *fiber.Ctx) error {
 		queries := c.Locals("db").(*db.Queries)
 		cropType := c.Params("type", "")
-		harvests, err := queries.GetHarvests(ctx, sql.NullString{String: cropType, Valid: true})
+		harvests, err := queries.GetHarvests(ctx, cropType)
 		if err != nil {
 			return c.Status(500).SendString(err.Error())
 		}
@@ -55,8 +54,8 @@ func HarvestRoutes(harvest fiber.Router) {
 			return c.Status(500).SendString(err.Error())
 		}
 		res, err := queries.UpdateHarvest(ctx, db.UpdateHarvestParams{
-			FarmID:   sql.NullInt32{Int32: int32(farm), Valid: true},
-			CropType: sql.NullString{String: cropType, Valid: true},
+			FarmID:   farm,
+			CropType: cropType,
 		})
 		if err != nil {
 			return c.Status(500).SendString(err.Error())
@@ -73,7 +72,13 @@ func HarvestRoutes(harvest fiber.Router) {
 			return c.Status(500).SendString(err.Error())
 		}
 
-		res, err := queries.DeleteHarvest(ctx, db.DeleteHarvestParams{})
+		var body map[string]int32
+		err = c.BodyParser(body)
+		if err != nil {
+			return c.Status(500).SendString(err.Error())
+		}
+
+		res, err := queries.DeleteHarvest(ctx, db.DeleteHarvestParams{CropType: cropType, FarmID: farm, HarvestYear: body["year"]})
 		if err != nil {
 			return c.Status(500).SendString(err.Error())
 		}
@@ -82,8 +87,8 @@ func HarvestRoutes(harvest fiber.Router) {
 	})
 }
 
-func farmAndType(c *fiber.Ctx) (farmId int, cropType string, err error) {
-	farmId, err = c.ParamsInt("farm")
+func farmAndType(c *fiber.Ctx) (farmId int32, cropType string, err error) {
+	id, err := c.ParamsInt("farm")
 	if err != nil {
 		return 0, "", err
 	}
@@ -91,5 +96,5 @@ func farmAndType(c *fiber.Ctx) (farmId int, cropType string, err error) {
 	if err != nil {
 		return 0, "", err
 	}
-	return farmId, cropType, nil
+	return int32(id), cropType, nil
 }

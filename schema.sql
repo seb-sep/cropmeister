@@ -74,9 +74,9 @@ CREATE TABLE IF NOT EXISTS Crop_Buyer
 CREATE TABLE IF NOT EXISTS Farmer
 (
   Name          VARCHAR(255) NOT NULL,
-  Budget        INT,
-  Net_Worth      INT,
-  Farm_ID        INT,
+  Budget        REAL,
+  Net_Worth      REAL,
+  Farm_ID        INT NOT NULL,
   PRIMARY KEY (Farm_ID, Name),
   FOREIGN KEY (Farm_ID) REFERENCES Farm (Farm_ID)
 );
@@ -84,7 +84,7 @@ CREATE TABLE IF NOT EXISTS Farmer
 CREATE TABLE IF NOT EXISTS Harvest
 (
   Quantity        INT,
-  Harvest_Date    DATE NOT NULL,
+  Harvest_Year    YEAR NOT NULL,
   Ph_Base         REAL,
   Ph_Fertilized   REAL,
   Water_Rain      REAL,
@@ -94,7 +94,7 @@ CREATE TABLE IF NOT EXISTS Harvest
   Crop_Type       VARCHAR(255) NOT NULL,
   Farm_ID         INT NOT NULL,
   Extinct         BOOLEAN,
-  PRIMARY KEY (Farm_ID, Crop_Type, Harvest_Date),
+  PRIMARY KEY (Farm_ID, Crop_Type, Harvest_Year),
   FOREIGN KEY (Crop_Type) REFERENCES Crop (Crop_Type),
   FOREIGN KEY (Farm_ID) REFERENCES Farm (Farm_ID)
 );
