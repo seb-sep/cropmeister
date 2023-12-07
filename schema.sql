@@ -81,15 +81,15 @@ CREATE TABLE IF NOT EXISTS Farmer
 CREATE TABLE IF NOT EXISTS Harvest
 (
   Quantity        INT,
-  Harvest_Date    DATE,
+  Harvest_Date    DATE NOT NULL,
   Ph_Base         REAL,
   Ph_Fertilized   REAL,
   Water_Rain      REAL,
   Water_Sprinkler REAL,
   Sun             INT,
   Price           REAL,
-  Crop_Type       VARCHAR(255),
-  Farm_ID         INT,
+  Crop_Type       VARCHAR(255) NOT NULL,
+  Farm_ID         INT NOT NULL,
   Extinct         BOOLEAN,
   PRIMARY KEY (Farm_ID, Crop_Type, Harvest_Date),
   FOREIGN KEY (Crop_Type) REFERENCES Crop (Crop_Type),
