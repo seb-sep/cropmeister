@@ -1,4 +1,4 @@
--- Get Harvest
+-- name: GetAllHarvests :many
 SELECT * FROM Harvest;
 
 -- name: GetCropData :many
@@ -202,8 +202,9 @@ WHERE USDAID = ?;
 
 
 -- name: DeleteCropInspector :execresult
-DELETE FROM Crop_Inspector 
-WHERE USDAID = ?;
+UPDATE Crop_Inspector c
+SET c.Unemployed = 1
+WHERE c.USDAID = ?;
 
 -- name: GetDistrictCodes :many
 SELECT *

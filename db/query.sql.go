@@ -260,8 +260,9 @@ func (q *Queries) DeleteCrop(ctx context.Context, cropType string) (sql.Result, 
 }
 
 const deleteCropInspector = `-- name: DeleteCropInspector :execresult
-DELETE FROM Crop_Inspector 
-WHERE USDAID = ?
+UPDATE Crop_Inspector c
+SET c.Unemployed = 1
+WHERE c.USDAID = ?
 `
 
 func (q *Queries) DeleteCropInspector(ctx context.Context, usdaid int32) (sql.Result, error) {
@@ -325,6 +326,45 @@ func (q *Queries) GeTFarm(ctx context.Context, farmID int32) (Farm, error) {
 		&i.AddressZip,
 	)
 	return i, err
+}
+
+const getAllHarvests = `-- name: GetAllHarvests :many
+SELECT quantity, harvest_date, ph_base, ph_fertilized, water_rain, water_sprinkler, sun, price, crop_type, farm_id, extinct FROM Harvest
+`
+
+func (q *Queries) GetAllHarvests(ctx context.Context) ([]Harvest, error) {
+	rows, err := q.db.QueryContext(ctx, getAllHarvests)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []Harvest
+	for rows.Next() {
+		var i Harvest
+		if err := rows.Scan(
+			&i.Quantity,
+			&i.HarvestDate,
+			&i.PhBase,
+			&i.PhFertilized,
+			&i.WaterRain,
+			&i.WaterSprinkler,
+			&i.Sun,
+			&i.Price,
+			&i.CropType,
+			&i.FarmID,
+			&i.Extinct,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
 }
 
 const getCropData = `-- name: GetCropData :many
