@@ -70,21 +70,19 @@ WHERE Crop_Type = ?;
 UPDATE Harvest
 SET
     Quantity = ?,
-    Harvest_Date = ?,
     Ph_Base = ?,
     Ph_Fertilized = ?,
     Water_Rain = ?,
     Water_Sprinkler = ?,
     Sun = ?,
     Price = ?,
-    Farm_ID = ?,
     Extinct = ?
-WHERE Crop_Type = ?;
+WHERE Crop_Type = ? AND Harvest_Date = ? AND Farm_ID = ?;
 
 -- name: DeleteHarvest :execresult
 UPDATE Harvest
 SET Extinct = TRUE
-WHERE Crop_Type = ?;
+WHERE Crop_Type = ? AND Harvest_Date = ? AND Farm_ID = ?;
 
 -- name: GetPurchases :many
 SELECT * FROM Purchase;

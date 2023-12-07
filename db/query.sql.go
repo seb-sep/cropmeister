@@ -291,11 +291,17 @@ func (q *Queries) DeleteFarm(ctx context.Context, farmID int32) (sql.Result, err
 const deleteHarvest = `-- name: DeleteHarvest :execresult
 UPDATE Harvest
 SET Extinct = TRUE
-WHERE Crop_Type = ?
+WHERE Crop_Type = ? AND Harvest_Date = ? AND Farm_ID = ?
 `
 
-func (q *Queries) DeleteHarvest(ctx context.Context, cropType sql.NullString) (sql.Result, error) {
-	return q.db.ExecContext(ctx, deleteHarvest, cropType)
+type DeleteHarvestParams struct {
+	CropType    sql.NullString
+	HarvestDate sql.NullTime
+	FarmID      sql.NullInt32
+}
+
+func (q *Queries) DeleteHarvest(ctx context.Context, arg DeleteHarvestParams) (sql.Result, error) {
+	return q.db.ExecContext(ctx, deleteHarvest, arg.CropType, arg.HarvestDate, arg.FarmID)
 }
 
 const deletePurchase = `-- name: DeletePurchase :execresult
@@ -906,45 +912,43 @@ const updateHarvest = `-- name: UpdateHarvest :execresult
 UPDATE Harvest
 SET
     Quantity = ?,
-    Harvest_Date = ?,
     Ph_Base = ?,
     Ph_Fertilized = ?,
     Water_Rain = ?,
     Water_Sprinkler = ?,
     Sun = ?,
     Price = ?,
-    Farm_ID = ?,
     Extinct = ?
-WHERE Crop_Type = ?
+WHERE Crop_Type = ? AND Harvest_Date = ? AND Farm_ID = ?
 `
 
 type UpdateHarvestParams struct {
 	Quantity       sql.NullInt32
-	HarvestDate    sql.NullTime
 	PhBase         sql.NullFloat64
 	PhFertilized   sql.NullFloat64
 	WaterRain      sql.NullFloat64
 	WaterSprinkler sql.NullFloat64
 	Sun            sql.NullInt32
 	Price          sql.NullFloat64
-	FarmID         sql.NullInt32
 	Extinct        sql.NullBool
 	CropType       sql.NullString
+	HarvestDate    sql.NullTime
+	FarmID         sql.NullInt32
 }
 
 func (q *Queries) UpdateHarvest(ctx context.Context, arg UpdateHarvestParams) (sql.Result, error) {
 	return q.db.ExecContext(ctx, updateHarvest,
 		arg.Quantity,
-		arg.HarvestDate,
 		arg.PhBase,
 		arg.PhFertilized,
 		arg.WaterRain,
 		arg.WaterSprinkler,
 		arg.Sun,
 		arg.Price,
-		arg.FarmID,
 		arg.Extinct,
 		arg.CropType,
+		arg.HarvestDate,
+		arg.FarmID,
 	)
 }
 
