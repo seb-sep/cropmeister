@@ -8,6 +8,7 @@ package db
 import (
 	"context"
 	"database/sql"
+	"time"
 )
 
 const addCropBuyer = `-- name: AddCropBuyer :execresult
@@ -51,8 +52,8 @@ VALUES (?, ?, ?, ?)
 `
 
 type AddDistrictCodeParams struct {
-	MaxWater sql.NullInt32
-	MaxFert  sql.NullInt32
+	MaxWater sql.NullFloat64
+	MaxFert  sql.NullFloat64
 	CropType sql.NullString
 	CodeID   int32
 }
@@ -64,6 +65,20 @@ func (q *Queries) AddDistrictCode(ctx context.Context, arg AddDistrictCodeParams
 		arg.CropType,
 		arg.CodeID,
 	)
+}
+
+const addDistrictToInspector = `-- name: AddDistrictToInspector :execresult
+INSERT INTO Enforces (USDAID, Code_ID)
+VALUES (?, ?)
+`
+
+type AddDistrictToInspectorParams struct {
+	Usdaid int32
+	CodeID int32
+}
+
+func (q *Queries) AddDistrictToInspector(ctx context.Context, arg AddDistrictToInspectorParams) (sql.Result, error) {
+	return q.db.ExecContext(ctx, addDistrictToInspector, arg.Usdaid, arg.CodeID)
 }
 
 const addEnforces = `-- name: AddEnforces :execresult
@@ -145,15 +160,15 @@ VALUES (?,?,?,?,?,?,?,?,?,?,?)
 
 type AddHarvestParams struct {
 	Quantity       sql.NullInt32
-	HarvestDate    sql.NullTime
+	HarvestDate    time.Time
 	PhBase         sql.NullFloat64
 	PhFertilized   sql.NullFloat64
 	WaterRain      sql.NullFloat64
 	WaterSprinkler sql.NullFloat64
 	Sun            sql.NullInt32
 	Price          sql.NullFloat64
-	CropType       sql.NullString
-	FarmID         sql.NullInt32
+	CropType       string
+	FarmID         int32
 	Extinct        sql.NullBool
 }
 
@@ -295,9 +310,9 @@ WHERE Crop_Type = ? AND Harvest_Date = ? AND Farm_ID = ?
 `
 
 type DeleteHarvestParams struct {
-	CropType    sql.NullString
-	HarvestDate sql.NullTime
-	FarmID      sql.NullInt32
+	CropType    string
+	HarvestDate time.Time
+	FarmID      int32
 }
 
 func (q *Queries) DeleteHarvest(ctx context.Context, arg DeleteHarvestParams) (sql.Result, error) {
@@ -537,8 +552,8 @@ type GetDistrictsForInspectorRow struct {
 	Name     string
 	Usdaid   int32
 	CodeID   int32
-	MaxWater sql.NullInt32
-	MaxFert  sql.NullInt32
+	MaxWater sql.NullFloat64
+	MaxFert  sql.NullFloat64
 	CropType sql.NullString
 }
 
@@ -664,7 +679,7 @@ SELECT quantity, harvest_date, ph_base, ph_fertilized, water_rain, water_sprinkl
 WHERE Crop_Type = ?
 `
 
-func (q *Queries) GetHarvests(ctx context.Context, cropType sql.NullString) ([]Harvest, error) {
+func (q *Queries) GetHarvests(ctx context.Context, cropType string) ([]Harvest, error) {
 	rows, err := q.db.QueryContext(ctx, getHarvests, cropType)
 	if err != nil {
 		return nil, err
@@ -709,8 +724,8 @@ WHERE Code_ID = ?
 
 type GetInspectorForDistrictRow struct {
 	CodeID   int32
-	MaxWater sql.NullInt32
-	MaxFert  sql.NullInt32
+	MaxWater sql.NullFloat64
+	MaxFert  sql.NullFloat64
 	CropType sql.NullString
 	Name     string
 	Usdaid   int32
@@ -731,7 +746,7 @@ func (q *Queries) GetInspectorForDistrict(ctx context.Context, codeID int32) (Ge
 }
 
 const getPurchase = `-- name: GetPurchase :one
-SELECT purchase_id, crop_type, farm_id, purchase_complete, total_price, total_quantity, purchase_date FROM Purchase
+SELECT purchase_id, crop_type, farm_id, purchase_complete, total_price, total_quantity, purchase_date, farmer_id, farmer_name FROM Purchase
 WHERE Purchase_ID = ?
 `
 
@@ -746,12 +761,14 @@ func (q *Queries) GetPurchase(ctx context.Context, purchaseID int32) (Purchase, 
 		&i.TotalPrice,
 		&i.TotalQuantity,
 		&i.PurchaseDate,
+		&i.FarmerID,
+		&i.FarmerName,
 	)
 	return i, err
 }
 
 const getPurchases = `-- name: GetPurchases :many
-SELECT purchase_id, crop_type, farm_id, purchase_complete, total_price, total_quantity, purchase_date FROM Purchase
+SELECT purchase_id, crop_type, farm_id, purchase_complete, total_price, total_quantity, purchase_date, farmer_id, farmer_name FROM Purchase
 `
 
 func (q *Queries) GetPurchases(ctx context.Context) ([]Purchase, error) {
@@ -771,6 +788,8 @@ func (q *Queries) GetPurchases(ctx context.Context) ([]Purchase, error) {
 			&i.TotalPrice,
 			&i.TotalQuantity,
 			&i.PurchaseDate,
+			&i.FarmerID,
+			&i.FarmerName,
 		); err != nil {
 			return nil, err
 		}
@@ -857,8 +876,8 @@ WHERE Code_ID = ?
 `
 
 type UpdateDistrictCodeParams struct {
-	MaxWater sql.NullInt32
-	MaxFert  sql.NullInt32
+	MaxWater sql.NullFloat64
+	MaxFert  sql.NullFloat64
 	CropType sql.NullString
 	CodeID   int32
 	CodeID_2 int32
@@ -931,9 +950,9 @@ type UpdateHarvestParams struct {
 	Sun            sql.NullInt32
 	Price          sql.NullFloat64
 	Extinct        sql.NullBool
-	CropType       sql.NullString
-	HarvestDate    sql.NullTime
-	FarmID         sql.NullInt32
+	CropType       string
+	HarvestDate    time.Time
+	FarmID         int32
 }
 
 func (q *Queries) UpdateHarvest(ctx context.Context, arg UpdateHarvestParams) (sql.Result, error) {

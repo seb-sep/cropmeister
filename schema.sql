@@ -1,3 +1,4 @@
+create database farms;
 CREATE TABLE IF NOT EXISTS Farm
 (
   Name           VARCHAR(255) NOT NULL,
@@ -11,7 +12,7 @@ CREATE TABLE IF NOT EXISTS Farm
 
 CREATE TABLE IF NOT EXISTS Crop
 (
-  Crop_Type            VARCHAR(255) PRIMARY KEY AUTO_INCREMENT,
+  Crop_Type            VARCHAR(255) PRIMARY KEY,
   Ph_Range_Weight      REAL,
   Ph_Range_Desired     REAL,
   Water_Needed_Weight  REAL,
@@ -31,7 +32,10 @@ CREATE TABLE IF NOT EXISTS Purchase
   Total_Price       REAL,
   Total_Quantity    INT,
   Purchase_Date     DATE,
-  FOREIGN KEY (Crop_Type) REFERENCES Crop (Crop_Type)
+  Farmer_ID INT,
+  Farmer_Name VARCHAR(255) NOT NULL,
+  FOREIGN KEY (Crop_Type) REFERENCES Crop (Crop_Type),
+  FOREIGN KEY (Farm_ID, Farmer_Name) REFERENCES Farmer (Farm_ID, Name)
 );
 
 CREATE TABLE IF NOT EXISTS Crop_Investor
@@ -52,8 +56,8 @@ CREATE TABLE IF NOT EXISTS Crop_Inspector
 CREATE TABLE IF NOT EXISTS District_Code
 (
   Code_ID   INT PRIMARY KEY AUTO_INCREMENT,
-  Max_Water INT,
-  Max_Fert  INT,
+  Max_Water REAL,
+  Max_Fert  REAL,
   Crop_Type VARCHAR(255),
   FOREIGN KEY (Crop_Type) REFERENCES Crop (Crop_Type)
 );
@@ -74,8 +78,7 @@ CREATE TABLE IF NOT EXISTS Farmer
   Net_Worth      INT,
   Farm_ID        INT,
   PRIMARY KEY (Farm_ID, Name),
-  FOREIGN KEY (Farm_ID) REFERENCES Farm (Farm_ID),
-  FOREIGN KEY (Purchase_ID) REFERENCES Purchase (Purchase_ID)
+  FOREIGN KEY (Farm_ID) REFERENCES Farm (Farm_ID)
 );
 
 CREATE TABLE IF NOT EXISTS Harvest

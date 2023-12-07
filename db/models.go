@@ -6,6 +6,7 @@ package db
 
 import (
 	"database/sql"
+	"time"
 )
 
 type Crop struct {
@@ -42,8 +43,8 @@ type CropInvestor struct {
 
 type DistrictCode struct {
 	CodeID   int32
-	MaxWater sql.NullInt32
-	MaxFert  sql.NullInt32
+	MaxWater sql.NullFloat64
+	MaxFert  sql.NullFloat64
 	CropType sql.NullString
 }
 
@@ -71,15 +72,15 @@ type Farmer struct {
 
 type Harvest struct {
 	Quantity       sql.NullInt32
-	HarvestDate    sql.NullTime
+	HarvestDate    time.Time
 	PhBase         sql.NullFloat64
 	PhFertilized   sql.NullFloat64
 	WaterRain      sql.NullFloat64
 	WaterSprinkler sql.NullFloat64
 	Sun            sql.NullInt32
 	Price          sql.NullFloat64
-	CropType       sql.NullString
-	FarmID         sql.NullInt32
+	CropType       string
+	FarmID         int32
 	Extinct        sql.NullBool
 }
 
@@ -106,4 +107,6 @@ type Purchase struct {
 	TotalPrice       sql.NullFloat64
 	TotalQuantity    sql.NullInt32
 	PurchaseDate     sql.NullTime
+	FarmerID         sql.NullInt32
+	FarmerName       string
 }

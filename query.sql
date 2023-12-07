@@ -192,6 +192,10 @@ JOIN Crop_Inspector
 ON District_Code.Code_ID = Crop_Inspector.Code_ID
 WHERE Code_ID = ?;
 
+-- name: AddDistrictToInspector :execresult
+INSERT INTO Enforces (USDAID, Code_ID)
+VALUES (?, ?);
+
 -- name: GetCropInspector :one
 SELECT *
 FROM Crop_Inspector
