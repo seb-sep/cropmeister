@@ -85,9 +85,9 @@
             });
     });
 
-    document.getElementById("createFarm").addEventListener("submit", function (event) {
+    document.getElementById("createOrUpdateFarm").addEventListener("submit", function (event) {
         event.preventDefault();
-        const formData = new FormData(document.getElementById("createFarm"));
+        const formData = new FormData(document.getElementById("createOrUpdateFarm"));
         const farmData = Object.fromEntries(formData.entries());
         fetch(farmData.updateFarmId ?
             `http://localhost:3000/farm/${farmData.updateFarmId}` :
