@@ -13,6 +13,20 @@ SELECT *,
 FROM Crop
 WHERE Crop_Type = ?;
 
+-- name: AddCrop :execresult
+INSERT INTO Crop (
+  Crop_Type,
+  Base_Price,
+  Ph_Range_Weight,
+  Ph_Range_Desired,
+  Water_Needed_Weight,
+  Water_Needed_Desired,
+  Sun_Range_Weight,
+  Sun_Range_Desired,
+  Banned
+)
+VALUES (?,?,?,?,?,?,?,?,?);
+
 -- name: UpdateCrop :execresult
 UPDATE Crop
 SET

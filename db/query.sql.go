@@ -10,6 +10,47 @@ import (
 	"database/sql"
 )
 
+const addCrop = `-- name: AddCrop :execresult
+INSERT INTO Crop (
+  Crop_Type,
+  Base_Price,
+  Ph_Range_Weight,
+  Ph_Range_Desired,
+  Water_Needed_Weight,
+  Water_Needed_Desired,
+  Sun_Range_Weight,
+  Sun_Range_Desired,
+  Banned
+)
+VALUES (?,?,?,?,?,?,?,?,?)
+`
+
+type AddCropParams struct {
+	CropType           string
+	BasePrice          sql.NullFloat64
+	PhRangeWeight      sql.NullFloat64
+	PhRangeDesired     sql.NullFloat64
+	WaterNeededWeight  sql.NullFloat64
+	WaterNeededDesired sql.NullFloat64
+	SunRangeWeight     sql.NullFloat64
+	SunRangeDesired    sql.NullFloat64
+	Banned             sql.NullBool
+}
+
+func (q *Queries) AddCrop(ctx context.Context, arg AddCropParams) (sql.Result, error) {
+	return q.db.ExecContext(ctx, addCrop,
+		arg.CropType,
+		arg.BasePrice,
+		arg.PhRangeWeight,
+		arg.PhRangeDesired,
+		arg.WaterNeededWeight,
+		arg.WaterNeededDesired,
+		arg.SunRangeWeight,
+		arg.SunRangeDesired,
+		arg.Banned,
+	)
+}
+
 const addCropBuyer = `-- name: AddCropBuyer :execresult
 INSERT INTO Crop_Buyer (Name, Quantities_Required, Crop_Type, Target_Price)
 VALUES (?, ?, ?, ?)

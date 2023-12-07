@@ -1,6 +1,7 @@
 package fakedata
 
 import (
+	"database/sql"
 	"fmt"
 
 	"github.com/go-faker/faker/v4"
@@ -47,7 +48,7 @@ func GenerateFakeInstances() {
 			for j := 0; j < 5; j++ {
 				hrv := generateHarvest(farmId, toSqlNullString(cropNames[i]))
 				harvests[j+(i*5)] = hrv
-				purchases[j+(i*5)] = generatePurchase(generateRandomInt(1, 100).Int32, hrv.CropType, farm.FarmID)
+				purchases[j+(i*5)] = generatePurchase(generateRandomInt(1, 100).Int32, sql.NullString{hrv.CropType, true}, farm.FarmID)
 			}
 		}
 
