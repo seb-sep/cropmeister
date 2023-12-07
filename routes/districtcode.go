@@ -2,6 +2,7 @@ package routes
 
 import (
 	"context"
+
 	"github.com/gofiber/fiber/v2"
 	"github.com/seb-sep/cropmeister/db"
 )
@@ -58,8 +59,8 @@ func DistrictCodeRoutes(districtcode fiber.Router) {
 	})
 	districtcode.Get("/crop/:type", func(c *fiber.Ctx) error {
 		queries := c.Locals("db").(*db.Queries)
-		type, err := c.ParamsStr("type")
-		districtcodes, err := queries.GetDistrictsWithCrop(ctx, type)
+		ctype, err := c.Params("type")
+		districtcodes, err := queries.GetDistrictsWithCrop(ctx, ctype)
 		if err != nil {
 			return c.Status(500).SendString(err.Error())
 		}
