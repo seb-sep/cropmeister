@@ -50,4 +50,14 @@ func FarmerRoutes(farmer fiber.Router) {
 		return c.JSON(res)
 	})
 
+	farmer.Delete("/:id", func(c *fiber.Ctx) error {
+		queries := c.Locals("db").(*db.Queries)
+		id, err := c.ParamsInt("id")
+		farmers, err := queries.DeleteFarmers(ctx, int32(id))
+		if err != nil {
+			return c.Status(500).SendString(err.Error())
+		}
+		return c.JSON(farmers)
+	})
+
 }
