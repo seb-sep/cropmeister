@@ -32,7 +32,6 @@ CREATE TABLE IF NOT EXISTS Purchase
   Total_Price       REAL,
   Total_Quantity    INT,
   Purchase_Date     DATE,
-  Farmer_ID         INT,
   Farmer_Name VARCHAR(255) NOT NULL,
   CONSTRAINT purchase_crop 
     FOREIGN KEY (Crop_Type) REFERENCES Crop (Crop_Type)
@@ -48,7 +47,7 @@ CREATE TABLE IF NOT EXISTS Crop_Investor
   Buy_Price        INT,
   Investible_Money INT,
   Sell_Price       INT,
-  Unemployed       TINYINT(1)
+  Unemployed       BOOLEAN
 );
 
 CREATE TABLE IF NOT EXISTS Crop_Inspector
