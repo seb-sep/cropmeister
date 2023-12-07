@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="generic.css">
+</head>
+
+<body>
+    <h1>Farm:</h1>
+    <form id="getAllFarms">
+        <h3>Get all Farms</h3>
+        <button type="submit" id="submitButton">Submit</button>
+        <p id="getDisplayFarmer"></p>
+    </form>
+    <hr />
+    <form id="getOneFarm">
+        <h3>Get Farm with ID</h3>
+        <label for="id">ID:</label>
+        <input type="number" name="id" id="getOneFarmId" required>
+        <button type="submit" id="submitButton">Submit</button>
+        <p id="getDisplayOneFarmer"></p>
+    </form>
+    <hr />
+    <form id="deleteOneFarm">
+        <h3>Delete Farm with ID</h3>
+        <label for="deleteId">ID:</label>
+        <input type="number" name="deleteId" id="deleteId" required>
+        <button type="submit" id="submitButton">Submit</button>
+        <p id="getDisplayOneFarmer"></p>
+    </form>
+    <hr />
+    <form id="createOrUpdateFarm">
+        <h3>Create/update Farm</h3>
+        <label for="updateFarmId">ID(specify if you're updating farm):</label>
+        <input type="text" name="updateFarmId" id="updateFarmId" required>
+        <label for="name">Name:</label>
+        <input type="text" name="name" id="farmName" required>
+        <label for="farmValue">Farm Value:</label>
+        <input type="number" name="farmValue" id="farmValue" required>
+        <label for="addressStreet">Address Street:</label>
+        <input type="text" name="addressStreet" id="addressStreet" required>
+        <label for="addressCity">Address City:</label>
+        <input type="text" name="addressCity" id="addressCity" required>
+        <label for="addressState">Address State:</label>
+        <input type="text" name="addressState" id="addressState" required>
+        <label for="addressZip">Address Zip:</label>
+        <input type="text" name="addressZip" id="addressZip" required>
+        <button type="submit" id="submitButton">Submit</button>
+    </form>
+</body>
+<script>
+
+    document.getElementById("getAllFarms").addEventListener("submit", function () {
+        fetch(`http://localhost:3000/farm`)
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById("getDisplayFarmer").innerText = data;
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            });
+    });
+
+    document.getElementById("getOneFarm").addEventListener("submit", function (event) {
+        event.preventDefault();
+        fetch(`http://localhost:3000/farm/${document.getElementById('getOneFarmId').value}`)
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById("getDisplayOneFarmer").innerText = data;
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            });
+    });
+
+    document.getElementById("deleteOneFarm").addEventListener("submit", function (event) {
+        event.preventDefault();
+        fetch(`http://localhost:3000/farm/${document.getElementById('deleteId').value}`, {
+            method: 'DELETE'
+        })
+            .then(response => response.text())
+            .then(data => console.log(data))
+            .catch(error => {
+                console.error("Error:", error);
+            });
+    });
+
+    document.getElementById("createFarm").addEventListener("submit", function (event) {
+        event.preventDefault();
+        const formData = new FormData(document.getElementById("createFarm"));
+        const farmData = Object.fromEntries(formData.entries());
+        fetch(farmData.updateFarmId ?
+            `http://localhost:3000/farm/${farmData.updateFarmId}` :
+            `http://localhost:3000/farm`, {
+            method: farmData.updateFarmId ? 'PUT' : 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(farmData)
+        })
+            .then(response => response.text())
+            .then(data => {
+                console.log("Farm created/updated:", data);
+                // Handle success or display a success message
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            });
+    });
+
+</script>
+
+</html>

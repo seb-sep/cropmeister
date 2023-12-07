@@ -225,6 +225,7 @@ form {
     justify-content: center;
     align-items: center;
     flex-direction: column;
+	border: #b94a48;
 }
 
 input:invalid {
@@ -235,3 +236,7 @@ input:valid {
     border: 2px solid black;
 }
   
+hr {
+	border: 1px solid #e9322d;
+	width: 100%;
+}
