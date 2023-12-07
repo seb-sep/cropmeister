@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/seb-sep/cropmeister/db"
 	"github.com/seb-sep/cropmeister/routes"
 
@@ -33,6 +34,10 @@ func main() {
 		c.Locals("db", queries)
 		return c.Next()
 	})
+
+	app.Use(cors.New(cors.Config{
+		AllowOrigins: "*",
+	}))
 
 	app.Get("/", func(c *fiber.Ctx) error {
 		return c.SendString("hello world!")

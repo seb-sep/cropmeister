@@ -32,7 +32,7 @@ func (q *Queries) AddCropBuyer(ctx context.Context, arg AddCropBuyerParams) (sql
 }
 
 const addCropInvestigator = `-- name: AddCropInvestigator :execresult
-INSERT INTO Crop_Investigator (Name, USDAID)
+INSERT INTO Crop_Inspector (Name, USDAID)
 VALUES (?, ?)
 `
 
@@ -250,13 +250,22 @@ func (q *Queries) BanCrop(ctx context.Context, cropType string) (sql.Result, err
 	return q.db.ExecContext(ctx, banCrop, cropType)
 }
 
-const deleteCropInvestigator = `-- name: DeleteCropInvestigator :execresult
-DELETE FROM Crop_Investigator
+const deleteCrop = `-- name: DeleteCrop :execresult
+DELETE FROM Crop
+WHERE Crop_Type = ?
+`
+
+func (q *Queries) DeleteCrop(ctx context.Context, cropType string) (sql.Result, error) {
+	return q.db.ExecContext(ctx, deleteCrop, cropType)
+}
+
+const deleteCropInspector = `-- name: DeleteCropInspector :execresult
+DELETE FROM Crop_Inspector 
 WHERE USDAID = ?
 `
 
-func (q *Queries) DeleteCropInvestigator(ctx context.Context, usdaid int32) (sql.Result, error) {
-	return q.db.ExecContext(ctx, deleteCropInvestigator, usdaid)
+func (q *Queries) DeleteCropInspector(ctx context.Context, usdaid int32) (sql.Result, error) {
+	return q.db.ExecContext(ctx, deleteCropInspector, usdaid)
 }
 
 const deleteDistrictCode = `-- name: DeleteDistrictCode :execresult
@@ -378,33 +387,33 @@ func (q *Queries) GetCropData(ctx context.Context, cropType string) ([]GetCropDa
 	return items, nil
 }
 
-const getCropInvestigator = `-- name: GetCropInvestigator :one
+const getCropInspector = `-- name: GetCropInspector :one
 SELECT name, usdaid
-FROM Crop_Investigator
+FROM Crop_Inspector
 WHERE USDAID = ?
 `
 
-func (q *Queries) GetCropInvestigator(ctx context.Context, usdaid int32) (CropInvestigator, error) {
-	row := q.db.QueryRowContext(ctx, getCropInvestigator, usdaid)
-	var i CropInvestigator
+func (q *Queries) GetCropInspector(ctx context.Context, usdaid int32) (CropInspector, error) {
+	row := q.db.QueryRowContext(ctx, getCropInspector, usdaid)
+	var i CropInspector
 	err := row.Scan(&i.Name, &i.Usdaid)
 	return i, err
 }
 
-const getCropInvestigators = `-- name: GetCropInvestigators :many
+const getCropInspectors = `-- name: GetCropInspectors :many
 SELECT name, usdaid
-FROM Crop_Investigator
+FROM Crop_Inspector
 `
 
-func (q *Queries) GetCropInvestigators(ctx context.Context) ([]CropInvestigator, error) {
-	rows, err := q.db.QueryContext(ctx, getCropInvestigators)
+func (q *Queries) GetCropInspectors(ctx context.Context) ([]CropInspector, error) {
+	rows, err := q.db.QueryContext(ctx, getCropInspectors)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	var items []CropInvestigator
+	var items []CropInspector
 	for rows.Next() {
-		var i CropInvestigator
+		var i CropInspector
 		if err := rows.Scan(&i.Name, &i.Usdaid); err != nil {
 			return nil, err
 		}
@@ -472,9 +481,9 @@ func (q *Queries) GetDistrictCodes(ctx context.Context) ([]DistrictCode, error) 
 
 const getDistrictsForInspector = `-- name: GetDistrictsForInspector :many
 SELECT name, usdaid, code_id, max_water, max_fert, crop_type 
-FROM Crop_Investigator
+FROM Crop_Inspector
 JOIN District_Code
-ON Crop_Investigator.USDAID = District_Code.Code_ID
+ON Crop_Inspector.USDAID = District_Code.Code_ID
 WHERE USDAID = ?
 `
 
@@ -647,8 +656,8 @@ func (q *Queries) GetHarvests(ctx context.Context, cropType sql.NullString) ([]H
 const getInspectorForDistrict = `-- name: GetInspectorForDistrict :one
 SELECT code_id, max_water, max_fert, crop_type, name, usdaid
 FROM District_Code
-JOIN Crop_Investigator
-ON District_Code.Code_ID = Crop_Investigator.Code_ID
+JOIN Crop_Inspector 
+ON District_Code.Code_ID = Crop_Inspector.Code_ID
 WHERE Code_ID = ?
 `
 
@@ -770,19 +779,19 @@ func (q *Queries) UpdateCrop(ctx context.Context, arg UpdateCropParams) (sql.Res
 	)
 }
 
-const updateCropInvestigator = `-- name: UpdateCropInvestigator :execresult
-UPDATE Crop_Investigator
+const updateCropInspector = `-- name: UpdateCropInspector :execresult
+UPDATE Crop_Inspector
 SET Name = ?
 WHERE USDAID = ?
 `
 
-type UpdateCropInvestigatorParams struct {
+type UpdateCropInspectorParams struct {
 	Name   string
 	Usdaid int32
 }
 
-func (q *Queries) UpdateCropInvestigator(ctx context.Context, arg UpdateCropInvestigatorParams) (sql.Result, error) {
-	return q.db.ExecContext(ctx, updateCropInvestigator, arg.Name, arg.Usdaid)
+func (q *Queries) UpdateCropInspector(ctx context.Context, arg UpdateCropInspectorParams) (sql.Result, error) {
+	return q.db.ExecContext(ctx, updateCropInspector, arg.Name, arg.Usdaid)
 }
 
 const updateDistrictCode = `-- name: UpdateDistrictCode :execresult

@@ -26,6 +26,10 @@ SET
     Banned = ?
 WHERE Crop_Type = ?;
 
+-- name: DeleteCrop :execresult
+DELETE FROM Crop
+WHERE Crop_Type = ?;
+
 -- name: BanCrop :execresult
 UPDATE Crop
 SET Banned = TRUE
@@ -154,12 +158,12 @@ WHERE Farm_ID = ?;
 INSERT INTO Farmer (Name, Budget, Net_Worth, Farm_ID)
 VALUES (?, ?, ?, ?);
 
--- name: GetCropInvestigators :many
+-- name: GetCropInspectors :many
 SELECT *
-FROM Crop_Investigator;
+FROM Crop_Inspector;
 
 -- name: AddCropInvestigator :execresult
-INSERT INTO Crop_Investigator (Name, USDAID)
+INSERT INTO Crop_Inspector (Name, USDAID)
 VALUES (?, ?);
 
 -- name: GetDistrictsWithCrop :many
@@ -173,32 +177,32 @@ VALUES (?, ?, ?, ?);
 
 -- name: GetDistrictsForInspector :many
 SELECT * 
-FROM Crop_Investigator
+FROM Crop_Inspector
 JOIN District_Code
-ON Crop_Investigator.USDAID = District_Code.Code_ID
+ON Crop_Inspector.USDAID = District_Code.Code_ID
 WHERE USDAID = ?;
 
 
 -- name: GetInspectorForDistrict :one
 SELECT *
 FROM District_Code
-JOIN Crop_Investigator
-ON District_Code.Code_ID = Crop_Investigator.Code_ID
+JOIN Crop_Inspector 
+ON District_Code.Code_ID = Crop_Inspector.Code_ID
 WHERE Code_ID = ?;
 
--- name: GetCropInvestigator :one
+-- name: GetCropInspector :one
 SELECT *
-FROM Crop_Investigator
+FROM Crop_Inspector
 WHERE USDAID = ?;
 
--- name: UpdateCropInvestigator :execresult
-UPDATE Crop_Investigator
+-- name: UpdateCropInspector :execresult
+UPDATE Crop_Inspector
 SET Name = ?
 WHERE USDAID = ?;
 
 
--- name: DeleteCropInvestigator :execresult
-DELETE FROM Crop_Investigator
+-- name: DeleteCropInspector :execresult
+DELETE FROM Crop_Inspector 
 WHERE USDAID = ?;
 
 -- name: GetDistrictCodes :many

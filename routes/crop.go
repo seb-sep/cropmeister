@@ -32,13 +32,13 @@ func CropRoutes(crop fiber.Router) {
 		return c.JSON("crop")
 	})
 
-	// crop.Delete("/:type", func(c *fiber.Ctx) error {
-	// 	queries := c.Locals("db").(*db.Queries)
+	crop.Delete("/:type", func(c *fiber.Ctx) error {
+		queries := c.Locals("db").(*db.Queries)
 
-	// 	_, err := queries.DeleteCrop(ctx, c.Params("type"))
-	// 	if err != nil {
-	// 		return c.Status(500).SendString(err.Error())
-	// 	}
-	// 	return c.JSON("crop")
-	// })
+		_, err := queries.DeleteCrop(ctx, c.Params("type"))
+		if err != nil {
+			return c.Status(500).SendString(err.Error())
+		}
+		return c.JSON("crop")
+	})
 }

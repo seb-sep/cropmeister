@@ -27,7 +27,7 @@ type CropBuyer struct {
 	TargetPrice        sql.NullInt32
 }
 
-type CropInvestigator struct {
+type CropInspector struct {
 	Name   string
 	Usdaid int32
 }
