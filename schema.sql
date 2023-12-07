@@ -32,10 +32,14 @@ CREATE TABLE IF NOT EXISTS Purchase
   Total_Price       REAL,
   Total_Quantity    INT,
   Purchase_Date     DATE,
-  Farmer_ID INT,
+  Farmer_ID         INT,
   Farmer_Name VARCHAR(255) NOT NULL,
-  FOREIGN KEY (Crop_Type) REFERENCES Crop (Crop_Type),
-  FOREIGN KEY (Farm_ID, Farmer_Name) REFERENCES Farmer (Farm_ID, Name)
+  CONSTRAINT purchase_crop 
+    FOREIGN KEY (Crop_Type) REFERENCES Crop (Crop_Type)
+    ON DELETE NO ACTION ON UPDATE CASCADE,
+  CONSTRAINT purchase_farm 
+    FOREIGN KEY (Farm_ID, Farmer_Name) REFERENCES Farmer (Farm_ID, Name)
+    ON DELETE NO ACTION ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS Crop_Investor
@@ -59,7 +63,9 @@ CREATE TABLE IF NOT EXISTS District_Code
   Max_Water REAL,
   Max_Fert  REAL,
   Crop_Type VARCHAR(255),
-  FOREIGN KEY (Crop_Type) REFERENCES Crop (Crop_Type)
+  CONSTRAINT district_crop 
+    FOREIGN KEY (Crop_Type) REFERENCES Crop (Crop_Type)
+    ON DELETE NO ACTION ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS Crop_Buyer
@@ -68,7 +74,9 @@ CREATE TABLE IF NOT EXISTS Crop_Buyer
   Quantities_Required INT,
   Crop_Type            VARCHAR(255),
   Target_Price         INT,
-  FOREIGN KEY (Crop_Type) REFERENCES Crop (Crop_Type)
+  CONSTRAINT buyer_crop 
+    FOREIGN KEY (Crop_Type) REFERENCES Crop (Crop_Type)
+    ON DELETE SET NULL ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS Farmer
@@ -78,7 +86,9 @@ CREATE TABLE IF NOT EXISTS Farmer
   Net_Worth      REAL,
   Farm_ID        INT NOT NULL,
   PRIMARY KEY (Farm_ID, Name),
-  FOREIGN KEY (Farm_ID) REFERENCES Farm (Farm_ID)
+  CONSTRAINT farmer_crop 
+    FOREIGN KEY (Farm_ID) REFERENCES Farm (Farm_ID)
+    ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS Harvest
@@ -95,40 +105,58 @@ CREATE TABLE IF NOT EXISTS Harvest
   Farm_ID         INT NOT NULL,
   Extinct         BOOLEAN,
   PRIMARY KEY (Farm_ID, Crop_Type, Harvest_Year),
-  FOREIGN KEY (Crop_Type) REFERENCES Crop (Crop_Type),
-  FOREIGN KEY (Farm_ID) REFERENCES Farm (Farm_ID)
+  CONSTRAINT harvest_crop 
+    FOREIGN KEY (Crop_Type) REFERENCES Crop (Crop_Type)
+    ON DELETE NO ACTION ON UPDATE CASCADE,
+  CONSTRAINT harvest_farm 
+    FOREIGN KEY (Farm_ID) REFERENCES Farm (Farm_ID)
+    ON DELETE NO ACTION ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS Monitors_Buyer
 (
   Name     VARCHAR(255) NOT NULL,
   Crop_Type VARCHAR(255) NOT NULL,
-  FOREIGN KEY (Name) REFERENCES Crop_Buyer (Name),
-  FOREIGN KEY (Crop_Type) REFERENCES Crop (Crop_Type)
+  CONSTRAINT buyer 
+    FOREIGN KEY (Name) REFERENCES Crop_Buyer (Name)
+    ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT crop 
+    FOREIGN KEY (Crop_Type) REFERENCES Crop (Crop_Type)
+    ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS Invests_In
 (
   Name   VARCHAR(255),
   Farm_ID INT,
-  FOREIGN KEY (Name) REFERENCES Crop_Investor (Name),
-  FOREIGN KEY (Farm_ID) REFERENCES Farm(Farm_ID)
+  CONSTRAINT investor 
+    FOREIGN KEY (Name) REFERENCES Crop_Investor (Name)
+    ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT farm
+    FOREIGN KEY (Farm_ID) REFERENCES Farm(Farm_ID)
+    ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS Enforces
 (
   USDAID INT NOT NULL,
   Code_ID INT NOT NULL,
-  -- PRIMARY KEY (USDAID, CodeID),
-  FOREIGN KEY (USDAID) REFERENCES Crop_Inspector (USDAID),
-  FOREIGN KEY (Code_ID) REFERENCES District_Code (Code_ID)
+  CONSTRAINT inspector
+    FOREIGN KEY (USDAID) REFERENCES Crop_Inspector (USDAID)
+    ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT district
+    FOREIGN KEY (Code_ID) REFERENCES District_Code (Code_ID)
+    ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS Monitors_Investments
 (
   Name     VARCHAR(255),
   Crop_Type VARCHAR(255),
-  -- PRIMARY KEY (Name),
-  FOREIGN KEY (Name) REFERENCES Crop_Investor (Name),
-  FOREIGN KEY (Crop_Type) REFERENCES Harvest (Crop_Type)
+  CONSTRAINT investor
+    FOREIGN KEY (Name) REFERENCES Crop_Investor (Name)
+    ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT crop
+    FOREIGN KEY (Crop_Type) REFERENCES Harvest (Crop_Type)
+    ON DELETE CASCADE ON UPDATE CASCADE
 );
