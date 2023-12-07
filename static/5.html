@@ -16,16 +16,16 @@
     <hr />
     <form id="getInspectorID">
         <h3>Get Inspector With ID</h3>
-        <label for="getInspectorWithID">Enter ID:</label>
-        <input type="text" id="getInspectorWithID" name="getInspectorWithID" required>
+        <label for="usdaid">Enter usdaid:</label>
+        <input type="text" id="usdaid" name="usdaid" required>
         <button type="submit" id="submitButton">Submit</button>
         <p id="getDisplayInspectorWithID"></p>
     </form>
     <hr />
     <form id="deleteInspectorID">
         <h3>Delete Inspector With ID:</h3>
-        <label for="deleteInspectorWithID">Enter ID:</label>
-        <input type="text" id="deleteInspectorWithID" name="deleteInspectorWithID" required />
+        <label for="usdaid">Enter ID:</label>
+        <input type="text" id="usdaid" name="usdaid" required />
         <button type="submit" id="submitButton">Submit</button>
     </form>
     <hr />
@@ -35,8 +35,8 @@
         <label for="updateInspectorCheck">updating?(specify if you're updating inspector):</label>
         <input type="checkbox" id="updateInspectorCheck" name="updateInspectorCheck" />
 
-        <label for="Inspector_ID">Inspector ID:</label>
-        <input type="text" id="Inspector_ID" name="Inspector_ID">
+        <label for="usdaid">Inspector ID:</label>
+        <input type="text" id="usdaid" name="usdaid">
 
         <label for="Inspector_Name">Inspector Name:</label>
         <input type="text" id="Inspector_Name" name="Inspector_Name">
@@ -68,20 +68,20 @@
         document.getElementById("getInspectorID"),
         "http://localhost:3000/inspector",
         document.getElementById("getDisplayInspectorWithID"),
-        'getInspectorWithID'
+        'usdaid'
     );
 
     generalizedDelete(
         document.getElementById("deleteInspectorID"),
         'http://localhost:3000/inspector',
-        'deleteInspectorWithID'
+        'usdaid'
     );
 
     generalizedUpdateCreate(
         document.getElementById("createInspector"),
         "http://localhost:3000/inspector",
         "updateInspectorCheck",
-        "Inspector_ID"
+        "usdaid"
     );
 </script>
 

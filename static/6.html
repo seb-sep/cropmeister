@@ -16,24 +16,24 @@
     <hr />
     <form id="getInspectorCodesByCropType">
         <h3>Get Inspector Code by Crop Type</h3>
-        <label for="getInspectorCodeByCropType">Enter Crop Type:</label>
-        <input type="text" id="getInspectorCodeByCropType" name="getInspectorCodeByCropType" required>
+        <label for="cropType">Enter Crop Type:</label>
+        <input type="text" id="cropType" name="cropType" required>
         <button type="submit" id="submitButton">Submit</button>
         <p id="getDisplayInspectorCodeByCropType"></p>
     </form>
     <hr />
     <form id="getInspectorCodesById">
         <h3>Get Inspector Code by ID</h3>
-        <label for="getInspectorCode">Enter Code ID:</label>
-        <input type="text" id="getInspectorCode" name="getInspectorCode" required>
+        <label for="codeID">Enter Code ID:</label>
+        <input type="text" id="codeID" name="codeID" required>
         <button type="submit" id="submitButton">Submit</button>
         <p id="getDisplayInspectorCodeById"></p>
     </form>
     <hr />
     <form id="deleteInspectorCodesById">
         <h3>Delete Inspector Code</h3>
-        <label for="deleteInspectorCode">Enter Code ID:</label>
-        <input type="text" id="deleteInspectorCode" name="deleteInspectorCode">
+        <label for="codeID">Enter Code ID:</label>
+        <input type="text" id="codeID" name="codeID" required>
         <button type="submit" id="submitButton">Submit</button>
     </form>
     <hr />
@@ -42,14 +42,16 @@
         <label for="updateInspectorCodeCheck">updating?(specify if you're updating Inspector Code):</label>
         <input type="checkbox" id="updateInspectorCodeCheck" name="updateInspectorCodeCheck">
 
+        <label for="codeID">Code ID:</label>
+        <input type="text" id="codeID" name="codeID"><br><br>
+
         <label for="Max_Water">Max Water:</label>
         <input type="text" id="Max_Water" name="Max_Water"><br><br>
         <label for="Max_Fert">Max Fertilizer:</label>
         <input type="text" id="Max_Fert" name="Max_Fert"><br><br>
         <label for="Crop_Type">Crop Type:</label>
         <input type="text" id="Crop_Type" name="Crop_Type"><br><br>
-        <label for="Code_ID">Code ID:</label>
-        <input type="text" id="Code_ID" name="Code_ID"><br><br>
+
         <button type="submit">Submit</button>
     </form>
 
@@ -65,27 +67,27 @@
         document.getElementById("getInspectorCodesByCropType"),
         "http://localhost:3000/code/crop",
         document.getElementById("getDisplayInspectorCodeByCropType"),
-        'getInspectorCodeByCropType'
+        'cropType'
     );
 
     generalizedGet(
         document.getElementById("getInspectorCodesById"),
         "http://localhost:3000/code",
         document.getElementById("getDisplayInspectorCodeById"),
-        'getInspectorCode'
+        'codeID'
     );
 
     generalizedDelete(
         document.getElementById("deleteInspectorCodesById"),
         'http://localhost:3000/code',
-        'deleteInspectorCode'
+        'codeID'
     )
 
     generalizedUpdateCreate(
         document.getElementById("createInspectorCode"),
         "http://localhost:3000/code",
         "updateInspectorCodeCheck",
-        "Code_ID"
+        "codeID"
     );
 </script>
 

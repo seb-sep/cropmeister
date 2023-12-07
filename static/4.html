@@ -16,16 +16,16 @@
     <hr />
     <form id="getOnePurchase">
         <h3>Get Purchase With ID</h3>
-        <label for="getPurchaseWithID">Enter ID:</label>
-        <input type="text" id="getPurchaseWithID" name="getPurchaseWithID" required>
+        <label for="purchaseID">Enter ID:</label>
+        <input type="text" id="purchaseID" name="purchaseID" required>
         <button type="submit" id="submitButton">Submit</button>
         <p id="getDisplayPurchaseWithID"></p>
     </form>
     <hr />
     <form id="deletePurchase">
         <h3>Delete Purchase With ID:</h3>
-        <label for="deletePurchaseWithID">Enter ID:</label>
-        <input type="text" id="deletePurchaseWithID" name="deletePurchaseWithID" required>
+        <label for="purchaseID">Enter ID:</label>
+        <input type="text" id="purchaseID" name="purchaseID" required>
         <button type="submit" id="submitButton">Submit</button>
     </form>
     <hr />
@@ -34,6 +34,8 @@
 
         <label for="updatePurchaseCheck">updating?(specify if you're updating purchase):</label>
         <br>
+        <label for="purchaseID">Enter ID if updating:</label>
+        <input type="text" id="purchaseID" name="purchaseID" required>
         <label for="Crop_Type">Crop Type:</label>
         <input type="text" id="Crop_Type" name="Crop_Type">
         <br>
@@ -67,20 +69,20 @@
         document.getElementById("getOneFarm"),
         "http://localhost:3000/purchase",
         document.getElementById("getDisplayPurchaseWithID"),
-        'getPurchaseWithID'
+        'purchaseID'
     );
 
     generalizedDelete(
         document.getElementById("deletePurchase"),
         'http://localhost:3000/purchase',
-        'deletePurchaseWithID'
+        'purchaseID'
     );
 
     generalizedUpdateCreate(
         document.getElementById("createPurchase"),
         "http://localhost:3000/purchase",
         "updatePurchaseCheck",
-        "Crop_Type"
+        "purchaseID"
     );
 </script>
 

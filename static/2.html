@@ -16,16 +16,16 @@
     <hr />
     <form id="getOneFarm">
         <h3>Get Farm with ID</h3>
-        <label for="id">ID:</label>
-        <input type="number" name="id" id="getOneFarmId" required>
+        <label for="farmID">ID:</label>
+        <input type="number" name="farmID" id="farmID" required>
         <button type="submit" id="submitButton">Submit</button>
         <p id="getDisplayOneFarmer"></p>
     </form>
     <hr />
     <form id="deleteOneFarm">
         <h3>Delete Farm with ID</h3>
-        <label for="deleteId">ID:</label>
-        <input type="number" name="deleteId" id="deleteId" required>
+        <label for="farmID">ID:</label>
+        <input type="number" name="farmID" id="farmID" required>
         <button type="submit" id="submitButton">Submit</button>
         <p id="getDisplayOneFarmer"></p>
     </form>
@@ -62,13 +62,13 @@
         document.getElementById("getOneFarm"),
         "http://localhost:3000/farmer",
         document.getElementById("getDisplayOneFarmer"),
-        'getOneFarmId'
+        'farmID'
     );
 
     generalizedDelete(
         document.getElementById("deleteOneFarm"),
         'http://localhost:3000/farm',
-        'deleteId'
+        'farmID'
     );
 
     generalizedUpdateCreate(
