@@ -103,6 +103,7 @@ func CropRoutes(crop fiber.Router) {
 		return c.JSON(crop)
 	})
 
+	// Mark {CropType} as banned.
 	crop.Delete("/:type", func(c *fiber.Ctx) error {
 		queries := c.Locals("db").(*db.Queries)
 		crop, err := queries.DeleteCrop(ctx, c.Params("type"))
