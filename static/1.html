@@ -3,20 +3,32 @@
 
 <head>
     <link rel="stylesheet" href="generic.css">
+    <script src="helpers.js"></script>
 </head>
 
 <body>
     <h1>Farmer:</h1>
-    <form>
+    <form id="getFarmer">
         <h3>Get Farmer</h3>
-        <label for="fmid">Enter ID:</label>
-        <input type="text" id="farmerID" name="fmid">
+        <label for="farmerID">Enter ID:</label>
+        <input type="text" id="farmerID" name="farmerID" required>
         <button type="submit" id="submitButton">Submit</button>
         <p id="getDisplayFarmer"></p>
     </form>
     <hr />
+    <form id="deleteFarmer">
+        <h3>Delete Farmer</h3>
+        <label for="deleteId">Enter ID:</label>
+        <input type="text" id="deleteId" name="deleteId" required>
+        <button type="submit" id="submitButton">Submit</button>
+    </form>
+    <hr />
     <form id="createFarmer">
-        <h3>Create Farmer</h3>
+        <h3>Create/update Farmer</h3>
+
+        <label for="updateFarmerCheck">updating?(specify if you're updating farmer):</label>
+        <input type="checkbox" id="updateFarmerCheck" name="updateFarmerCheck">
+
         <label for="name">Name:</label>
         <input type="text" id="name" name="name" required>
 
@@ -33,40 +45,25 @@
     </form>
 </body>
 <script>
-    // Add event listener to the button
-    document.getElementById("submitButton").addEventListener("click", function () {
-        fetch(`http://localhost:3000/farmer/${document.getElementById('farmerID').value}`)
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById("getDisplayFarmer").innerText = data;
-            })
-            .catch(error => {
-                console.error("Error:", error);
-            });
-    });
+    generalizedGet(
+        document.getElementById("getFarmer"),
+        "http://localhost:3000/farmer",
+        document.getElementById("getDisplayFarmer"),
+        farmerID
+    );
 
-    document.getElementById("createFarmer").addEventListener("submit", function (event) {
-        event.preventDefault();
-        fetch(`http://localhost:3000/farmer`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                name: document.getElementById('name').value,
-                budget: document.getElementById('budget').value,
-                netWorth: document.getElementById('netWorth').value,
-                farmID: document.getElementById('farmID').value
-            }),
-        })
-            .then(response => response.text())
-            .then(data => {
-                console.log('Success:', data);
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
-    });
+    generalizedDelete(
+        document.getElementById("deleteFarmer"),
+        'http://localhost:3000/farmer',
+        'deleteId'
+    );
+
+    generalizedUpdateCreate(
+        document.getElementById("createFarmer"),
+        "http://localhost:3000/farmer",
+        "updateFarmerCheck",
+        "name"
+    );
 </script>
 
 </html>

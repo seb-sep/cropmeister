@@ -3,6 +3,7 @@
 
 <head>
     <link rel="stylesheet" href="generic.css">
+    <script src="helpers.js"></script>
 </head>
 
 <body>
@@ -16,7 +17,7 @@
     <form id="getInspectorID">
         <h3>Get Inspector With ID</h3>
         <label for="getInspectorWithID">Enter ID:</label>
-        <input type="text" id="getInspectorWithID" name="getInspectorWithID">
+        <input type="text" id="getInspectorWithID" name="getInspectorWithID" required>
         <button type="submit" id="submitButton">Submit</button>
         <p id="getDisplayInspectorWithID"></p>
     </form>
@@ -24,7 +25,7 @@
     <form id="deleteInspectorID">
         <h3>Delete Inspector With ID:</h3>
         <label for="deleteInspectorWithID">Enter ID:</label>
-        <input type="text" id="deleteInspectorWithID" name="deleteInspectorWithID">
+        <input type="text" id="deleteInspectorWithID" name="deleteInspectorWithID" required />
         <button type="submit" id="submitButton">Submit</button>
     </form>
     <hr />
@@ -32,13 +33,13 @@
         <h3>Create/update Inspector</h3>
 
         <label for="updateInspectorCheck">updating?(specify if you're updating inspector):</label>
-        <input type="checkbox" id="updateInspectorCheck" name="updateInspectorCheck">
+        <input type="checkbox" id="updateInspectorCheck" name="updateInspectorCheck" />
 
         <label for="Inspector_ID">Inspector ID:</label>
-        <input type="text" id="Inspector_ID" name="Inspector_ID" required>
+        <input type="text" id="Inspector_ID" name="Inspector_ID">
 
         <label for="Inspector_Name">Inspector Name:</label>
-        <input type="text" id="Inspector_Name" name="Inspector_Name" required>
+        <input type="text" id="Inspector_Name" name="Inspector_Name">
 
         <label for="Max_Water">Max Water:</label>
         <input type="text" id="Max_Water" name="Max_Water">
@@ -51,77 +52,37 @@
 
         <label for="Code_ID">Code ID:</label>
         <input type="text" id="Code_ID" name="Code_ID">
+        <br />
 
         <button type="submit">Submit</button>
     </form>
 </body>
 <script>
-    document.getElementById("getInspector").addEventListener("submit", function () {
-        var xhr = new XMLHttpRequest();
-        xhr.open("GET", "http://localhost:8080/inspector", true);
-        xhr.onload = function () {
-            var inspector = JSON.parse(xhr.responseText);
-            if (xhr.readyState == 4 && xhr.status == "200") {
-                document.getElementById("getDisplayInspector").innerHTML = inspector;
-            } else {
-                console.error(inspector);
-            }
-        }
-        xhr.send(null);
-    });
+    generalizedGet(
+        document.getElementById("getInspector"),
+        "http://localhost:3000/inspector",
+        document.getElementById("getDisplayInspector")
+    );
 
-    document.getElementById("getInspectorID").addEventListener("submit", function () {
-        var id = document.getElementById("getInspectorID").value;
-        var xhr = new XMLHttpRequest();
-        xhr.open("GET", "http://localhost:8080/inspector/" + id, true);
-        xhr.onload = function () {
-            var inspector = JSON.parse(xhr.responseText);
-            if (xhr.readyState == 4 && xhr.status == "200") {
-                document.getElementById("getDisplayInspector").innerHTML = inspector;
-            } else {
-                console.error(inspector);
-            }
-        }
-        xhr.send(null);
-    });
+    generalizedGet(
+        document.getElementById("getInspectorID"),
+        "http://localhost:3000/inspector",
+        document.getElementById("getDisplayInspectorWithID"),
+        'getInspectorWithID'
+    );
 
-    document.getElementById("deleteInspectorID").addEventListener("submit", function () {
-        var id = document.getElementById("deleteInspectorID").value;
-        var xhr = new XMLHttpRequest();
-        xhr.open("DELETE", "http://localhost:8080/inspector/" + id, true);
-        xhr.onload = function () {
-            var inspector = JSON.parse(xhr.responseText);
-            if (xhr.readyState == 4 && xhr.status == "200") {
-                document.getElementById("getDisplayInspector").innerHTML = inspector;
-            } else {
-                console.error(inspector);
-            }
-        }
-        xhr.send(null);
-    });
+    generalizedDelete(
+        document.getElementById("deleteInspectorID"),
+        'http://localhost:3000/inspector',
+        'deleteInspectorWithID'
+    );
 
-    document.getElementById("createInspector").addEventListener("submit", function () {
-        event.preventDefault();
-        const formData = new FormData(document.getElementById("createInspector"));
-        const inspectorData = Object.fromEntries(formData.entries());
-        fetch(inspectorData.updateInspectorCheck ?
-            `http://localhost:3000/inspector/${inspectorData.Inspector_ID}` :
-            `http://localhost:3000/inspector`, {
-            method: inspectorData.updateInspectorCheck ? 'PUT' : 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(inspectorData)
-        })
-            .then(response => response.text())
-            .then(data => {
-                console.log("Crop created/updated:", data);
-                // Handle success or display a success message
-            })
-            .catch(error => {
-                console.error("Error:", error);
-            });
-    });
+    generalizedUpdateCreate(
+        document.getElementById("createInspector"),
+        "http://localhost:3000/inspector",
+        "updateInspectorCheck",
+        "Inspector_ID"
+    );
 </script>
 
 </html>
