@@ -18,6 +18,7 @@ func CropInspectorRoutes(cropinspector fiber.Router) {
 		}
 		return c.JSON(inspectors)
 	})
+
 	cropinspector.Post("", func(c *fiber.Ctx) error {
 		queries := c.Locals("db").(*db.Queries)
 		res, _ := queries.AddCropInspector(ctx, db.AddCropInspectorParams{})
