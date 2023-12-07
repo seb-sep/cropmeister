@@ -62,7 +62,7 @@ func main() {
 	districtcode := app.Group("/districtcode")
 	routes.DistrictCodeRoutes(districtcode)
 
-	cropinspector := app.Group("/cropinspector")
+	cropinspector := app.Group("/inspector")
 	routes.CropInspectorRoutes(cropinspector)
 
 	if err := app.Listen(":3000"); err != nil {
