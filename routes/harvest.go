@@ -11,10 +11,14 @@ func HarvestRoutes(harvest fiber.Router) {
 	harvest.Post("", func(c *fiber.Ctx) error {
 		return c.JSON("harvest")
 	})
-	harvest.Get("/:type", func(c *fiber.Ctx) error {
+	harvest.Get("/:farm/:type", func(c *fiber.Ctx) error {
+		id, err := c.ParamsInt("type")
+		if err != nil {
+			return c.Status(400).SendString(err.Error())
+		}
 		return c.JSON("harvest")
 	})
-	harvest.Put("/:type", func(c *fiber.Ctx) error {
+	harvest.Put("/:farm/:type", func(c *fiber.Ctx) error {
 		return c.JSON("harvest")
 	})
 	harvest.Delete("/:type", func(c *fiber.Ctx) error {

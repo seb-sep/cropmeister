@@ -39,7 +39,8 @@ CREATE TABLE IF NOT EXISTS Crop_Investor
   Name            VARCHAR(255) PRIMARY KEY,
   Buy_Price        INT,
   Investible_Money INT,
-  Sell_Price       INT
+  Sell_Price       INT,
+  Unemployed       TINYINT(1)
 );
 
 CREATE TABLE IF NOT EXISTS Crop_Inspector

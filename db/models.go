@@ -37,6 +37,7 @@ type CropInvestor struct {
 	BuyPrice        sql.NullInt32
 	InvestibleMoney sql.NullInt32
 	SellPrice       sql.NullInt32
+	Unemployed      sql.NullBool
 }
 
 type DistrictCode struct {
