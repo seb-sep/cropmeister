@@ -779,6 +779,15 @@ func (q *Queries) GetPurchases(ctx context.Context) ([]Purchase, error) {
 	return items, nil
 }
 
+const removeInvestsIn = `-- name: RemoveInvestsIn :execresult
+DELETE FROM Invests_In
+WHERE Farm_ID = ?
+`
+
+func (q *Queries) RemoveInvestsIn(ctx context.Context, farmID sql.NullInt32) (sql.Result, error) {
+	return q.db.ExecContext(ctx, removeInvestsIn, farmID)
+}
+
 const updateCrop = `-- name: UpdateCrop :execresult
 UPDATE Crop
 SET

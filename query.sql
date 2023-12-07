@@ -141,6 +141,10 @@ VALUES (?,?);
 INSERT INTO Invests_In (Name, Farm_ID)
 VALUES (?,?);
 
+-- name: RemoveInvestsIn :execresult
+DELETE FROM Invests_In
+WHERE Farm_ID = ?;
+
 -- name: AddEnforces :execresult
 INSERT INTO Enforces (USDAID, Code_ID)
 VALUES (?,?);
