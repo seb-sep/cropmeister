@@ -162,7 +162,7 @@ VALUES (?, ?, ?, ?);
 SELECT *
 FROM Crop_Inspector;
 
--- name: AddCropInvestigator :execresult
+-- name: AddCropInspector :execresult
 INSERT INTO Crop_Inspector (Name, USDAID)
 VALUES (?, ?);
 

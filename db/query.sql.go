@@ -31,18 +31,18 @@ func (q *Queries) AddCropBuyer(ctx context.Context, arg AddCropBuyerParams) (sql
 	)
 }
 
-const addCropInvestigator = `-- name: AddCropInvestigator :execresult
+const addCropInspector = `-- name: AddCropInspector :execresult
 INSERT INTO Crop_Inspector (Name, USDAID)
 VALUES (?, ?)
 `
 
-type AddCropInvestigatorParams struct {
+type AddCropInspectorParams struct {
 	Name   string
 	Usdaid int32
 }
 
-func (q *Queries) AddCropInvestigator(ctx context.Context, arg AddCropInvestigatorParams) (sql.Result, error) {
-	return q.db.ExecContext(ctx, addCropInvestigator, arg.Name, arg.Usdaid)
+func (q *Queries) AddCropInspector(ctx context.Context, arg AddCropInspectorParams) (sql.Result, error) {
+	return q.db.ExecContext(ctx, addCropInspector, arg.Name, arg.Usdaid)
 }
 
 const addDistrictCode = `-- name: AddDistrictCode :execresult
