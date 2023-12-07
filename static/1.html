@@ -18,8 +18,8 @@
     <hr />
     <form id="deleteFarmer">
         <h3>Delete Farmer</h3>
-        <label for="deleteId">Enter ID:</label>
-        <input type="text" id="deleteId" name="deleteId" required>
+        <label for="name">Farmer name:</label>
+        <input type="text" id="deleteId" name="name" required>
         <button type="submit" id="submitButton">Submit</button>
     </form>
     <hr />
@@ -55,7 +55,7 @@
     generalizedDelete(
         document.getElementById("deleteFarmer"),
         'http://localhost:3000/farmer',
-        'deleteId'
+        'name'
     );
 
     generalizedUpdateCreate(

@@ -10,16 +10,16 @@
     <h1>Crop:</h1>
     <form id="getOneCrop">
         <h3>Get Crop</h3>
-        <label for="getCropType">Enter type:</label>
-        <input type="text" id="getCropType" name="getCropType" required>
+        <label for="cropType">Enter type:</label>
+        <input type="text" id="cropType" name="cropType" required>
         <button type="submit" id="submitButton">Submit</button>
         <p id="getDisplayCrop"></p>
     </form>
     <hr />
     <form id="deleteCrop">
         <h3>Delete Crop</h3>
-        <label for="deleteCropType">Enter type:</label>
-        <input type="text" id="deleteCropType" name="deleteCropType" required>
+        <label for="cropType">Enter type:</label>
+        <input type="text" id="cropType" name="cropType" required>
         <button type="submit" id="submitButton">Submit</button>
     </form>
     <hr />
@@ -29,8 +29,8 @@
         <label for="updateCropCheck">updating?(specify if you're updating crop):</label>
         <input type="checkbox" id="updateCropCheck" name="updateCropCheck">
 
-        <label for="createCropType">Type:</label>
-        <input type="text" id="type" name="createCropType">
+        <label for="cropType">Type:</label>
+        <input type="text" id="type" name="cropType">
 
         <label for="basePrice">Base Price:</label>
         <input type="text" id="basePrice" name="basePrice">
@@ -64,20 +64,20 @@
         document.getElementById("getOneCrop"),
         "http://localhost:3000/crop",
         document.getElementById("getDisplayCrop"),
-        'getCropType'
+        'cropType'
     );
 
     generalizedDelete(
         document.getElementById("deleteCrop"),
         'http://localhost:3000/crop',
-        'deleteCropType'
+        'cropType'
     );
 
     generalizedUpdateCreate(
         document.getElementById("createCrop"),
         "http://localhost:3000/crop",
         "updateCropCheck",
-        "createCropType"
+        "cropType"
     );
 </script>
 

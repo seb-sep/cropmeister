@@ -56,7 +56,7 @@ SELECT * FROM Farm;
 INSERT INTO Farm (Name, Farm_Value, Address_Street, Address_City, Address_State, Address_Zip)
 VALUES (?, ?, ?, ?, ?, ?);
 
--- name: GeTFarm :one
+-- name: GetFarm :one
 SELECT * FROM Farm
 WHERE Farm_ID = ?;
 
