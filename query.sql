@@ -174,6 +174,10 @@ WHERE f.Farm_ID = ? AND f.Name = ?;
 INSERT INTO Farmer (Name, Budget, Net_Worth, Farm_ID)
 VALUES (?, ?, ?, ?);
 
+-- name: DeleteFarmers :execresult
+DELETE FROM Farmer
+WHERE Farm_ID = ?;
+
 -- name: GetCropInspectors :many
 SELECT *
 FROM Crop_Inspector;

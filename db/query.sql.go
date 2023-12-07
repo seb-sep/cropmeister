@@ -343,6 +343,15 @@ func (q *Queries) DeleteFarm(ctx context.Context, farmID int32) (sql.Result, err
 	return q.db.ExecContext(ctx, deleteFarm, farmID)
 }
 
+const deleteFarmers = `-- name: DeleteFarmers :execresult
+DELETE FROM Farmer
+WHERE Farm_ID = ?
+`
+
+func (q *Queries) DeleteFarmers(ctx context.Context, farmID int32) (sql.Result, error) {
+	return q.db.ExecContext(ctx, deleteFarmers, farmID)
+}
+
 const deleteHarvest = `-- name: DeleteHarvest :execresult
 UPDATE Harvest
 SET Extinct = TRUE
