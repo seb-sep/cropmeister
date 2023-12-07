@@ -3,6 +3,7 @@
 
 <head>
     <link rel="stylesheet" href="generic.css">
+    <script src="helpers.js"></script>
 </head>
 
 <body>
@@ -31,82 +32,51 @@
     <hr />
     <form id="createOrUpdateFarm">
         <h3>Create/update Farm</h3>
-        <label for="updateFarmId">ID(specify if you're updating farm):</label>
-        <input type="text" name="updateFarmId" id="updateFarmId" required>
+        <label for="updateFarmIdCheck">updating?(specify if you're updating farm):</label>
+        <input type="checkbox" id="updateFarmIdCheck" name="updateFarmIdCheck">
+        <label for="updateFarmId">ID:</label>
+        <input type="text" name="updateFarmId" id="updateFarmId">
         <label for="name">Name:</label>
-        <input type="text" name="name" id="farmName" required>
+        <input type="text" name="name" id="farmName">
         <label for="farmValue">Farm Value:</label>
-        <input type="number" name="farmValue" id="farmValue" required>
+        <input type="number" name="farmValue" id="farmValue">
         <label for="addressStreet">Address Street:</label>
-        <input type="text" name="addressStreet" id="addressStreet" required>
+        <input type="text" name="addressStreet" id="addressStreet">
         <label for="addressCity">Address City:</label>
-        <input type="text" name="addressCity" id="addressCity" required>
+        <input type="text" name="addressCity" id="addressCity">
         <label for="addressState">Address State:</label>
-        <input type="text" name="addressState" id="addressState" required>
+        <input type="text" name="addressState" id="addressState">
         <label for="addressZip">Address Zip:</label>
-        <input type="text" name="addressZip" id="addressZip" required>
+        <input type="text" name="addressZip" id="addressZip">
         <button type="submit" id="submitButton">Submit</button>
     </form>
 </body>
 <script>
+    generalizedGet(
+        document.getElementById("getAllFarms"),
+        "http://localhost:3000/farmer",
+        document.getElementById("getDisplayFarmer")
+    );
 
-    document.getElementById("getAllFarms").addEventListener("submit", function () {
-        fetch(`http://localhost:3000/farm`)
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById("getDisplayFarmer").innerText = data;
-            })
-            .catch(error => {
-                console.error("Error:", error);
-            });
-    });
+    generalizedGet(
+        document.getElementById("getOneFarm"),
+        "http://localhost:3000/farmer",
+        document.getElementById("getDisplayOneFarmer"),
+        'getOneFarmId'
+    );
 
-    document.getElementById("getOneFarm").addEventListener("submit", function (event) {
-        event.preventDefault();
-        fetch(`http://localhost:3000/farm/${document.getElementById('getOneFarmId').value}`)
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById("getDisplayOneFarmer").innerText = data;
-            })
-            .catch(error => {
-                console.error("Error:", error);
-            });
-    });
+    generalizedDelete(
+        document.getElementById("deleteOneFarm"),
+        'http://localhost:3000/farm',
+        'deleteId'
+    );
 
-    document.getElementById("deleteOneFarm").addEventListener("submit", function (event) {
-        event.preventDefault();
-        fetch(`http://localhost:3000/farm/${document.getElementById('deleteId').value}`, {
-            method: 'DELETE'
-        })
-            .then(response => response.text())
-            .then(data => console.log(data))
-            .catch(error => {
-                console.error("Error:", error);
-            });
-    });
-
-    document.getElementById("createOrUpdateFarm").addEventListener("submit", function (event) {
-        event.preventDefault();
-        const formData = new FormData(document.getElementById("createOrUpdateFarm"));
-        const farmData = Object.fromEntries(formData.entries());
-        fetch(farmData.updateFarmId ?
-            `http://localhost:3000/farm/${farmData.updateFarmId}` :
-            `http://localhost:3000/farm`, {
-            method: farmData.updateFarmId ? 'PUT' : 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(farmData)
-        })
-            .then(response => response.text())
-            .then(data => {
-                console.log("Farm created/updated:", data);
-                // Handle success or display a success message
-            })
-            .catch(error => {
-                console.error("Error:", error);
-            });
-    });
+    generalizedUpdateCreate(
+        document.getElementById("createOrUpdateFarm"),
+        "http://localhost:3000/farm",
+        "updateFarmIdCheck",
+        "updateFarmId"
+    );
 
 </script>
 

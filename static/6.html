@@ -3,6 +3,7 @@
 
 <head>
     <link rel="stylesheet" href="generic.css">
+    <script src="helpers.js"></script>
 </head>
 
 <body>
@@ -16,7 +17,7 @@
     <form id="getInspectorCodesByCropType">
         <h3>Get Inspector Code by Crop Type</h3>
         <label for="getInspectorCodeByCropType">Enter Crop Type:</label>
-        <input type="text" id="getInspectorCodeByCropType" name="getInspectorCodeByCropType">
+        <input type="text" id="getInspectorCodeByCropType" name="getInspectorCodeByCropType" required>
         <button type="submit" id="submitButton">Submit</button>
         <p id="getDisplayInspectorCodeByCropType"></p>
     </form>
@@ -24,7 +25,7 @@
     <form id="getInspectorCodesById">
         <h3>Get Inspector Code by ID</h3>
         <label for="getInspectorCode">Enter Code ID:</label>
-        <input type="text" id="getInspectorCode" name="getInspectorCode">
+        <input type="text" id="getInspectorCode" name="getInspectorCode" required>
         <button type="submit" id="submitButton">Submit</button>
         <p id="getDisplayInspectorCodeById"></p>
     </form>
@@ -35,14 +36,11 @@
         <input type="text" id="deleteInspectorCode" name="deleteInspectorCode">
         <button type="submit" id="submitButton">Submit</button>
     </form>
-
+    <hr />
     <form id="createInspectorCode">
         <h3>Create/Update Inspector Code</h3>
         <label for="updateInspectorCodeCheck">updating?(specify if you're updating Inspector Code):</label>
         <input type="checkbox" id="updateInspectorCodeCheck" name="updateInspectorCodeCheck">
-
-        <input type="text" id="Code_ID" name="Code_ID"><br><br>
-        <button type="submit">Submit</button>
 
         <label for="Max_Water">Max Water:</label>
         <input type="text" id="Max_Water" name="Max_Water"><br><br>
@@ -51,86 +49,44 @@
         <label for="Crop_Type">Crop Type:</label>
         <input type="text" id="Crop_Type" name="Crop_Type"><br><br>
         <label for="Code_ID">Code ID:</label>
+        <input type="text" id="Code_ID" name="Code_ID"><br><br>
+        <button type="submit">Submit</button>
     </form>
 
 </body>
 <script>
-    document.getElementById("getAllInspectorCodes").addEventListener("submit", function () {
-        event.preventDefault();
-        fetch(`http://localhost:3000/code`)
-            .then(response => response.text())
-            .then(data => {
-                console.log("Inspector Codes:", data);
-                document.getElementById("getDisplayInspectorCode").innerHTML = data;
-            })
-            .catch(error => {
-                console.error("Error:", error);
-            });
-    });
+    generalizedGet(
+        document.getElementById("getAllInspectorCodes"),
+        "http://localhost:3000/code",
+        document.getElementById("getDisplayInspectorCode")
+    );
 
-    document.getElementById("getInspectorCodesByCropType").addEventListener("submit", function () {
-        event.preventDefault();
-        fetch(`http://localhost:3000/code/crop/${document.getElementById('getInspectorCodeByCropType').value}`)
-            .then(response => response.text())
-            .then(data => {
-                console.log("Inspector Code:", data);
-                document.getElementById("getDisplayInspectorCodeByCropType").innerHTML = data;
-            })
-            .catch(error => {
-                console.error("Error:", error);
-            });
-    });
+    generalizedGet(
+        document.getElementById("getInspectorCodesByCropType"),
+        "http://localhost:3000/code/crop",
+        document.getElementById("getDisplayInspectorCodeByCropType"),
+        'getInspectorCodeByCropType'
+    );
 
-    document.getElementById("getInspectorCodesById").addEventListener("submit", function () {
-        event.preventDefault();
-        fetch(`http://localhost:3000/code/${document.getElementById('getInspectorCode').value}`)
-            .then(response => response.text())
-            .then(data => {
-                console.log("Inspector Code:", data);
-                document.getElementById("getDisplayInspectorCodeById").innerHTML = data;
-            })
-            .catch(error => {
-                console.error("Error:", error);
-            });
-    });
+    generalizedGet(
+        document.getElementById("getInspectorCodesById"),
+        "http://localhost:3000/code",
+        document.getElementById("getDisplayInspectorCodeById"),
+        'getInspectorCode'
+    );
 
-    document.getElementById("deleteInspectorCodesById").addEventListener("submit", function () {
-        event.preventDefault();
-        fetch(`http://localhost:3000/code/${document.getElementById('deleteInspectorCode').value}`, {
-            method: 'DELETE'
-        })
-            .then(response => response.text())
-            .then(data => {
-                console.log("Inspector Code deleted:", data);
-                // Handle success or display a success message
-            })
-            .catch(error => {
-                console.error("Error:", error);
-            });
-    });
+    generalizedDelete(
+        document.getElementById("deleteInspectorCodesById"),
+        'http://localhost:3000/code',
+        'deleteInspectorCode'
+    )
 
-    document.getElementById("createInspectorCode").addEventListener("submit", function () {
-        event.preventDefault();
-        const formData = new FormData(document.getElementById("createInspectorCode"));
-        const inspectorCodeData = Object.fromEntries(formData.entries());
-        fetch(inspectorCodeData.updateInspectorCodeCheck ?
-            `http://localhost:3000/code/${inspectorCodeData.Code_ID}` :
-            `http://localhost:3000/code`, {
-            method: inspectorCodeData.updateInspectorCodeCheck ? 'PUT' : 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(inspectorCodeData)
-        })
-            .then(response => response.text())
-            .then(data => {
-                console.log("Crop created/updated:", data);
-                // Handle success or display a success message
-            })
-            .catch(error => {
-                console.error("Error:", error);
-            });
-    });
+    generalizedUpdateCreate(
+        document.getElementById("createInspectorCode"),
+        "http://localhost:3000/code",
+        "updateInspectorCodeCheck",
+        "Code_ID"
+    );
 </script>
 
 </html>

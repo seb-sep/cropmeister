@@ -3,30 +3,29 @@
 
 <head>
     <link rel="stylesheet" href="generic.css">
+    <script src="helpers.js"></script>
 </head>
 
 <body>
     <h1>Purchase:</h1>
-    <form>
-        <h3>Get Purchase</h3>
-        <label for="getPurchaseID">Enter ID:</label>
-        <input type="text" id="getPurchaseID" name="getPurchaseID">
+    <form id="getAllPurchases">
+        <h3>Get all Purchases</h3>
         <button type="submit" id="submitButton">Submit</button>
         <p id="getDisplayPurchase"></p>
     </form>
     <hr />
-    <form>
+    <form id="getOnePurchase">
         <h3>Get Purchase With ID</h3>
         <label for="getPurchaseWithID">Enter ID:</label>
-        <input type="text" id="getPurchaseWithID" name="getPurchaseWithID">
+        <input type="text" id="getPurchaseWithID" name="getPurchaseWithID" required>
         <button type="submit" id="submitButton">Submit</button>
         <p id="getDisplayPurchaseWithID"></p>
     </form>
     <hr />
-    <form>
+    <form id="deletePurchase">
         <h3>Delete Purchase With ID:</h3>
         <label for="deletePurchaseWithID">Enter ID:</label>
-        <input type="text" id="deletePurchaseWithID" name="deletePurchaseWithID">
+        <input type="text" id="deletePurchaseWithID" name="deletePurchaseWithID" required>
         <button type="submit" id="submitButton">Submit</button>
     </form>
     <hr />
@@ -58,64 +57,31 @@
     <hr />
 </body>
 <script>
-    document.getElementById("getPurchaseID").addEventListener("submit", function () {
-        fetch(`http://localhost:3000/purchase/${document.getElementById('getPurchaseID').value}`)
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById("getDisplayPurchase").innerText = data;
-            })
-            .catch(error => {
-                console.error("Error:", error);
-            });
-    });
+    generalizedGet(
+        document.getElementById("getOnePurchase"),
+        "http://localhost:3000/purchase",
+        document.getElementById("getDisplayPurchase")
+    );
 
-    document.getElementById("getPurchaseWithID").addEventListener("submit", function () {
-        fetch(`http://localhost:3000/purchase/${document.getElementById('getPurchaseWithID').value}`)
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById("getDisplayPurchaseWithID").innerText = data;
-            })
-            .catch(error => {
-                console.error("Error:", error);
-            });
-    });
+    generalizedGet(
+        document.getElementById("getOneFarm"),
+        "http://localhost:3000/purchase",
+        document.getElementById("getDisplayPurchaseWithID"),
+        'getPurchaseWithID'
+    );
 
-    document.getElementById("deletePurchaseWithID").addEventListener("submit", function () {
-        fetch(`http://localhost:3000/purchase/${document.getElementById('deletePurchaseWithID').value}`, {
-            method: 'DELETE',
-        })
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById("getDisplayPurchaseWithID").innerText = data;
-            })
-            .catch(error => {
-                console.error("Error:", error);
-            });
-    });
+    generalizedDelete(
+        document.getElementById("deletePurchase"),
+        'http://localhost:3000/purchase',
+        'deletePurchaseWithID'
+    );
 
-    document.getElementById("createPurchase").addEventListener("submit", function (event) {
-        event.preventDefault();
-        const formData = new FormData(document.getElementById("createPurchase"));
-        const purchaseData = Object.fromEntries(formData.entries());
-        fetch(purchaseData.updatePurchaseCheck ?
-            `http://localhost:3000/purchase/${purchaseData.Crop_Type}` :
-            `http://localhost:3000/purchase`, {
-            method: cropData.updateCropCheck ? 'PUT' : 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(purchaseData)
-        })
-            .then(response => response.text())
-            .then(data => {
-                console.log("Crop created/updated:", data);
-                // Handle success or display a success message
-            })
-            .catch(error => {
-                console.error("Error:", error);
-            });
-    });
-
+    generalizedUpdateCreate(
+        document.getElementById("createPurchase"),
+        "http://localhost:3000/purchase",
+        "updatePurchaseCheck",
+        "Crop_Type"
+    );
 </script>
 
 </html>

@@ -3,14 +3,15 @@
 
 <head>
     <link rel="stylesheet" href="generic.css">
+    <script src="helpers.js"></script>
 </head>
 
 <body>
     <h1>Crop:</h1>
-    <form>
+    <form id="getOneCrop">
         <h3>Get Crop</h3>
         <label for="getCropType">Enter type:</label>
-        <input type="text" id="getCropType" name="getCropType">
+        <input type="text" id="getCropType" name="getCropType" required>
         <button type="submit" id="submitButton">Submit</button>
         <p id="getDisplayCrop"></p>
     </form>
@@ -18,7 +19,7 @@
     <form id="deleteCrop">
         <h3>Delete Crop</h3>
         <label for="deleteCropType">Enter type:</label>
-        <input type="text" id="deleteCropType" name="deleteCropType">
+        <input type="text" id="deleteCropType" name="deleteCropType" required>
         <button type="submit" id="submitButton">Submit</button>
     </form>
     <hr />
@@ -29,84 +30,55 @@
         <input type="checkbox" id="updateCropCheck" name="updateCropCheck">
 
         <label for="createCropType">Type:</label>
-        <input type="text" id="type" name="createCropType" required>
+        <input type="text" id="type" name="createCropType">
 
         <label for="basePrice">Base Price:</label>
-        <input type="text" id="basePrice" name="basePrice" required>
+        <input type="text" id="basePrice" name="basePrice">
 
         <label for="phRangeWeight">pH Range Weight:</label>
-        <input type="text" id="phRangeWeight" name="phRangeWeight" required>
+        <input type="text" id="phRangeWeight" name="phRangeWeight">
 
         <label for="phRangeDesired">pH Range Desired:</label>
-        <input type="text" id="phRangeDesired" name="phRangeDesired" required>
+        <input type="text" id="phRangeDesired" name="phRangeDesired">
 
         <label for="waterNeededWeight">Water Needed Weight:</label>
-        <input type="text" id="waterNeededWeight" name="waterNeededWeight" required>
+        <input type="text" id="waterNeededWeight" name="waterNeededWeight">
 
         <label for="waterNeededDesired">Water Needed Desired:</label>
-        <input type="text" id="waterNeededDesired" name="waterNeededDesired" required>
+        <input type="text" id="waterNeededDesired" name="waterNeededDesired">
 
         <label for="sunRangeWeight">Sun Range Weight:</label>
-        <input type="text" id="sunRangeWeight" name="sunRangeWeight" required>
+        <input type="text" id="sunRangeWeight" name="sunRangeWeight">
 
         <label for="sunRangeDesired">Sun Range Desired:</label>
-        <input type="text" id="sunRangeDesired" name="sunRangeDesired" required>
+        <input type="text" id="sunRangeDesired" name="sunRangeDesired">
 
         <label for="banned">Banned:</label>
-        <input type="text" id="banned" name="banned" required>
+        <input type="checkbox" id="banned" name="banned">
 
         <button type="submit">Submit</button>
     </form>
 </body>
 <script>
-    // Add event listener to the button
-    document.getElementById("submitButton").addEventListener("click", function () {
-        fetch(`http://localhost:3000/crop/${document.getElementById('getCropType').value}`)
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById("getDisplayCrop").innerText = data;
-            })
-            .catch(error => {
-                console.error("Error:", error);
-            });
-    });
+    generalizedGet(
+        document.getElementById("getOneCrop"),
+        "http://localhost:3000/crop",
+        document.getElementById("getDisplayCrop"),
+        'getCropType'
+    );
 
-    document.getElementById("deleteCrop").addEventListener("submit", function (event) {
-        event.preventDefault();
-        fetch(`http://localhost:3000/crop/${document.getElementById('deleteCropType').value}`, {
-            method: 'DELETE',
-        })
-            .then(response => response.text())
-            .then(data => {
-                console.log('Success:', data);
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
-    });
+    generalizedDelete(
+        document.getElementById("deleteCrop"),
+        'http://localhost:3000/crop',
+        'deleteCropType'
+    );
 
-    document.getElementById("createCrop").addEventListener("submit", function (event) {
-        event.preventDefault();
-        const formData = new FormData(document.getElementById("createCrop"));
-        const cropData = Object.fromEntries(formData.entries());
-        fetch(cropData.updateCropCheck ?
-            `http://localhost:3000/crop/${cropData.createCropType}` :
-            `http://localhost:3000/crop`, {
-            method: cropData.updateCropCheck ? 'PUT' : 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(cropData)
-        })
-            .then(response => response.text())
-            .then(data => {
-                console.log("Crop created/updated:", data);
-                // Handle success or display a success message
-            })
-            .catch(error => {
-                console.error("Error:", error);
-            });
-    });
+    generalizedUpdateCreate(
+        document.getElementById("createCrop"),
+        "http://localhost:3000/crop",
+        "updateCropCheck",
+        "createCropType"
+    );
 </script>
 
 </html>
