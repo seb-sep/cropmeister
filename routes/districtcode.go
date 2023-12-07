@@ -1,10 +1,14 @@
 package routes
 
 import (
+	"context"
 	"github.com/gofiber/fiber/v2"
+	"github.com/seb-sep/cropmeister/db"
 )
 
 func DistrictCodeRoutes(districtcode fiber.Router) {
+	ctx := context.Background()
+
 	districtcode.Get("", func(c *fiber.Ctx) error {
 		queries := c.Locals("db").(*db.Queries)
 		districtcodes, err := queries.districtcodes(ctx)
