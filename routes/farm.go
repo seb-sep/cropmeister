@@ -38,7 +38,7 @@ func FarmRoutes(farm fiber.Router) {
 	farm.Get("/:id", func(c *fiber.Ctx) error {
 		queries := c.Locals("db").(*db.Queries)
 		id, err := c.ParamsInt("id")
-		farm, err := queries.GeTFarm(ctx, int32(id))
+		farm, err := queries.GetFarm(ctx, int32(id))
 		if err != nil {
 			return c.Status(500).SendString(err.Error())
 		}
