@@ -378,26 +378,6 @@ func (q *Queries) DeletePurchase(ctx context.Context, purchaseID int32) (sql.Res
 	return q.db.ExecContext(ctx, deletePurchase, purchaseID)
 }
 
-const geTFarm = `-- name: GeTFarm :one
-SELECT name, farm_value, farm_id, address_street, address_city, address_state, address_zip FROM Farm
-WHERE Farm_ID = ?
-`
-
-func (q *Queries) GeTFarm(ctx context.Context, farmID int32) (Farm, error) {
-	row := q.db.QueryRowContext(ctx, geTFarm, farmID)
-	var i Farm
-	err := row.Scan(
-		&i.Name,
-		&i.FarmValue,
-		&i.FarmID,
-		&i.AddressStreet,
-		&i.AddressCity,
-		&i.AddressState,
-		&i.AddressZip,
-	)
-	return i, err
-}
-
 const getAllHarvests = `-- name: GetAllHarvests :many
 SELECT quantity, harvest_year, ph_base, ph_fertilized, water_rain, water_sprinkler, sun, price, crop_type, farm_id, extinct FROM Harvest
 `
@@ -670,6 +650,26 @@ func (q *Queries) GetDistrictsWithCrop(ctx context.Context, cropType sql.NullStr
 	return items, nil
 }
 
+const getFarm = `-- name: GetFarm :one
+SELECT name, farm_value, farm_id, address_street, address_city, address_state, address_zip FROM Farm
+WHERE Farm_ID = ?
+`
+
+func (q *Queries) GetFarm(ctx context.Context, farmID int32) (Farm, error) {
+	row := q.db.QueryRowContext(ctx, getFarm, farmID)
+	var i Farm
+	err := row.Scan(
+		&i.Name,
+		&i.FarmValue,
+		&i.FarmID,
+		&i.AddressStreet,
+		&i.AddressCity,
+		&i.AddressState,
+		&i.AddressZip,
+	)
+	return i, err
+}
+
 const getFarmer = `-- name: GetFarmer :one
 SELECT name, budget, net_worth, farm_id
 FROM Farmer f
@@ -816,7 +816,7 @@ func (q *Queries) GetInspectorForDistrict(ctx context.Context, codeID int32) ([]
 }
 
 const getPurchase = `-- name: GetPurchase :one
-SELECT purchase_id, crop_type, farm_id, purchase_complete, total_price, total_quantity, purchase_date, farmer_id, farmer_name FROM Purchase
+SELECT purchase_id, crop_type, farm_id, purchase_complete, total_price, total_quantity, purchase_date, farmer_name FROM Purchase
 WHERE Purchase_ID = ?
 `
 
@@ -831,14 +831,13 @@ func (q *Queries) GetPurchase(ctx context.Context, purchaseID int32) (Purchase, 
 		&i.TotalPrice,
 		&i.TotalQuantity,
 		&i.PurchaseDate,
-		&i.FarmerID,
 		&i.FarmerName,
 	)
 	return i, err
 }
 
 const getPurchases = `-- name: GetPurchases :many
-SELECT purchase_id, crop_type, farm_id, purchase_complete, total_price, total_quantity, purchase_date, farmer_id, farmer_name FROM Purchase
+SELECT purchase_id, crop_type, farm_id, purchase_complete, total_price, total_quantity, purchase_date, farmer_name FROM Purchase
 `
 
 func (q *Queries) GetPurchases(ctx context.Context) ([]Purchase, error) {
@@ -858,7 +857,6 @@ func (q *Queries) GetPurchases(ctx context.Context) ([]Purchase, error) {
 			&i.TotalPrice,
 			&i.TotalQuantity,
 			&i.PurchaseDate,
-			&i.FarmerID,
 			&i.FarmerName,
 		); err != nil {
 			return nil, err
