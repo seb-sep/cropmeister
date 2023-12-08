@@ -25,14 +25,14 @@ func FarmerRoutes(farmer fiber.Router) {
 		if err != nil {
 			return c.Status(500).SendString(err.Error())
 		}
-		farmers, err := queries.GetFarmer(ctx, db.GetFarmerParams{FarmID: int32(id), Name: name})
+		farmer, err := queries.GetFarmer(ctx, db.GetFarmerParams{FarmID: int32(id), Name: name})
 		if err != nil {
 			return c.Status(500).SendString(err.Error())
 		}
-		return c.JSON(farmers)
+		return c.JSON(farmer)
 	})
 
-	farmer.Post("/:id", func(c *fiber.Ctx) error {
+	farmer.Post("", func(c *fiber.Ctx) error {
 		queries := c.Locals("db").(*db.Queries)
 		var body AddFarmerRequest
 		err := c.BodyParser(body)
@@ -52,6 +52,9 @@ func FarmerRoutes(farmer fiber.Router) {
 	farmer.Delete("/:id", func(c *fiber.Ctx) error {
 		queries := c.Locals("db").(*db.Queries)
 		id, err := c.ParamsInt("id")
+		if err != nil {
+			return c.Status(500).SendString(err.Error())
+		}
 		farmers, err := queries.DeleteFarmers(ctx, int32(id))
 		if err != nil {
 			return c.Status(500).SendString(err.Error())
