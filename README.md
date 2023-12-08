@@ -1,16 +1,8 @@
-Steps:
+## Cropmeister
 
-Download Go: https://go.dev/doc/install
+GitHub repository: https://github.com/seb-sep/cropmeister
+Note: This repo includes everything needed for the frotend, as we serve static HTML files with NGINX instead of using AppSmith.
 
-Download sqlc and go: `brew install sqlc go`
-
-Clone the repo
-
-Make a `.env` file in the root directory, and add `DATABASE_URL=<the url>` to it
-
-Dowload all deps for the project with `go get`
-
-Run `go run main.go` to start the server
-
+Video link: https://share.descript.com/view/t3S1r1u8l11
 
 
