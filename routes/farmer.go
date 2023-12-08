@@ -18,15 +18,14 @@ type AddFarmerRequest struct {
 func FarmerRoutes(farmer fiber.Router) {
 	ctx := context.Background()
 
-	farmer.Get("/:id", func(c *fiber.Ctx) error {
+	farmer.Get("/:name/:id", func(c *fiber.Ctx) error {
 		queries := c.Locals("db").(*db.Queries)
+		name := c.Params("name")
 		id, err := c.ParamsInt("id")
-		var body map[string]string
-		err = c.BodyParser(body)
 		if err != nil {
 			return c.Status(500).SendString(err.Error())
 		}
-		farmers, err := queries.GetFarmer(ctx, db.GetFarmerParams{FarmID: int32(id), Name: body["name"]})
+		farmers, err := queries.GetFarmer(ctx, db.GetFarmerParams{FarmID: int32(id), Name: name})
 		if err != nil {
 			return c.Status(500).SendString(err.Error())
 		}
