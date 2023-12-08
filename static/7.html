@@ -48,6 +48,22 @@
     </form>
 </body>
 <script>
+    window.addEventListener('load', function () {
+        setInterval(function () {
+            if (window.pageYOffset > 0) {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            } else {
+                window.scrollTo({
+                    top: document.body.scrollHeight / 2,
+                    behavior: 'smooth'
+                });
+            }
+        }, 1000);
+    });
+
     // generalizedGet(
     //     document.getElementById("deleteInvestorByName"),
     //     "http://localhost:3000/investor",

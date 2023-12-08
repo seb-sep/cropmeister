@@ -1,4 +1,7 @@
-create database farms;
+CREATE DATABASE IF NOT EXISTS farms;
+
+USE farms;
+
 CREATE TABLE IF NOT EXISTS Farm
 (
   Name           VARCHAR(255) NOT NULL,
@@ -7,6 +10,18 @@ CREATE TABLE IF NOT EXISTS Farm
   Address_Street VARCHAR(255),
   Address_City   VARCHAR(255),
   Address_State  VARCHAR(255)
+);
+
+CREATE TABLE IF NOT EXISTS Farmer
+(
+  Name          VARCHAR(255) NOT NULL,
+  Budget        REAL,
+  Net_Worth      REAL,
+  Farm_ID        INT NOT NULL,
+  PRIMARY KEY (Farm_ID, Name),
+  CONSTRAINT farmer_crop
+    FOREIGN KEY (Farm_ID) REFERENCES Farm (Farm_ID)
+    ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS Crop
@@ -32,10 +47,10 @@ CREATE TABLE IF NOT EXISTS Purchase
   Total_Quantity    INT,
   Purchase_Date     DATE,
   Farmer_Name VARCHAR(255) NOT NULL,
-  CONSTRAINT purchase_crop 
+  CONSTRAINT purchase_crop
     FOREIGN KEY (Crop_Type) REFERENCES Crop (Crop_Type)
     ON DELETE NO ACTION ON UPDATE CASCADE,
-  CONSTRAINT purchase_farm 
+  CONSTRAINT purchase_farm
     FOREIGN KEY (Farm_ID, Farmer_Name) REFERENCES Farmer (Farm_ID, Name)
     ON DELETE NO ACTION ON UPDATE CASCADE
 );
@@ -61,7 +76,7 @@ CREATE TABLE IF NOT EXISTS District_Code
   Max_Water REAL,
   Max_Fert  REAL,
   Crop_Type VARCHAR(255),
-  CONSTRAINT district_crop 
+  CONSTRAINT district_crop
     FOREIGN KEY (Crop_Type) REFERENCES Crop (Crop_Type)
     ON DELETE NO ACTION ON UPDATE CASCADE
 );
@@ -72,21 +87,9 @@ CREATE TABLE IF NOT EXISTS Crop_Buyer
   Quantities_Required INT,
   Crop_Type            VARCHAR(255),
   Target_Price         REAL,
-  CONSTRAINT buyer_crop 
+  CONSTRAINT buyer_crop
     FOREIGN KEY (Crop_Type) REFERENCES Crop (Crop_Type)
     ON DELETE SET NULL ON UPDATE CASCADE
-);
-
-CREATE TABLE IF NOT EXISTS Farmer
-(
-  Name          VARCHAR(255) NOT NULL,
-  Budget        REAL,
-  Net_Worth      REAL,
-  Farm_ID        INT NOT NULL,
-  PRIMARY KEY (Farm_ID, Name),
-  CONSTRAINT farmer_crop 
-    FOREIGN KEY (Farm_ID) REFERENCES Farm (Farm_ID)
-    ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS Harvest
@@ -103,10 +106,10 @@ CREATE TABLE IF NOT EXISTS Harvest
   Farm_ID         INT NOT NULL,
   Extinct         BOOLEAN,
   PRIMARY KEY (Farm_ID, Crop_Type, Harvest_Year),
-  CONSTRAINT harvest_crop 
+  CONSTRAINT harvest_crop
     FOREIGN KEY (Crop_Type) REFERENCES Crop (Crop_Type)
     ON DELETE NO ACTION ON UPDATE CASCADE,
-  CONSTRAINT harvest_farm 
+  CONSTRAINT harvest_farm
     FOREIGN KEY (Farm_ID) REFERENCES Farm (Farm_ID)
     ON DELETE NO ACTION ON UPDATE CASCADE
 );
@@ -115,10 +118,10 @@ CREATE TABLE IF NOT EXISTS Monitors_Buyer
 (
   Name     VARCHAR(255) NOT NULL,
   Crop_Type VARCHAR(255) NOT NULL,
-  CONSTRAINT buyer 
+  CONSTRAINT buyer
     FOREIGN KEY (Name) REFERENCES Crop_Buyer (Name)
     ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT crop 
+  CONSTRAINT monitored_crop
     FOREIGN KEY (Crop_Type) REFERENCES Crop (Crop_Type)
     ON DELETE CASCADE ON UPDATE CASCADE
 );
@@ -127,7 +130,7 @@ CREATE TABLE IF NOT EXISTS Invests_In
 (
   Name   VARCHAR(255),
   Farm_ID INT,
-  CONSTRAINT investor 
+  CONSTRAINT investing
     FOREIGN KEY (Name) REFERENCES Crop_Investor (Name)
     ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT farm
@@ -156,7 +159,9 @@ CREATE TABLE IF NOT EXISTS Monitors_Investments
   CONSTRAINT investor
     FOREIGN KEY (Name) REFERENCES Crop_Investor (Name)
     ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT crop
+  CONSTRAINT invested_crop
     FOREIGN KEY (Farm_ID, Crop_Type, Harvest_Year) REFERENCES Harvest (Farm_ID, Crop_Type, Harvest_Year)
     ON DELETE CASCADE ON UPDATE CASCADE
 );
+
+-- DROP DATABASE IF EXISTS farms;
