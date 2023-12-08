@@ -1,41 +1,101 @@
-Code_ID,Max_Water,Max_Fert,Crop_Type
-21,96.27,13.21,Brandy Apricot
-18,63.35,63.45,Energy Drink Red Bull
-60,45.04,80.67,Sea Bass - Fillets
-55,7.18,15.43,Bagelers - Cinn / Brown
-70,13.64,10.96,Sauce - Hollandaise
-57,89.37,8.16,Muffin Batt - Choc Chk
-54,34.29,30.92,Vinegar - Sherry
-61,30.19,60.7,Bagelers - Cinn / Brown
-68,60.04,73.94,Vinegar - Sherry
-5,15.8,35.67,Sugar - Palm
-87,2.32,75.06,Ice Cream - Vanilla
-51,33.83,81.14,"Turkey - Breast, Smoked"
-26,2.91,98.16,Oil - Peanut
-40,16.4,44.7,Lime Cordial - Roses
-7,42.96,41.12,"Turkey - Breast, Smoked"
-33,36.97,88.18,Island Oasis - Cappucino Mix
-53,51.54,54.18,Wood Chips - Regular
-95,25.04,7.33,Cheese - Grie Des Champ
-87,30.24,28.05,Vinegar - Sherry
-74,55.85,29.44,Island Oasis - Cappucino Mix
-17,9.26,36.81,Vinegar - White Wine
-24,50.85,55.44,Sauce - Hollandaise
-36,48.27,99.2,Pear - Prickly
-22,64.59,89.3,Pear - Prickly
-30,22.83,11.97,"Wine - White, Schroder And Schyl"
-21,9.01,62.67,Ice Cream - Vanilla
-36,43.65,35.19,Cloves - Ground
-61,20.28,36.11,Muffin Mix - Morning Glory
-15,19.14,55.17,Shrimp - Black Tiger 26/30
-83,3.58,44.38,Sauce - Hollandaise
-63,62.3,26.19,Shrimp - Black Tiger 26/30
-38,85.39,96.15,Mushroom - Lg - Cello
-82,28.31,34.01,Cloves - Ground
-49,40.38,31.52,Pork - Caul Fat
-7,9.63,76.52,Pear - Prickly
-56,12.08,93.93,Vinegar - Sherry
-39,36.62,61.47,Lime Cordial - Roses
-7,84.52,15.97,"Turkey - Breast, Smoked"
-18,27.0,19.62,Lime Cordial - Roses
-24,60.48,7.55,Veal - Kidney
+code_id,max_water,max_fert,crop_type
+1,78.66,1.24,Blue Sky Orchards
+2,73.06,23.34,Spring Meadow Farm
+3,34.62,5.89,Highland Farm
+4,67.43,83.19,Silver Lake Dairy
+5,50.01,56.57,Rolling Hills Vineyard
+6,42.88,24.04,Twilight Vineyards
+7,11.59,86.4,Silver Lake Dairy
+8,2.11,15.99,Silver Lake Dairy
+9,82.54,53.18,Riverbend Cattle Co.
+10,7.73,83.37,Prairie Wind Farms
+11,54.92,96.74,Eastwood Farms
+12,12.65,27.08,Meadowbrook Estate
+13,35.03,94.05,Prairie Wind Farms
+14,14.84,6.45,Riverbend Cattle Co.
+15,95.61,79.17,Prairie Wind Farms
+16,66.55,12.07,Eastwood Farms
+17,50.43,29.0,Twilight Vineyards
+18,11.76,83.44,Blue Sky Orchards
+19,15.76,66.66,Spring Meadow Farm
+20,80.27,3.48,Prairie Wind Farms
+21,26.05,99.75,Blue Sky Orchards
+22,9.3,4.36,Autumn Ridge Farm
+23,19.65,18.65,Meadowbrook Estate
+24,43.07,16.02,Island Retreat Farm
+25,26.92,98.12,Sunny Meadow Farm
+26,50.55,20.66,Sunny Meadow Farm
+27,52.48,29.39,Rolling Hills Vineyard
+28,98.34,88.54,Rolling Hills Vineyard
+29,31.45,87.91,Prairie Wind Farms
+30,99.76,81.09,Eastwood Farms
+31,75.57,67.38,Autumn Ridge Farm
+32,81.74,97.94,Rainforest Coffee Plantation
+33,94.03,57.93,Autumn Ridge Farm
+34,71.82,52.91,Twilight Vineyards
+35,55.06,73.2,Blue Sky Orchards
+36,8.82,39.68,Riverbend Cattle Co.
+37,41.31,21.2,Meadowbrook Estate
+38,27.22,8.47,Riverbend Cattle Co.
+39,33.24,46.23,Meadowbrook Estate
+40,68.84,94.28,Eastwood Farms
+41,51.87,26.75,Whispering Pines Farmstead
+42,41.8,92.42,Rolling Hills Vineyard
+43,42.24,59.61,Spring Meadow Farm
+44,67.53,8.02,Whispering Pines Farmstead
+45,60.76,95.29,Whispering Pines Farmstead
+46,12.94,6.66,Meadowbrook Estate
+47,5.24,47.2,Willow Creek Homestead
+48,64.25,13.56,Northern Light Farm
+49,54.72,65.5,Sunny Meadow Farm
+50,81.62,88.3,Rolling Hills Vineyard
+51,61.6,65.69,Blue Sky Orchards
+52,50.0,35.44,Autumn Ridge Farm
+53,80.87,86.15,Meadowbrook Estate
+54,33.67,23.55,Riverbend Cattle Co.
+55,45.79,75.08,Rolling Hills Vineyard
+56,77.16,5.08,Sunny Meadow Farm
+57,48.39,44.09,Rolling Hills Vineyard
+58,76.96,26.5,Silver Lake Dairy
+59,52.22,82.26,Twilight Vineyards
+60,26.6,51.32,Prairie Wind Farms
+61,33.12,49.24,Eastwood Farms
+62,99.06,70.9,Meadowbrook Estate
+63,38.9,32.2,Island Retreat Farm
+64,44.89,10.75,Whispering Pines Farmstead
+65,66.54,94.68,Winterfell Ranch
+66,30.23,43.19,Meadowbrook Estate
+67,75.54,90.34,Sunny Meadow Farm
+68,6.86,14.5,Meadowbrook Estate
+69,20.97,26.53,Golden Harvest Acres
+70,33.82,27.97,Spring Meadow Farm
+71,26.64,76.99,Island Retreat Farm
+72,45.63,54.17,Island Retreat Farm
+73,61.09,37.77,Winterfell Ranch
+74,71.37,21.99,Spring Meadow Farm
+75,35.26,62.74,Prairie Wind Farms
+76,8.85,56.89,Prairie Wind Farms
+77,24.71,40.32,Prairie Wind Farms
+78,13.01,4.83,Prairie Wind Farms
+79,57.17,93.62,Island Retreat Farm
+80,41.47,72.13,Northern Light Farm
+81,88.09,80.51,Silver Lake Dairy
+82,65.7,64.2,Island Retreat Farm
+83,25.77,39.13,Eastwood Farms
+84,24.21,26.54,Silver Lake Dairy
+85,10.3,52.27,Twilight Vineyards
+86,44.96,31.28,Eastwood Farms
+87,4.21,25.63,Blue Sky Orchards
+88,96.05,27.97,Maplewood Poultry Farm
+89,65.99,87.46,Northern Light Farm
+90,93.64,94.17,Twilight Vineyards
+91,3.83,92.0,Prairie Wind Farms
+92,36.32,28.94,Sunny Meadow Farm
+93,67.72,87.91,Prairie Wind Farms
+94,71.56,43.51,Eastwood Farms
+95,54.98,95.05,Autumn Ridge Farm
+96,37.82,90.35,Sunny Meadow Farm
+97,53.22,54.49,Northern Light Farm
+98,3.09,90.32,Eastwood Farms
+99,53.92,34.44,Rainforest Coffee Plantation
+100,91.21,59.1,Meadowbrook Estate

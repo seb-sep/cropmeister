@@ -1,41 +1,41 @@
-Name,FarmValue,FarmID,Address_Street,Address_City,Address_State,Address_Zip
-Dandelion Meadows,47593,1,28142 Mccormick Lane,Lakeview,Nebraska,67890
-Morning Glory Farm,54089,2,536 Shoshone Terrace,Oakwood,Connecticut,24680
-Golden Harvest Farm,45003,3,50 Northport Junction,Bayside,New Hampshire,13579
-Lily Pad Farm,59969,4,79 Arkansas Place,Riverside,Indiana,24680
-Dandelion Meadows,67058,5,941 Banding Street,Meadowville,Georgia,24680
-Chestnut Hill Farm,25850,6,72126 Kennedy Alley,Springville,Pennsylvania,67890
-Cherry Blossom Acres,83951,7,76376 Sage Parkway,Hollyville,Georgia,54321
-Walnut Creek Ranch,64894,8,2 Goodland Road,Oakwood,Arkansas,24680
-Sycamore Grove Farm,46425,9,1782 Northport Avenue,Whitewood,New York,24680
-Sweetwater Ranch,55205,10,67 Shelley Lane,Willowbrook,Maine,98765
-Oakridge Ranch,59106,11,59671 Petterle Point,Meadowbrook,Florida,24680
-Maplewood Acres,65601,12,92 Wayridge Circle,Shadowbrook,North Carolina,24680
-Poppyseed Farm,11963,13,46067 Golf Crossing,Oakwood,Massachusetts,98765
-Cottonwood Ranch,72903,14,0 Lunder Hill,Goldenridge,Oklahoma,24680
-Daisy Hill Farm,76091,15,34195 American Ash Center,Hollyville,Indiana,98765
-Poppyseed Farm,23174,16,36 Sunfield Hill,Crestview,Oregon,24680
-Lily Pad Farm,94280,17,31 Upham Pass,Springville,Oklahoma,24680
-Tulip Fields,10334,18,3786 Butterfield Way,Lakewood,Oregon,98765
-Buttercup Farm,69707,19,5 Parkside Court,Hazelwood,Connecticut,24680
-Cottonwood Ranch,70938,20,638 Glendale Court,Meadowlark,Maryland,24680
-Birchwood Farm,33377,21,35434 Maple Avenue,Pleasantville,New Hampshire,24680
-Dandelion Meadows,66599,22,4 Schurz Drive,Harborview,Connecticut,98765
-Sunflower Farm,42523,23,331 Canary Avenue,Glenwood,North Dakota,54321
-Bluebell Farm,98520,24,85810 Warbler Avenue,Valleydale,Arkansas,54321
-Harvest Moon Acres,38879,25,7712 Warrior Trail,Sunnydale,Missouri,98765
-Lily Pad Farm,35369,26,12 Manufacturers Terrace,Meadowlark,Montana,24680
-Oakridge Ranch,76982,27,871 Sutherland Lane,Aspenwood,Georgia,12345
-Pine Hill Farm,97175,28,781 Meadow Ridge Avenue,Crestview,Nebraska,98765
-Evergreen Ranch,25750,29,87 Jenifer Way,Havenbrook,Pennsylvania,54321
-Bluebell Farm,35549,30,321 Grasskamp Drive,Springville,Montana,54321
-Sunflower Farm,27733,31,40 Spaight Lane,Riverside,Colorado,24680
-Evergreen Ranch,17690,32,72 Westport Circle,Havenbrook,Nevada,24680
-Morning Glory Farm,26619,33,638 Calypso Pass,Mapleton,California,98765
-Tulip Fields,74566,34,4952 Moose Center,Windsor,Louisiana,54321
-Maplewood Acres,84603,35,189 Fisk Place,Hazelwood,Kansas,98765
-Willowbrook Farm,50889,36,77463 Packers Trail,Mapleton,North Carolina,54321
-Sweetwater Ranch,33154,37,589 Arapahoe Point,Roseville,Georgia,54321
-Lavender Lane,40056,38,0770 Sullivan Alley,Shadowbrook,Connecticut,13579
-Meadowview Farm,73400,39,72 Northwestern Lane,Fairview,Iowa,98765
-Pumpkin Patch Farm,46775,40,66901 Browning Street,Bayside,Oklahoma,13579
+name,farm_value,farm_id,address_street,address_city,address_state
+Blue Sky Orchards,710317.16,1,55286 Thompson Junction,Waru,
+Lighthouse Seafood,401518.29,2,6313 Autumn Leaf Junction,Fengchuan,
+Cedar Grove Apiary,98922.28,3,58347 Valley Edge Road,Gucheng,
+Willow Creek Homestead,460451.51,4,9630 4th Park,Iqaluit,Nunavut
+Winterfell Ranch,770781.44,5,5217 Browning Court,Rashaant,
+Oasis Fruit Gardens,323214.11,6,06018 Pierstorff Pass,Pākpattan,
+Sunnybrook Stables,308647.07,7,52500 Warrior Street,Suchen,
+Sunny Meadow Farm,234226.81,8,9 Packers Way,Ngkiong,
+Whispering Pines Farmstead,623577.86,9,3131 Blue Bill Park Pass,La Laja,
+Polar Ridge Farm,634783.25,10,7552 Waywood Crossing,Talitsy,
+Riverbend Cattle Co.,403751.37,11,14177 American Avenue,Aleshtar,
+Rolling Hills Vineyard,500023.75,12,9107 David Road,Ampelókipoi,
+Highland Farm,373191.74,13,00 Veith Center,Feteira Grande,Ilha de São Miguel
+Desert Bloom Farm,536284.4,14,62314 Eggendart Point,Dimona,
+Crystal River Fisheries,515895.71,15,268 Forest Dale Alley,Kostyantynivka,
+Stone Ridge Plantation,676177.41,16,5091 Holy Cross Road,Srbinovo,
+Cedar Grove Apiary,608531.93,17,875 Cherokee Center,Leshan,
+Polar Ridge Farm,636023.39,18,94 Autumn Leaf Street,Sofifi,
+Island Retreat Farm,312671.43,19,7481 Holmberg Junction,Black River,
+Emerald Field Organics,492772.03,20,8316 Kingsford Trail,Sanlanbahai,
+Blue Sky Orchards,240361.85,21,36035 Esch Street,Berdyans’k,
+Sunrise Farm,778117.81,22,72079 Talisman Trail,Sanankerto,
+Silver Lake Dairy,442483.12,23,9127 Westerfield Court,Molinos,
+Autumn Ridge Farm,687780.2,24,07 5th Court,Kadyy,
+Meadowbrook Estate,818677.58,25,96 Morningstar Terrace,Bzenec,
+Sunnybrook Stables,940061.92,26,5912 Garrison Parkway,Piasek,
+Highland Farm,267083.78,27,04353 Cherokee Street,Dongling,
+Northern Light Farm,4018.37,28,54 Hoard Center,Kontagora,
+Eastwood Farms,183747.87,29,76 Dakota Road,Inhambane,
+Blossom Hill Nurseries,565854.76,30,105 Arkansas Court,Vila Nova de Gaia,Porto
+Willow Creek Homestead,250398.49,31,26 Esch Way,Girona,Cataluna
+Autumn Ridge Farm,350235.88,32,9 Shopko Street,Cigadog Hilir,
+Sunset Orchard,801637.05,33,4586 Blue Bill Park Avenue,Cholargós,
+Misty Mountain Farm,497506.97,34,757 Ryan Circle,Amirabad,
+Island Retreat Farm,240724.89,35,9113 Londonderry Place,Bilajer,
+Highland Farm,390604.91,36,66 Waywood Terrace,Tinampo,
+Polar Ridge Farm,288629.2,37,41 Bellgrove Circle,Makoko,
+Westfield Grains,56323.24,38,038 Mcguire Pass,Taichung,
+Riverbend Cattle Co.,663740.11,39,67767 Sutherland Drive,Hangbu,
+Emerald Field Organics,325387.61,40,95 Oak Avenue,Patemon,

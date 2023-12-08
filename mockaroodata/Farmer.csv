@@ -1,41 +1,41 @@
-Name,Budget,NetWorth,FarmID
-Quinlan Wyatt,7581,24196,error: undefined method `id' for nil:NilClass
-Chet Spatarul,9971,1151,error: undefined method `id' for nil:NilClass
-Hollie Sharland,2253,30454,error: undefined method `id' for nil:NilClass
-Laina Draye,1277,91404,error: undefined method `id' for nil:NilClass
-Bridgette Slator,6763,17508,error: undefined method `id' for nil:NilClass
-Quintilla Waddilove,9290,90749,error: undefined method `id' for nil:NilClass
-Stephie Feldmark,9470,24470,error: undefined method `id' for nil:NilClass
-Dicky McKag,6184,6928,error: undefined method `id' for nil:NilClass
-Dulcie Regan,3253,67989,error: undefined method `id' for nil:NilClass
-Bartie Stegers,2791,40733,error: undefined method `id' for nil:NilClass
-Margit Skippen,3176,26912,error: undefined method `id' for nil:NilClass
-Laurette Olorenshaw,3828,84536,error: undefined method `id' for nil:NilClass
-Charlena Waldocke,9995,52478,error: undefined method `id' for nil:NilClass
-Annalee Tull,2496,28091,error: undefined method `id' for nil:NilClass
-Hillier Duetschens,7174,73042,error: undefined method `id' for nil:NilClass
-Sapphire Mapledoore,7655,65132,error: undefined method `id' for nil:NilClass
-Jerome Gutowska,4959,76805,error: undefined method `id' for nil:NilClass
-Cosmo Walhedd,1474,70453,error: undefined method `id' for nil:NilClass
-Hammad Bratt,7169,19631,error: undefined method `id' for nil:NilClass
-Judas Gwatkin,6656,14630,error: undefined method `id' for nil:NilClass
-Mitzi Corlett,6497,53705,error: undefined method `id' for nil:NilClass
-Horacio Sanders,1811,19638,error: undefined method `id' for nil:NilClass
-Marlon Notman,6571,92128,error: undefined method `id' for nil:NilClass
-Caria Arboin,1032,77071,error: undefined method `id' for nil:NilClass
-Alanson Godspede,3885,75120,error: undefined method `id' for nil:NilClass
-Kile Ganford,7534,55206,error: undefined method `id' for nil:NilClass
-Byrle Leon,3376,13616,error: undefined method `id' for nil:NilClass
-Anet Lowe,5459,69570,error: undefined method `id' for nil:NilClass
-Eamon McMurdo,3747,51571,error: undefined method `id' for nil:NilClass
-Hilliary McGeever,7310,65806,error: undefined method `id' for nil:NilClass
-Ros Aspin,5728,3684,error: undefined method `id' for nil:NilClass
-Calypso Blackway,7258,54679,error: undefined method `id' for nil:NilClass
-Fernando Bird,6281,47041,error: undefined method `id' for nil:NilClass
-Margarethe Stichel,2171,26602,error: undefined method `id' for nil:NilClass
-Tori Lillywhite,1268,62032,error: undefined method `id' for nil:NilClass
-Shelton Santus,6171,77879,error: undefined method `id' for nil:NilClass
-Emory Mulholland,9313,23592,error: undefined method `id' for nil:NilClass
-Chad Poppleton,1568,18888,error: undefined method `id' for nil:NilClass
-Rodie Bance,8848,60568,error: undefined method `id' for nil:NilClass
-Pernell Fluit,9452,36604,error: undefined method `id' for nil:NilClass
+Name,Budget,Net_Worth,Farm_ID
+Jennie Hainning,4071.48,66127.18,1
+Rebecka Godmar,9415.57,45805.09,34
+Kimberly Wasiel,8575.74,73055.63,29
+Kacy Boles,4168.59,50324.29,20
+Washington Malone,8645.8,13735.02,14
+Ira Kubik,2301.27,53801.18,21
+Cosmo Harcourt,3020.69,79768.97,18
+Lurleen Cornwall,1597.68,43963.41,20
+Lilith Barreau,2844.69,26470.92,33
+Mannie Llewellyn,4548.96,80924.38,15
+Archy McAuliffe,5683.22,44343.58,3
+Boot Glossop,8124.57,94112.14,12
+Claiborne Sidnell,9863.36,71568.68,22
+Betteann Bauer,1798.59,78847.79,32
+Kellsie Fitchell,3988.73,52395.98,27
+Tootsie Brittian,2521.54,85349.21,19
+Melodie Tegeller,9525.71,24612.67,37
+Veronika Banger,9247.73,61800.04,32
+Keeley Lilliman,4569.37,19496.39,5
+Leon Riddlesden,9121.42,75688.15,25
+Aurie Lowensohn,6779.93,11751.32,7
+Killie Prudence,4818.98,44118.69,39
+Allin MacDonell,1762.38,48546.94,2
+Nara Hurne,4081.62,40159.32,9
+Renell Heeks,9060.06,81220.03,17
+Luis Sautter,8614.31,87760.66,9
+Jennilee Hucquart,7859.7,35295.57,32
+Romona Rigeby,3197.21,28344.43,28
+Sherill MacInerney,6689.92,63569.98,30
+Hephzibah Abbatt,2605.84,34022.13,10
+Aubrette Matussevich,9973.61,77921.24,24
+Geneva Akhurst,4348.78,43542.46,37
+Cahra Leeke,9370.95,83237.78,5
+Ardys Lyngsted,7120.69,84045.19,20
+Lavena Knightsbridge,237.23,86892.85,27
+Armand Masham,2966.09,5236.65,10
+Franklin Petrik,6479.37,1873.87,26
+Ines Bettaney,5147.46,63714.32,24
+Chantalle Wyllcocks,7254.52,52929.48,10
+Thedric Hartright,7253.31,11283.23,16
