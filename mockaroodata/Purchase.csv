@@ -1,41 +1,41 @@
-Purchase_ID,Crop_Type,Farm_ID,Purchase_Complete,Total_Price,Total_quantity,Purchase_Date,Farmer_Name
-1,39,35,false,30576.26,31,11/30/2020,Ammamaria
-2,27,4,false,22586.0,514,10/17/2022,Jarrod
-3,9,33,false,71725.25,917,7/19/2020,Morrie
-4,17,17,false,55489.94,160,9/29/2022,Gerhardt
-5,12,32,false,23374.65,868,9/12/2022,Valentia
-6,37,40,false,70397.56,277,9/9/2020,Wenda
-7,5,9,true,38847.9,781,6/6/2020,Luciana
-8,24,34,true,92144.44,76,12/29/2021,Honor
-9,7,31,false,93964.64,296,7/8/2021,Jyoti
-10,2,19,true,77159.81,658,11/11/2020,Lorena
-11,38,29,true,34905.04,473,7/8/2020,Tremaine
-12,29,15,true,88997.07,533,2/2/2021,Zachariah
-13,4,20,true,73008.48,187,4/25/2020,Merrel
-14,21,5,true,23697.72,257,9/3/2021,Celesta
-15,13,26,false,94241.67,917,9/20/2020,Sayer
-16,35,1,false,42049.21,5,3/5/2020,Joete
-17,36,28,false,40489.42,306,5/29/2022,Shelby
-18,1,11,false,38405.04,93,10/1/2020,Isaiah
-19,34,24,false,72249.07,392,1/31/2020,Hyacinthe
-20,15,25,true,92416.64,871,11/9/2020,Noak
-21,3,18,true,80342.73,71,7/27/2022,Alvinia
-22,20,27,true,4793.34,864,4/15/2020,Krishna
-23,31,13,true,84996.6,383,8/12/2020,Derwin
-24,23,23,true,63860.44,896,6/22/2021,Elmo
-25,22,39,false,98464.16,426,1/8/2020,Carlyn
-26,30,16,false,41973.1,550,5/1/2020,Valentino
-27,8,12,true,75113.47,942,6/19/2022,Anissa
-28,14,8,true,75195.16,159,12/24/2022,Kath
-29,28,38,false,7242.93,412,7/11/2021,Erskine
-30,16,3,true,26864.37,589,10/2/2022,Delainey
-31,18,36,false,89397.15,675,9/11/2021,Vernon
-32,25,7,false,90396.16,850,10/5/2022,Cathlene
-33,26,30,true,51938.72,878,1/7/2020,Rosemaria
-34,10,2,true,96467.74,654,9/11/2020,Ingram
-35,40,6,true,26584.06,545,6/18/2021,Garland
-36,32,22,true,94883.1,315,4/8/2022,Heidi
-37,19,21,false,56560.18,771,9/17/2020,Chrissie
-38,6,10,false,67287.96,902,1/25/2020,Mufinella
-39,11,14,false,91997.81,702,7/12/2022,Shaylynn
-40,33,37,true,72375.15,967,12/12/2021,Valentia
+Purchase_ID,Crop_Type,Farm_ID,Farmer_Name,Purchase_Complete,Total_Price,Total_quantity,Purchase_Date
+1,"Nut - Pistachio, Shelled",error: undefined method `id' for nil:NilClass,Quinlan Wyatt,true,4889.37,849,5/1/2021
+2,Cardamon Ground,error: undefined method `id' for nil:NilClass,Chet Spatarul,true,96194.84,751,9/5/2021
+3,Sea Bass - Fillets,error: undefined method `id' for nil:NilClass,Hollie Sharland,true,1388.87,370,7/14/2022
+4,Sea Bass - Fillets,error: undefined method `id' for nil:NilClass,Laina Draye,true,78584.32,242,8/5/2020
+5,Campari,error: undefined method `id' for nil:NilClass,Bridgette Slator,false,38974.06,848,11/20/2020
+6,Cloves - Ground,error: undefined method `id' for nil:NilClass,Quintilla Waddilove,false,31432.12,827,7/1/2022
+7,Pear - Prickly,error: undefined method `id' for nil:NilClass,Stephie Feldmark,true,31186.98,32,5/23/2020
+8,Energy Drink Red Bull,error: undefined method `id' for nil:NilClass,Dicky McKag,false,40783.76,112,10/25/2020
+9,Muffin Mix - Morning Glory,error: undefined method `id' for nil:NilClass,Dulcie Regan,true,50585.6,123,7/12/2020
+10,"Crush - Orange, 355ml",error: undefined method `id' for nil:NilClass,Bartie Stegers,true,47279.81,406,10/12/2020
+11,Ice Cream - Vanilla,error: undefined method `id' for nil:NilClass,Margit Skippen,false,82488.48,453,1/3/2020
+12,Cheese - Grie Des Champ,error: undefined method `id' for nil:NilClass,Laurette Olorenshaw,true,18036.62,562,12/26/2020
+13,Eggplant - Baby,error: undefined method `id' for nil:NilClass,Charlena Waldocke,true,93774.31,18,4/3/2022
+14,"Onions - Dried, Chopped",error: undefined method `id' for nil:NilClass,Annalee Tull,true,46509.49,578,3/18/2022
+15,Muffin Mix - Morning Glory,error: undefined method `id' for nil:NilClass,Hillier Duetschens,false,13986.72,401,9/12/2022
+16,"Onions - Dried, Chopped",error: undefined method `id' for nil:NilClass,Sapphire Mapledoore,true,20687.21,594,4/22/2021
+17,Veal - Kidney,error: undefined method `id' for nil:NilClass,Jerome Gutowska,true,62118.42,772,5/18/2020
+18,Arizona - Plum Green Tea,error: undefined method `id' for nil:NilClass,Cosmo Walhedd,true,47745.97,783,3/24/2022
+19,Egg - Salad Premix,error: undefined method `id' for nil:NilClass,Hammad Bratt,true,67146.49,5,3/6/2021
+20,Muffin Mix - Morning Glory,error: undefined method `id' for nil:NilClass,Judas Gwatkin,false,54426.24,801,2/16/2022
+21,Energy Drink Red Bull,error: undefined method `id' for nil:NilClass,Mitzi Corlett,false,40641.47,501,12/31/2020
+22,Mushroom - Porcini Frozen,error: undefined method `id' for nil:NilClass,Horacio Sanders,false,61754.59,644,4/14/2022
+23,Eggplant - Baby,error: undefined method `id' for nil:NilClass,Marlon Notman,true,3405.09,896,5/2/2021
+24,Oil - Peanut,error: undefined method `id' for nil:NilClass,Caria Arboin,true,70047.14,791,3/6/2021
+25,Pork - Caul Fat,error: undefined method `id' for nil:NilClass,Alanson Godspede,true,81693.78,663,1/20/2021
+26,"Turkey - Breast, Smoked",error: undefined method `id' for nil:NilClass,Kile Ganford,false,40169.92,152,8/31/2020
+27,Sea Bass - Fillets,error: undefined method `id' for nil:NilClass,Byrle Leon,true,62787.98,302,3/26/2022
+28,Cheese - Grie Des Champ,error: undefined method `id' for nil:NilClass,Anet Lowe,false,59080.94,994,4/12/2022
+29,Cheese - Fontina,error: undefined method `id' for nil:NilClass,Eamon McMurdo,true,52693.08,711,5/12/2020
+30,"Onions - Dried, Chopped",error: undefined method `id' for nil:NilClass,Hilliary McGeever,false,32026.9,57,9/16/2022
+31,Cheese - Fontina,error: undefined method `id' for nil:NilClass,Ros Aspin,true,59661.92,909,7/3/2022
+32,Sea Bass - Fillets,error: undefined method `id' for nil:NilClass,Calypso Blackway,false,36024.66,365,6/27/2021
+33,Pear - Prickly,error: undefined method `id' for nil:NilClass,Fernando Bird,true,49899.11,189,8/22/2022
+34,Cloves - Ground,error: undefined method `id' for nil:NilClass,Margarethe Stichel,true,64243.11,731,9/21/2022
+35,"Crush - Orange, 355ml",error: undefined method `id' for nil:NilClass,Tori Lillywhite,false,10822.58,107,10/3/2022
+36,Egg - Salad Premix,error: undefined method `id' for nil:NilClass,Shelton Santus,true,92758.45,538,7/17/2020
+37,Oil - Peanut,error: undefined method `id' for nil:NilClass,Emory Mulholland,false,13171.53,114,7/6/2021
+38,Wood Chips - Regular,error: undefined method `id' for nil:NilClass,Chad Poppleton,false,80241.0,74,2/9/2020
+39,Sugar - Palm,error: undefined method `id' for nil:NilClass,Rodie Bance,false,90594.13,82,3/7/2022
+40,Island Oasis - Mango Daiquiri,error: undefined method `id' for nil:NilClass,Pernell Fluit,true,98081.69,610,7/26/2021
