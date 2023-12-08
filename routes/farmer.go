@@ -49,7 +49,7 @@ func FarmerRoutes(farmer fiber.Router) {
 		return c.JSON(res)
 	})
 
-	farmer.Delete("/:id", func(c *fiber.Ctx) error {
+	farmer.Delete("/:name", func(c *fiber.Ctx) error {
 		queries := c.Locals("db").(*db.Queries)
 		id, err := c.ParamsInt("id")
 		if err != nil {
