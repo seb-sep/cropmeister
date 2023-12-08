@@ -315,9 +315,8 @@ func (q *Queries) DeleteCrop(ctx context.Context, cropType string) (sql.Result, 
 }
 
 const deleteCropInspector = `-- name: DeleteCropInspector :execresult
-UPDATE Crop_Inspector c
-SET c.Unemployed = 1
-WHERE c.USDAID = ?
+DELETE FROM Crop_Inspector 
+WHERE USDAID = ?
 `
 
 func (q *Queries) DeleteCropInspector(ctx context.Context, usdaid int32) (sql.Result, error) {

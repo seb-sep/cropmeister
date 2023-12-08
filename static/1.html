@@ -54,7 +54,7 @@
         fetch(`${"http://localhost:3000/farmer"}/${codeData['farmerName']}/${codeData['farmID']}`
         ).then(response => response.json())
             .then(data => {
-                document.getElementById("getDisplayFarmer").innerText = createHTMLTable(data);
+                createHTMLTable(data, document.getElementById("getDisplayFarmer"));
             })
             .catch(error => {
                 console.error("Error:", error);

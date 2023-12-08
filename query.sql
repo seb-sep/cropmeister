@@ -225,9 +225,8 @@ WHERE USDAID = ?;
 
 
 -- name: DeleteCropInspector :execresult
-UPDATE Crop_Inspector c
-SET c.Unemployed = 1
-WHERE c.USDAID = ?;
+DELETE FROM Crop_Inspector 
+WHERE USDAID = ?;
 
 -- name: GetDistrictCodes :many
 SELECT *
