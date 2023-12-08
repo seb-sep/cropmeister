@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="generic.css">
+    <script src="helpers.js"></script>
+</head>
+
+<body>
+    <h1>Harvest</h1>
+    <form id="getAllHarvests">
+        <h3>Get all Harvests</h3>
+        <button type="submit" id="submitButton">Submit</button>
+        <p id="getHarvestsDisplay"></p>
+    </form>
+    <hr />
+    <form id="getHarvestsByType">
+        <h3>Get Harvests by type</h3>
+        <label for="harvestType">Harvest Type:</label>
+        <input type="text" name="harvestType" id="harvestType" required>
+        <button type="submit" id="submitButton">Submit</button>
+        <p id="getHarvestDisplayByType"></p>
+    </form>
+    <hr />
+    <form id="deleteHarvestByNameAndId">
+        <h3>Delete Harvest by name and id</h3>
+        <label for="farmId">Farm ID:</label>
+        <input type="number" name="farmId" id="farmId" required>
+        <label for="cropType">Crop Type:</label>
+        <input type="text" name="cropType" id="cropType" required>
+        <label for="harvestYear">Harvest Year:</label>
+        <input type="number" name="harvestYear" id="harvestYear" required>
+        <button type="submit" id="submitButton">Submit</button>
+    </form>
+    <hr />
+    <form id="updateAndCreateByFarmAndCropType">
+        <h3>Create/update Harvest by farm and crop type</h3>
+        <label for="updateHarvestCheck">updating?(specify if you're updating harvest):</label>
+        <input type="checkbox" id="updateHarvestCheck" name="updateHarvestCheck">
+        <label for="farmId">Farm ID:</label>
+        <input type="number" name="farmId" id="farmId">
+        <label for="cropType">Crop Type:</label>
+        <input type="text" name="cropType" id="cropType">
+        <label for="quantity">Quantity:</label>
+        <input type="number" name="quantity" id="quantity">
+        <label for="harvestYear">Harvest Year:</label>
+        <input type="number" name="harvestYear" id="harvestYear">
+        <label for="phBase">pH Base:</label>
+        <input type="number" name="phBase" id="phBase">
+        <label for="phFertilized">pH Fertilized:</label>
+        <input type="number" name="phFertilized" id="phFertilized">
+        <label for="waterRain">Water Rain:</label>
+        <input type="number" name="waterRain" id="waterRain">
+        <label for="waterSprinkler">Water Sprinkler:</label>
+        <input type="number" name="waterSprinkler" id="waterSprinkler">
+        <label for="sun">Sun:</label>
+        <input type="number" name="sun" id="sun">
+        <label for="price">Price:</label>
+        <input type="number" name="price" id="price">
+        <label for="extinct">Extinct:</label>
+        <input type="checkbox" id="extinct" name="extinct">
+        <button type="submit" id="submitButton">Submit</button>
+    </form>
+</body>
+<script>
+    generalizedGet(
+        document.getElementById("getAllHarvests"),
+        "http://localhost:3000/harvest",
+        document.getElementById("getHarvestsDisplay")
+    );
+
+    generalizedGet(
+        document.getElementById("getHarvestsByType"),
+        "http://localhost:3000/harvest",
+        document.getElementById("getHarvestDisplayByType"),
+        'harvestType'
+    );
+
+    document.getElementById("deleteHarvestByNameAndId").addEventListener("submit", function (event) {
+        event.preventDefault();
+        const formData = new FormData(document.getElementById("deleteHarvestByNameAndId"));
+        const codeData = Object.fromEntries(formData.entries());
+        for (let key in codeData) {
+            if (typeof codeData[key] === 'string' && /^\d+$/.test(codeData[key])) {
+                codeData[key] = parseInt(codeData[key]);
+            }
+            if (codeData[key] === "on") {
+                codeData[key] = true;
+            } else if (codeData[key] === "off") {
+                codeData[key] = false;
+            }
+        }
+
+        const routeUrl = `${"http://localhost:3000/harvest"}/${codeData['farmId']}/${codeData['cropType']}`
+
+        delete codeData['farmId'];
+        delete codeData['cropType'];
+
+
+        fetch(routeUrl, {
+            method: 'DELETE',
+            body: JSON.stringify(codeData)
+        })
+            .then(response => response.text())
+            .then(data => {
+                console.log("Inspector Code deleted:", data);
+                // Handle success or display a success message
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            });
+    });
+
+    document.getElementById("updateAndCreateByFarmAndCropType").addEventListener("submit", function (event) {
+        event.preventDefault();
+        const formData = new FormData(document.getElementById("updateAndCreateByFarmAndCropType"));
+        const codeData = Object.fromEntries(formData.entries());
+
+        for (let key in codeData) {
+            if (typeof codeData[key] === 'string' && /^\d+$/.test(codeData[key])) {
+                codeData[key] = parseInt(codeData[key]);
+            }
+            if (codeData[key] === "on") {
+                codeData[key] = true;
+            } else if (codeData[key] === "off") {
+                codeData[key] = false;
+            }
+        }
+
+        fetch(`${"http://localhost:3000/harvest"}/${codeData['farmId']}/${codeData['cropType']}`, {
+            method: codeData[updateHarvestCheck] ? 'PUT' : 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(codeData)
+        })
+            .then(response => response.text())
+            .then(data => {
+                console.log("Item created/updated:", data);
+                // Handle success or display a success message
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            });
+    });
+</script>
+
+</html>

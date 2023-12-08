@@ -11,8 +11,8 @@ import (
 type AddFarmerRequest struct {
 	Name     string  `json:"name"`
 	Budget   float64 `json:"budget"`
-	NetWorth float64 `json:"net_worth"`
-	FarmID   int32   `json:"farm_id"`
+	NetWorth float64 `json:"netWorth"`
+	FarmID   int32   `json:"farmId"`
 }
 
 func FarmerRoutes(farmer fiber.Router) {
@@ -34,8 +34,8 @@ func FarmerRoutes(farmer fiber.Router) {
 
 	farmer.Post("", func(c *fiber.Ctx) error {
 		queries := c.Locals("db").(*db.Queries)
-		var body AddFarmerRequest
-		err := c.BodyParser(body)
+		body := AddFarmerRequest{}
+		err := c.BodyParser(&body)
 		if err != nil {
 			return c.Status(500).SendString(err.Error())
 		}

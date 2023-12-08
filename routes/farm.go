@@ -10,10 +10,10 @@ import (
 
 type FarmUpdateRequest struct {
 	Name          string `json:"name"`
-	FarmValue     int32  `json:"farm_value"`
-	AddressStreet string `json:"address_street"`
-	AddressCity   string `json:"address_city"`
-	AddressState  string `json:"address_state"`
+	FarmValue     int32  `json:"farmValue"`
+	AddressStreet string `json:"addressStreet"`
+	AddressCity   string `json:"addressCity"`
+	AddressState  string `json:"addressState"`
 }
 
 func FarmRoutes(farm fiber.Router) {
@@ -53,8 +53,8 @@ func FarmRoutes(farm fiber.Router) {
 		if err != nil {
 			return c.Status(500).SendString(err.Error())
 		}
-		var body FarmUpdateRequest
-		err = c.BodyParser(body)
+		body := FarmUpdateRequest{}
+		err = c.BodyParser(&body)
 		if err != nil {
 			return c.Status(500).SendString(err.Error())
 		}

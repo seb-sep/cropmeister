@@ -269,13 +269,14 @@ func (q *Queries) AddMonitorsBuyer(ctx context.Context, arg AddMonitorsBuyerPara
 }
 
 const addPurchase = `-- name: AddPurchase :execresult
-INSERT INTO Purchase (Crop_Type, Farm_ID, Purchase_Complete, Total_Price, Total_Quantity, Purchase_Date)
-VALUES (?, ?, ?, ?, ?, ?)
+INSERT INTO Purchase (Crop_Type, Farm_ID, Farmer_Name, Purchase_Complete, Total_Price, Total_Quantity, Purchase_Date)
+VALUES (?, ?, ?, ?, ?, ?, ?)
 `
 
 type AddPurchaseParams struct {
 	CropType         sql.NullString
 	FarmID           sql.NullInt32
+	FarmerName       string
 	PurchaseComplete sql.NullBool
 	TotalPrice       sql.NullFloat64
 	TotalQuantity    sql.NullInt32
@@ -286,6 +287,7 @@ func (q *Queries) AddPurchase(ctx context.Context, arg AddPurchaseParams) (sql.R
 	return q.db.ExecContext(ctx, addPurchase,
 		arg.CropType,
 		arg.FarmID,
+		arg.FarmerName,
 		arg.PurchaseComplete,
 		arg.TotalPrice,
 		arg.TotalQuantity,
@@ -417,13 +419,13 @@ func (q *Queries) GetAllHarvests(ctx context.Context) ([]Harvest, error) {
 
 const getCropData = `-- name: GetCropData :many
 SELECT crop_type, ph_range_weight, ph_range_desired, water_needed_weight, water_needed_desired, sun_range_weight, sun_range_desired, base_price, banned,
-       (Base_Price +
-        (Crop.Water_Needed_Weight - Crop.WaterNeeded_Desired) +
-        (Crop.Sun_Range_Weight - Crop.SunRange_Desired) -
+       FLOOR((Base_Price +
+        (Crop.Water_Needed_Weight - Crop.Water_Needed_Desired) +
+        (Crop.Sun_Range_Weight - Crop.Sun_Range_Desired) -
         CASE
-            WHEN Restricted THEN Base_Price * 0.5
+            WHEN Banned THEN Base_Price * 0.5
             ELSE 0
-        END) AS CalculatedPrice
+        END)) AS CalculatedPrice
 FROM Crop
 WHERE Crop_Type = ?
 `

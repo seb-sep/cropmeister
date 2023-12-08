@@ -3,13 +3,13 @@ SELECT * FROM Harvest;
 
 -- name: GetCropData :many
 SELECT *,
-       (Base_Price +
-        (Crop.Water_Needed_Weight - Crop.WaterNeeded_Desired) +
-        (Crop.Sun_Range_Weight - Crop.SunRange_Desired) -
+       FLOOR((Base_Price +
+        (Crop.Water_Needed_Weight - Crop.Water_Needed_Desired) +
+        (Crop.Sun_Range_Weight - Crop.Sun_Range_Desired) -
         CASE
-            WHEN Restricted THEN Base_Price * 0.5
+            WHEN Banned THEN Base_Price * 0.5
             ELSE 0
-        END) AS CalculatedPrice
+        END)) AS CalculatedPrice
 FROM Crop
 WHERE Crop_Type = ?;
 
@@ -101,8 +101,8 @@ WHERE Crop_Type = ? AND Harvest_Year = ? AND Farm_ID = ?;
 SELECT * FROM Purchase;
 
 -- name: AddPurchase :execresult
-INSERT INTO Purchase (Crop_Type, Farm_ID, Purchase_Complete, Total_Price, Total_Quantity, Purchase_Date)
-VALUES (?, ?, ?, ?, ?, ?);
+INSERT INTO Purchase (Crop_Type, Farm_ID, Farmer_Name, Purchase_Complete, Total_Price, Total_Quantity, Purchase_Date)
+VALUES (?, ?, ?, ?, ?, ?, ?);
 
 -- name: GetPurchase :one
 SELECT * FROM Purchase

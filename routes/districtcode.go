@@ -9,9 +9,13 @@ import (
 )
 
 type DistrictCodeUpdateRequest struct {
-	MaxWater float64 `json:"max_water"`
-	MaxFert  float64 `json:"max_fert"`
-	CropType string  `json:"crop_type"`
+	MaxWater float64 `json:"maxWater"`
+	MaxFert  float64 `json:"maxFert"`
+	CropType string  `json:"cropType"`
+}
+
+type DistrictCodeInspectorRequest struct {
+	CodeID int32 `json:"codeId"`
 }
 
 func DistrictCodeRoutes(districtcode fiber.Router) {
@@ -55,8 +59,8 @@ func DistrictCodeRoutes(districtcode fiber.Router) {
 	districtcode.Put("/:id", func(c *fiber.Ctx) error {
 		queries := c.Locals("db").(*db.Queries)
 		id, err := c.ParamsInt("id")
-		var data DistrictCodeUpdateRequest
-		err = c.BodyParser(data)
+		data := DistrictCodeUpdateRequest{}
+		err = c.BodyParser(&data)
 		res, err := queries.UpdateDistrictCode(ctx, db.UpdateDistrictCodeParams{
 			MaxWater: sql.NullFloat64{data.MaxWater, true},
 			MaxFert:  sql.NullFloat64{data.MaxFert, true},
@@ -81,8 +85,8 @@ func DistrictCodeRoutes(districtcode fiber.Router) {
 
 	districtcode.Post("/crop/:type", func(c *fiber.Ctx) error {
 		queries := c.Locals("db").(*db.Queries)
-		var data DistrictCodeUpdateRequest
-		err := c.BodyParser(data)
+		data := DistrictCodeUpdateRequest{}
+		err := c.BodyParser(&data)
 		id, err := c.ParamsInt("id")
 		res, err := queries.AddDistrictCode(ctx, db.AddDistrictCodeParams{
 			MaxWater: sql.NullFloat64{data.MaxWater, true},
@@ -112,12 +116,12 @@ func DistrictCodeRoutes(districtcode fiber.Router) {
 		if err != nil {
 			return c.Status(500).SendString(err.Error())
 		}
-		var body map[string]int32
-		err = c.BodyParser(body)
+		body := DistrictCodeInspectorRequest{}
+		err = c.BodyParser(&body)
 		if err != nil {
 			return c.Status(500).SendString(err.Error())
 		}
-		res, _ := queries.AddDistrictToInspector(ctx, db.AddDistrictToInspectorParams{Usdaid: int32(usdaid), CodeID: body["code_id"]})
+		res, _ := queries.AddDistrictToInspector(ctx, db.AddDistrictToInspectorParams{Usdaid: int32(usdaid), CodeID: body.CodeID})
 		return c.JSON(res)
 	})
 }

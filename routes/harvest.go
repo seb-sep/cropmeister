@@ -3,6 +3,7 @@ package routes
 import (
 	"context"
 	"database/sql"
+	"fmt"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/seb-sep/cropmeister/db"
@@ -10,14 +11,18 @@ import (
 
 type AddHarvestRequest struct {
 	Quantity       int32   `json:"quantity"`
-	HarvestYear    int32   `json:"harvestyear"`
-	PhBase         float64 `json:"phbase"`
-	PhFertilized   float64 `json:"phfertilized"`
-	WaterRain      float64 `json:"waterrain"`
-	WaterSprinkler float64 `json:"watersprinkler"`
+	HarvestYear    int32   `json:"harvestYear"`
+	PhBase         float64 `json:"phBase"`
+	PhFertilized   float64 `json:"phFertilized"`
+	WaterRain      float64 `json:"waterRain"`
+	WaterSprinkler float64 `json:"waterSprinkler"`
 	Sun            int32   `json:"sun"`
 	Price          float64 `json:"price"`
 	Extinct        bool    `json:"extinct"`
+}
+
+type DeleteHarvestRequest struct {
+	HarvestYear int32 `json:"harvestYear"`
 }
 
 func HarvestRoutes(harvest fiber.Router) {
@@ -39,8 +44,8 @@ func HarvestRoutes(harvest fiber.Router) {
 			return c.Status(500).SendString(err.Error())
 		}
 
-		var body AddHarvestRequest
-		err = c.BodyParser(body)
+		body := AddHarvestRequest{}
+		err = c.BodyParser(&body)
 		if err != nil {
 			return c.Status(500).SendString(err.Error())
 		}
@@ -81,8 +86,8 @@ func HarvestRoutes(harvest fiber.Router) {
 			return c.Status(500).SendString(err.Error())
 		}
 
-		var body AddHarvestRequest
-		err = c.BodyParser(body)
+		body := AddHarvestRequest{}
+		err = c.BodyParser(&body)
 		if err != nil {
 			return c.Status(500).SendString(err.Error())
 		}
@@ -110,18 +115,24 @@ func HarvestRoutes(harvest fiber.Router) {
 	harvest.Delete("/:farm/:type", func(c *fiber.Ctx) error {
 		queries := c.Locals("db").(*db.Queries)
 
-		farm, cropType, err := farmAndType(c)
+		id, err := c.ParamsInt("farm")
+		if err != nil {
+			return c.Status(500).SendString(err.Error())
+		}
+		fmt.Printf("%d\n", id)
+		cropType := c.Params("type", "")
+		if err != nil {
+			return c.Status(500).SendString(err.Error())
+		}
+		fmt.Printf("%s\n", cropType)
+		fmt.Printf("%s\n", c.Body())
+		body := DeleteHarvestRequest{}
+		err = c.BodyParser(&body)
 		if err != nil {
 			return c.Status(500).SendString(err.Error())
 		}
 
-		var body map[string]int32
-		err = c.BodyParser(body)
-		if err != nil {
-			return c.Status(500).SendString(err.Error())
-		}
-
-		res, err := queries.DeleteHarvest(ctx, db.DeleteHarvestParams{CropType: cropType, FarmID: farm, HarvestYear: body["year"]})
+		res, err := queries.DeleteHarvest(ctx, db.DeleteHarvestParams{CropType: cropType, FarmID: int32(id), HarvestYear: body.HarvestYear})
 		if err != nil {
 			return c.Status(500).SendString(err.Error())
 		}

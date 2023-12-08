@@ -1,4 +1,11 @@
 function createHTMLTable(jsonData, appendTo) {
+    appendTo.innerHTML = "";
+    if(!jsonData){
+        return;
+    }
+    if(!Array.isArray(jsonData)){
+        jsonData = [jsonData];
+    }
     let table = document.createElement("table");
     table.className = "table table-striped";
     let thead = document.createElement("thead");
@@ -20,6 +27,9 @@ function createHTMLTable(jsonData, appendTo) {
             if(typeof value === "object"){
                 if(value["String"]) td.innerText = JSON.stringify(value["String"])
                 else if(value["Int32"]) td.innerText = JSON.stringify(value["Int32"])
+                else if(value["Float64"]) td.innerText = JSON.stringify(value["Float64"])
+                else if(value["Bool"]!==null) td.innerText = JSON.stringify(value["Bool"])
+                else if(value["Time"]) td.innerText = JSON.stringify(value["Time"])
                 else td.innerText = JSON.stringify(value)
             }
             else td.innerText = value;
@@ -74,10 +84,24 @@ function generalizedUpdateCreate(formElement, url, switchKey, idKey) {
         event.preventDefault();
         const formData = new FormData(formElement);
         const codeData = Object.fromEntries(formData.entries());
-        fetch(codeData[switchKey] ?
+
+        for (let key in codeData) {
+            if (typeof codeData[key] === 'string' && /^\d+$/.test(codeData[key])) {
+                codeData[key] = parseInt(codeData[key]);
+            }
+            if(codeData[key] === "on"){
+                codeData[key] = true;
+            }else if(codeData[key] === "off"){
+                codeData[key] = false;
+            }
+        }
+
+
+
+        fetch(codeData[idKey] ?
             `${url}/${codeData[idKey]}` :
             `${url}`, {
-            method: codeData[switchKey] ? 'PUT' : 'POST',
+            method: codeData[idKey] ? 'PUT' : 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },

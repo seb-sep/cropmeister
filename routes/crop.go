@@ -3,36 +3,32 @@ package routes
 import (
 	"context"
 	"database/sql"
+	"fmt"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/seb-sep/cropmeister/db"
 )
 
-// type AddCropRequest struct {
-// 	CropType           string  `json:"crop_type"`
-// 	BasePrice          float64 `json:"base_price"`
-// 	PhRangeWeight      float64 `json:"ph_range_weight"`
-// 	PhRangeDesired     float64 `json:"ph_range_desired"`
-// 	WaterNeededWeight  float64 `json:"water_needed_weight"`
-// 	WaterNeededDesired float64 `json:"water_needed_desired"`
-// 	SunRangeWeight     float64 `json:"sun_range_weight"`
-// 	SunRangeDesired    float64 `json:"sun_range_desired"`
-// 	Banned             bool    `json:"banned"`
-// }
-
 type AddCropRequest struct {
-	CropType string         `json:"crop_type"`
-	Values   MutCropRequest `json:"values"`
+	CropType           string  `json:"cropType"`
+	BasePrice          float64 `json:"basePrice"`
+	PhRangeWeight      float64 `json:"phRangeWeight"`
+	PhRangeDesired     float64 `json:"phRangeDesired"`
+	WaterNeededWeight  float64 `json:"waterNeededWeight"`
+	WaterNeededDesired float64 `json:"waterNeededDesired"`
+	SunRangeWeight     float64 `json:"sunRangeWeight"`
+	SunRangeDesired    float64 `json:"sunRangeDesired"`
+	Banned             bool    `json:"banned"`
 }
 
 type MutCropRequest struct {
-	BasePrice          float64 `json:"base_price"`
-	PhRangeWeight      float64 `json:"ph_range_weight"`
-	PhRangeDesired     float64 `json:"ph_range_desired"`
-	WaterNeededWeight  float64 `json:"water_needed_weight"`
-	WaterNeededDesired float64 `json:"water_needed_desired"`
-	SunRangeWeight     float64 `json:"sun_range_weight"`
-	SunRangeDesired    float64 `json:"sun_range_desired"`
+	BasePrice          float64 `json:"basePrice"`
+	PhRangeWeight      float64 `json:"phRangeWeight"`
+	PhRangeDesired     float64 `json:"phRangeDesired"`
+	WaterNeededWeight  float64 `json:"waterReededWeight"`
+	WaterNeededDesired float64 `json:"waterNeededDesired"`
+	SunRangeWeight     float64 `json:"sunRangeWeight"`
+	SunRangeDesired    float64 `json:"sunRangeDesired"`
 	Banned             bool    `json:"banned"`
 }
 
@@ -53,22 +49,23 @@ func CropRoutes(crop fiber.Router) {
 	// Create a new crop.
 	crop.Post("", func(c *fiber.Ctx) error {
 		queries := c.Locals("db").(*db.Queries)
-		var body AddCropRequest
-		err := c.BodyParser(body)
+		fmt.Printf("%s\n", c.Body())
+		body := AddCropRequest{}
+		err := c.BodyParser(&body)
 		if err != nil {
 			return c.Status(500).SendString(err.Error())
 		}
 
 		crop, err := queries.AddCrop(ctx, db.AddCropParams{
 			CropType:           body.CropType,
-			BasePrice:          sql.NullFloat64{Float64: body.Values.BasePrice, Valid: true},
-			PhRangeWeight:      sql.NullFloat64{Float64: body.Values.PhRangeWeight, Valid: true},
-			PhRangeDesired:     sql.NullFloat64{Float64: body.Values.PhRangeDesired, Valid: true},
-			WaterNeededWeight:  sql.NullFloat64{Float64: body.Values.WaterNeededWeight, Valid: true},
-			WaterNeededDesired: sql.NullFloat64{Float64: body.Values.WaterNeededDesired, Valid: true},
-			SunRangeWeight:     sql.NullFloat64{Float64: body.Values.SunRangeWeight, Valid: true},
-			SunRangeDesired:    sql.NullFloat64{Float64: body.Values.SunRangeDesired, Valid: true},
-			Banned:             sql.NullBool{Bool: body.Values.Banned, Valid: true},
+			BasePrice:          sql.NullFloat64{Float64: body.BasePrice, Valid: true},
+			PhRangeWeight:      sql.NullFloat64{Float64: body.PhRangeWeight, Valid: true},
+			PhRangeDesired:     sql.NullFloat64{Float64: body.PhRangeDesired, Valid: true},
+			WaterNeededWeight:  sql.NullFloat64{Float64: body.WaterNeededWeight, Valid: true},
+			WaterNeededDesired: sql.NullFloat64{Float64: body.WaterNeededDesired, Valid: true},
+			SunRangeWeight:     sql.NullFloat64{Float64: body.SunRangeWeight, Valid: true},
+			SunRangeDesired:    sql.NullFloat64{Float64: body.SunRangeDesired, Valid: true},
+			Banned:             sql.NullBool{Bool: body.Banned, Valid: true},
 		})
 
 		if err != nil {
@@ -81,8 +78,8 @@ func CropRoutes(crop fiber.Router) {
 	crop.Put("/:type", func(c *fiber.Ctx) error {
 		queries := c.Locals("db").(*db.Queries)
 
-		var body MutCropRequest
-		err := c.BodyParser(body)
+		body := MutCropRequest{}
+		err := c.BodyParser(&body)
 		if err != nil {
 			return c.Status(500).SendString(err.Error())
 		}

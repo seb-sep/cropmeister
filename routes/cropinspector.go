@@ -12,6 +12,10 @@ type AddCropInspectorRequest struct {
 	Usdaid int32  `json:"usdaid"`
 }
 
+type UpdateCropInspectorRequest struct {
+	Name string `json:"name"`
+}
+
 func CropInspectorRoutes(cropinspector fiber.Router) {
 	ctx := context.Background()
 
@@ -26,8 +30,8 @@ func CropInspectorRoutes(cropinspector fiber.Router) {
 
 	cropinspector.Post("", func(c *fiber.Ctx) error {
 		queries := c.Locals("db").(*db.Queries)
-		var body AddCropInspectorRequest
-		err := c.BodyParser(body)
+		body := AddCropInspectorRequest{}
+		err := c.BodyParser(&body)
 		if err != nil {
 			return c.Status(500).SendString(err.Error())
 		}
@@ -55,13 +59,13 @@ func CropInspectorRoutes(cropinspector fiber.Router) {
 		if err != nil {
 			return c.Status(500).SendString(err.Error())
 		}
-		var name map[string]string
-		err = c.BodyParser(name)
+		name := UpdateCropInspectorRequest{}
+		err = c.BodyParser(&name)
 		if err != nil {
 			return c.Status(500).SendString(err.Error())
 		}
 		inspector, err := queries.UpdateCropInspector(ctx, db.UpdateCropInspectorParams{
-			Name:   name["name"],
+			Name:   name.Name,
 			Usdaid: int32(id),
 		})
 		if err != nil {

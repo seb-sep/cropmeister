@@ -3,6 +3,7 @@ package routes
 import (
 	"context"
 	"database/sql"
+	"encoding/json"
 	"time"
 
 	"github.com/gofiber/fiber/v2"
@@ -10,12 +11,30 @@ import (
 )
 
 type AddPurchaseRequest struct {
-	CropType         string    `json:"crop_type"`
-	FarmID           int32     `json:"farm_id"`
-	PurchaseComplete bool      `json:"purchase_complete"`
-	TotalQuantity    int32     `json:"total_quantity"`
-	TotalPrice       float64   `json:"total_price"`
-	PurchaseDate     time.Time `json:"purchase_date"`
+	CropType         string  `json:"cropType"`
+	FarmID           int32   `json:"farmId"`
+	FarmerName       string  `json:"farmerName"`
+	PurchaseComplete bool    `json:"purchaseComplete"`
+	TotalQuantity    int32   `json:"totalQuantity"`
+	TotalPrice       float64 `json:"totalPrice"`
+	PurchaseDate     YMD     `json:"purchaseDate"`
+}
+
+type YMD struct {
+	Date time.Time
+}
+
+func (y *YMD) UnmarshalJSON(b []byte) error {
+	var s string
+	if err := json.Unmarshal(b, &s); err != nil {
+		return err
+	}
+	t, err := time.Parse("2006-01-02", s)
+	if err != nil {
+		return err
+	}
+	y.Date = t
+	return nil
 }
 
 func PurchaseRoutes(purchase fiber.Router) {
@@ -32,18 +51,19 @@ func PurchaseRoutes(purchase fiber.Router) {
 
 	purchase.Post("", func(c *fiber.Ctx) error {
 		queries := c.Locals("db").(*db.Queries)
-		var body AddPurchaseRequest
-		err := c.BodyParser(body)
+		body := AddPurchaseRequest{}
+		err := c.BodyParser(&body)
 		if err != nil {
 			return c.Status(500).SendString(err.Error())
 		}
 		res, err := queries.AddPurchase(ctx, db.AddPurchaseParams{
 			CropType:         sql.NullString{String: body.CropType, Valid: true},
 			FarmID:           sql.NullInt32{Int32: body.FarmID, Valid: true},
+			FarmerName:       body.FarmerName,
 			PurchaseComplete: sql.NullBool{Bool: body.PurchaseComplete, Valid: true},
 			TotalQuantity:    sql.NullInt32{Int32: body.TotalQuantity, Valid: true},
 			TotalPrice:       sql.NullFloat64{Float64: body.TotalPrice, Valid: true},
-			PurchaseDate:     sql.NullTime{Time: body.PurchaseDate, Valid: true},
+			PurchaseDate:     sql.NullTime{Time: body.PurchaseDate.Date, Valid: true},
 		})
 		if err != nil {
 			return c.Status(500).SendString(err.Error())
@@ -66,8 +86,8 @@ func PurchaseRoutes(purchase fiber.Router) {
 
 	purchase.Put("/:id", func(c *fiber.Ctx) error {
 		queries := c.Locals("db").(*db.Queries)
-		var body AddPurchaseRequest
-		err := c.BodyParser(body)
+		body := AddPurchaseRequest{}
+		err := c.BodyParser(&body)
 		if err != nil {
 			return c.Status(500).SendString(err.Error())
 		}
@@ -78,7 +98,7 @@ func PurchaseRoutes(purchase fiber.Router) {
 			PurchaseComplete: sql.NullBool{Bool: body.PurchaseComplete, Valid: true},
 			TotalQuantity:    sql.NullInt32{Int32: body.TotalQuantity, Valid: true},
 			TotalPrice:       sql.NullFloat64{Float64: body.TotalPrice, Valid: true},
-			PurchaseDate:     sql.NullTime{Time: body.PurchaseDate, Valid: true},
+			PurchaseDate:     sql.NullTime{Time: body.PurchaseDate.Date, Valid: true},
 		})
 		if err != nil {
 			return c.Status(500).SendString(err.Error())
