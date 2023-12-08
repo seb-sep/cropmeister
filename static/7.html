@@ -7,7 +7,8 @@
 </head>
 
 <body>
-    <h1>Investor</h1>
+    <img src="./farmerFontenot.png" alt="logo" style="height:'100%'">
+    <!-- <h1>Investor</h1>
     <form id="getInvestorByName">
         <h3>Get Investor by name</h3>
         <label for="name">Enter Investor Name</label>
@@ -43,29 +44,29 @@
         <label for="unemployed">Unemployed:</label>
         <input type="checkbox" id="unemployed" name="unemployed" /><br><br>
 
-        <button type="submit">Submit</button>
+        <button type="submit">Submit</button> -->
     </form>
 </body>
 <script>
-    generalizedGet(
-        document.getElementById("deleteInvestorByName"),
-        "http://localhost:3000/investor",
-        document.getElementById("getDisplayInvestorByName"),
-        'name'
-    );
+    // generalizedGet(
+    //     document.getElementById("deleteInvestorByName"),
+    //     "http://localhost:3000/investor",
+    //     document.getElementById("getDisplayInvestorByName"),
+    //     'name'
+    // );
 
-    generalizedDelete(
-        document.getElementById("deleteInvestorByName"),
-        'http://localhost:3000/investor',
-        'name'
-    )
+    // generalizedDelete(
+    //     document.getElementById("deleteInvestorByName"),
+    //     'http://localhost:3000/investor',
+    //     'name'
+    // )
 
-    generalizedUpdateCreate(
-        document.getElementById("createInvestor"),
-        "http://localhost:3000/investor",
-        "updateInvestorCheck",
-        "name"
-    );
+    // generalizedUpdateCreate(
+    //     document.getElementById("createInvestor"),
+    //     "http://localhost:3000/investor",
+    //     "updateInvestorCheck",
+    //     "name"
+    // );
 </script>
 
 </html>
