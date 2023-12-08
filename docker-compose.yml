@@ -4,9 +4,9 @@ services:
     image: mysql:latest
     environment:
       MYSQL_ROOT_PASSWORD: 32gH2dggc3d1fhg1Cbb5dbB414C
-      MYSQL_DATABASE: cropmeister
-      MYSQL_USER: myuser
-      MYSQL_PASSWORD: 32gH2dggc3d1fhg1Cbb5dbB414C
+    volumes:
+      - ./mysql:/var/lib/mysql
+    hostname: "mysqlCon"
     ports:
       - 18409:3306
 
@@ -16,12 +16,23 @@ services:
       dockerfile: Dockerfile
     depends_on:
       - mysql
+    hostname: "goCon"
     environment:
-      - DATABASE_URL=mysql://root:32gH2dggc3d1fhg1Cbb5dbB414C@localhost:18409/cropmeister
+      - DATABASE_URL=root:32gH2dggc3d1fhg1Cbb5dbB414C@tcp(mysqlCon:3306)/cropmeister
+    ports:
+      - 3000:3000
 
   nginx:
     image: nginx:latest
+    depends_on:
+      - go
     volumes:
       - ./static:/usr/share/nginx/html
     ports:
       - 80:80
+
+volumes:
+  mysql:
+
+networks:
+  dbNet: {}

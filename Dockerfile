@@ -9,6 +9,7 @@ WORKDIR /app
 COPY . .
 
 # Build the Go application
+RUN go mod download
 RUN go build -o main .
 
 # Set the entry point for the container

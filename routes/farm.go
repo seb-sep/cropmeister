@@ -14,13 +14,12 @@ type FarmUpdateRequest struct {
 	AddressStreet string `json:"address_street"`
 	AddressCity   string `json:"address_city"`
 	AddressState  string `json:"address_state"`
-	AddressZip    string `json:"address_zip"`
 }
 
 func FarmRoutes(farm fiber.Router) {
 	ctx := context.Background()
 
-	farm.Get("", func(c *fiber.Ctx) error {
+	farm.Get("/", func(c *fiber.Ctx) error {
 		queries := c.Locals("db").(*db.Queries)
 		farms, err := queries.GetFarms(ctx)
 		if err != nil {
@@ -61,7 +60,6 @@ func FarmRoutes(farm fiber.Router) {
 			AddressStreet: sql.NullString{String: body.AddressStreet, Valid: true},
 			AddressCity:   sql.NullString{String: body.AddressCity, Valid: true},
 			AddressState:  sql.NullString{String: body.AddressState, Valid: true},
-			AddressZip:    sql.NullString{String: body.AddressZip, Valid: true},
 			FarmID:        int32(id),
 		})
 		if err != nil {

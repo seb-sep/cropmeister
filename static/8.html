@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="generic.css">
+    <script src="helpers.js"></script>
+</head>
+
+<body>
+    <h1>Investment</h1>
+    <form id="getInvestorByName">
+        <h3>Get Investor by name</h3>
+        <label for="name">Enter Investor Name</label>
+        <input type="text" id="name" name="name" required />
+        <button type="submit" id="submitButton">Submit</button>
+        <p id="getDisplayInvestorByName"></p>
+    </form>
+    <hr />
+    <form id="deleteInvestorByName">
+        <h3>Delete Investor</h3>
+        <label for="name">Enter Investor Name</label>
+        <input type="text" id="name" name="name" required />
+        <button type="submit" id="submitButton">Submit</button>
+    </form>
+    <hr />
+    <form id="createInvestor">
+        <h3>Create/Update Investor</h3>
+        <label for="updateInvestorCheck">Updating? (Specify if you're updating Investor):</label>
+        <input type="checkbox" id="updateInvestorCheck" name="updateInvestorCheck" />
+
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name"><br><br>
+
+        <label for="buyPrice">Buy Price:</label>
+        <input type="number" id="buyPrice" name="buyPrice"><br><br>
+
+        <label for="investibleMoney">Investible Money:</label>
+        <input type="number" id="investibleMoney" name="investibleMoney"><br><br>
+
+        <label for="sellPrice">Sell Price:</label>
+        <input type="number" id="sellPrice" name="sellPrice"><br><br>
+
+        <label for="unemployed">Unemployed:</label>
+        <input type="checkbox" id="unemployed" name="unemployed" /><br><br>
+
+        <button type="submit">Submit</button>
+    </form>
+</body>
+<script>
+    generalizedGet(
+        document.getElementById("deleteInvestorByName"),
+        "http://localhost:3000/investor",
+        document.getElementById("getDisplayInvestorByName"),
+        'name'
+    );
+
+    generalizedDelete(
+        document.getElementById("deleteInvestorByName"),
+        'http://localhost:3000/investor',
+        'name'
+    )
+
+    generalizedUpdateCreate(
+        document.getElementById("createInvestor"),
+        "http://localhost:3000/investor",
+        "updateInvestorCheck",
+        "name"
+    );
+</script>
+
+</html>
