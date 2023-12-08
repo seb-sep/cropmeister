@@ -18,7 +18,7 @@ services:
       - mysql
     hostname: "goCon"
     environment:
-      - DATABASE_URL=root:32gH2dggc3d1fhg1Cbb5dbB414C@tcp(mysqlCon:3306)/cropmeister
+      - DATABASE_URL=root:32gH2dggc3d1fhg1Cbb5dbB414C@tcp(mysqlCon:3306)/farms?parseTime=true
     ports:
       - 3000:3000
 

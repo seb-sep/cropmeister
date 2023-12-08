@@ -10,8 +10,10 @@
     <h1>Farmer:</h1>
     <form id="getFarmer">
         <h3>Get Farmer</h3>
-        <label for="farmerID">Enter ID:</label>
-        <input type="text" id="farmerID" name="farmerID" required>
+        <label for="farmID">Enter farm ID:</label>
+        <input type="text" id="farmID" name="farmID" required>
+        <label for="farmerName">Enter farmer name:</label>
+        <input type="text" id="farmerName" name="farmerName" required>
         <button type="submit" id="submitButton">Submit</button>
         <p id="getDisplayFarmer"></p>
     </form>
@@ -45,12 +47,19 @@
     </form>
 </body>
 <script>
-    generalizedGet(
-        document.getElementById("getFarmer"),
-        "http://localhost:3000/farmer",
-        document.getElementById("getDisplayFarmer"),
-        'farmerID'
-    );
+    document.getElementById("getFarmer").addEventListener("submit", function (event) {
+        event.preventDefault();
+        const formData = new FormData(document.getElementById("getFarmer"));
+        const codeData = Object.fromEntries(formData.entries());
+        fetch(`${"http://localhost:3000/farmer"}/${codeData['farmerName']}/${codeData['farmID']}`
+        ).then(response => response.json())
+            .then(data => {
+                document.getElementById("getDisplayFarmer").innerText = createHTMLTable(data);
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            });
+    });
 
     generalizedDelete(
         document.getElementById("deleteFarmer"),

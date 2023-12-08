@@ -19,7 +19,7 @@ type FarmUpdateRequest struct {
 func FarmRoutes(farm fiber.Router) {
 	ctx := context.Background()
 
-	farm.Get("/", func(c *fiber.Ctx) error {
+	farm.Get("", func(c *fiber.Ctx) error {
 		queries := c.Locals("db").(*db.Queries)
 		farms, err := queries.GetFarms(ctx)
 		if err != nil {

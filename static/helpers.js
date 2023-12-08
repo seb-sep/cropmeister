@@ -1,27 +1,35 @@
-function createHTMLTable(jsonData) {
-    let tableHTML = '<table>';
-
-    // Create table header
-    tableHTML += '<thead><tr>';
+function createHTMLTable(jsonData, appendTo) {
+    let table = document.createElement("table");
+    table.className = "table table-striped";
+    let thead = document.createElement("thead");
+    let tbody = document.createElement("tbody");
+    let tr = document.createElement("tr");
     for (let key in jsonData[0]) {
-        tableHTML += '<th>' + key + '</th>';
+        let th = document.createElement("th");
+        th.innerText = JSON.stringify(key);
+        tr.appendChild(th);
     }
-    tableHTML += '</tr></thead>';
-
-    // Create table body
-    tableHTML += '<tbody>';
+    thead.appendChild(tr);
+    table.appendChild(thead);
     for (let i = 0; i < jsonData.length; i++) {
-        tableHTML += '<tr>';
+        let tr = document.createElement("tr");
         for (let key in jsonData[i]) {
-            tableHTML += '<td>' + jsonData[i][key] + '</td>';
+            let td = document.createElement("td");
+            const value = jsonData[i][key];
+            console.log(value);
+            if(typeof value === "object"){
+                if(value["String"]) td.innerText = JSON.stringify(value["String"])
+                else if(value["Int32"]) td.innerText = JSON.stringify(value["Int32"])
+                else td.innerText = JSON.stringify(value)
+            }
+            else td.innerText = value;
+            tr.appendChild(td);
         }
-        tableHTML += '</tr>';
+        tbody.appendChild(tr);
     }
-    tableHTML += '</tbody>';
-
-    tableHTML += '</table>';
-
-    return tableHTML;
+    table.appendChild(tbody);
+    if (appendTo) appendTo.appendChild(table);
+    return table.outerHTML;
 }
 
 function generalizedGet(listenerElement, url, displayElement, idKey) {
@@ -34,7 +42,7 @@ function generalizedGet(listenerElement, url, displayElement, idKey) {
             `${url}`
         ).then(response => response.json())
             .then(data => {
-                displayElement.innerText = createHTMLTable(data);
+                 createHTMLTable(data, displayElement);
             })
             .catch(error => {
                 console.error("Error:", error);

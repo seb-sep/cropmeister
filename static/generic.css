@@ -240,3 +240,8 @@ hr {
 	border: 1px solid #e9322d;
 	width: 100%;
 }
+
+td {
+	border: 2px solid #e9322d;
+	padding: 10px;
+}
