@@ -7,7 +7,6 @@ CREATE TABLE IF NOT EXISTS Farm
   Address_Street VARCHAR(255),
   Address_City   VARCHAR(255),
   Address_State  VARCHAR(255),
-  Address_Zip    VARCHAR(10)
 );
 
 CREATE TABLE IF NOT EXISTS Crop
@@ -44,9 +43,9 @@ CREATE TABLE IF NOT EXISTS Purchase
 CREATE TABLE IF NOT EXISTS Crop_Investor
 (
   Name            VARCHAR(255) PRIMARY KEY,
-  Buy_Price        INT,
-  Investible_Money INT,
-  Sell_Price       INT,
+  Buy_Price        REAL,
+  Investible_Money REAL,
+  Sell_Price       REAL,
   Unemployed       BOOLEAN
 );
 
@@ -72,7 +71,7 @@ CREATE TABLE IF NOT EXISTS Crop_Buyer
   Name                VARCHAR(255) PRIMARY KEY,
   Quantities_Required INT,
   Crop_Type            VARCHAR(255),
-  Target_Price         INT,
+  Target_Price         REAL,
   CONSTRAINT buyer_crop 
     FOREIGN KEY (Crop_Type) REFERENCES Crop (Crop_Type)
     ON DELETE SET NULL ON UPDATE CASCADE
