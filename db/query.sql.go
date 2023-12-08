@@ -60,7 +60,7 @@ type AddCropBuyerParams struct {
 	Name               string
 	QuantitiesRequired sql.NullInt32
 	CropType           sql.NullString
-	TargetPrice        sql.NullInt32
+	TargetPrice        sql.NullFloat64
 }
 
 func (q *Queries) AddCropBuyer(ctx context.Context, arg AddCropBuyerParams) (sql.Result, error) {
@@ -136,8 +136,8 @@ func (q *Queries) AddEnforces(ctx context.Context, arg AddEnforcesParams) (sql.R
 }
 
 const addFarm = `-- name: AddFarm :execresult
-INSERT INTO Farm (Name, Farm_Value, Address_Street, Address_City, Address_State, Address_Zip)
-VALUES (?, ?, ?, ?, ?, ?)
+INSERT INTO Farm (Name, Farm_Value, Address_Street, Address_City, Address_State)
+VALUES (?, ?, ?, ?, ?)
 `
 
 type AddFarmParams struct {
@@ -146,7 +146,6 @@ type AddFarmParams struct {
 	AddressStreet sql.NullString
 	AddressCity   sql.NullString
 	AddressState  sql.NullString
-	AddressZip    sql.NullString
 }
 
 func (q *Queries) AddFarm(ctx context.Context, arg AddFarmParams) (sql.Result, error) {
@@ -156,7 +155,6 @@ func (q *Queries) AddFarm(ctx context.Context, arg AddFarmParams) (sql.Result, e
 		arg.AddressStreet,
 		arg.AddressCity,
 		arg.AddressState,
-		arg.AddressZip,
 	)
 }
 
@@ -651,7 +649,7 @@ func (q *Queries) GetDistrictsWithCrop(ctx context.Context, cropType sql.NullStr
 }
 
 const getFarm = `-- name: GetFarm :one
-SELECT name, farm_value, farm_id, address_street, address_city, address_state, address_zip FROM Farm
+SELECT name, farm_value, farm_id, address_street, address_city, address_state FROM Farm
 WHERE Farm_ID = ?
 `
 
@@ -665,7 +663,6 @@ func (q *Queries) GetFarm(ctx context.Context, farmID int32) (Farm, error) {
 		&i.AddressStreet,
 		&i.AddressCity,
 		&i.AddressState,
-		&i.AddressZip,
 	)
 	return i, err
 }
@@ -694,7 +691,7 @@ func (q *Queries) GetFarmer(ctx context.Context, arg GetFarmerParams) (Farmer, e
 }
 
 const getFarms = `-- name: GetFarms :many
-SELECT name, farm_value, farm_id, address_street, address_city, address_state, address_zip FROM Farm
+SELECT name, farm_value, farm_id, address_street, address_city, address_state FROM Farm
 `
 
 func (q *Queries) GetFarms(ctx context.Context) ([]Farm, error) {
@@ -713,7 +710,6 @@ func (q *Queries) GetFarms(ctx context.Context) ([]Farm, error) {
 			&i.AddressStreet,
 			&i.AddressCity,
 			&i.AddressState,
-			&i.AddressZip,
 		); err != nil {
 			return nil, err
 		}
@@ -968,8 +964,7 @@ SET
     Farm_Value = ?,
     Address_Street = ?,
     Address_City = ?,
-    Address_State = ?,
-    Address_Zip = ?
+    Address_State = ?
 WHERE Farm_ID = ?
 `
 
@@ -979,7 +974,6 @@ type UpdateFarmParams struct {
 	AddressStreet sql.NullString
 	AddressCity   sql.NullString
 	AddressState  sql.NullString
-	AddressZip    sql.NullString
 	FarmID        int32
 }
 
@@ -990,7 +984,6 @@ func (q *Queries) UpdateFarm(ctx context.Context, arg UpdateFarmParams) (sql.Res
 		arg.AddressStreet,
 		arg.AddressCity,
 		arg.AddressState,
-		arg.AddressZip,
 		arg.FarmID,
 	)
 }

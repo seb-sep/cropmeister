@@ -53,8 +53,8 @@ WHERE Crop_Type = ?;
 SELECT * FROM Farm;
 
 -- name: AddFarm :execresult
-INSERT INTO Farm (Name, Farm_Value, Address_Street, Address_City, Address_State, Address_Zip)
-VALUES (?, ?, ?, ?, ?, ?);
+INSERT INTO Farm (Name, Farm_Value, Address_Street, Address_City, Address_State)
+VALUES (?, ?, ?, ?, ?);
 
 -- name: GetFarm :one
 SELECT * FROM Farm
@@ -67,8 +67,7 @@ SET
     Farm_Value = ?,
     Address_Street = ?,
     Address_City = ?,
-    Address_State = ?,
-    Address_Zip = ?
+    Address_State = ?
 WHERE Farm_ID = ?;
 
 -- name: DeleteFarm :execresult

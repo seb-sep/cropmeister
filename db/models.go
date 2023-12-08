@@ -24,7 +24,7 @@ type CropBuyer struct {
 	Name               string
 	QuantitiesRequired sql.NullInt32
 	CropType           sql.NullString
-	TargetPrice        sql.NullInt32
+	TargetPrice        sql.NullFloat64
 }
 
 type CropInspector struct {
@@ -34,9 +34,9 @@ type CropInspector struct {
 
 type CropInvestor struct {
 	Name            string
-	BuyPrice        sql.NullInt32
-	InvestibleMoney sql.NullInt32
-	SellPrice       sql.NullInt32
+	BuyPrice        sql.NullFloat64
+	InvestibleMoney sql.NullFloat64
+	SellPrice       sql.NullFloat64
 	Unemployed      sql.NullBool
 }
 
@@ -59,7 +59,6 @@ type Farm struct {
 	AddressStreet sql.NullString
 	AddressCity   sql.NullString
 	AddressState  sql.NullString
-	AddressZip    sql.NullString
 }
 
 type Farmer struct {

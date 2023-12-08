@@ -1,41 +1,41 @@
 crop_type,ph_range_weight,ph_range_desired,water_needed_weight,water_needed_desired,sun_range_weight,sun_range_desired,base_price,banned
-Eastwood Farms,47,92,38,73,4,58,31,false
-Prairie Wind Farms,94,37,3,95,45,8,8,false
-Meadowbrook Estate,54,56,72,25,82,63,74,true
-Prairie Wind Farms,12,26,25,42,87,24,43,true
-Autumn Ridge Farm,79,1,92,9,91,39,27,false
-Riverbend Cattle Co.,78,13,30,35,25,50,75,false
-Northern Light Farm,30,23,18,25,7,30,17,true
-Silver Lake Dairy,51,74,8,13,97,2,28,false
-Winterfell Ranch,53,42,53,96,35,65,19,true
-Autumn Ridge Farm,66,38,41,64,81,18,53,true
-Rolling Hills Vineyard,6,68,44,43,65,44,3,false
-Highland Farm,61,82,41,30,25,64,41,false
-Eastwood Farms,29,83,79,43,54,48,59,true
-Sunny Meadow Farm,86,64,1,59,84,6,90,false
-Twilight Vineyards,1,78,74,97,71,14,19,false
-Eastwood Farms,57,6,79,96,76,70,10,false
-Spring Meadow Farm,74,47,17,77,91,87,29,false
-Meadowbrook Estate,76,91,39,43,23,79,54,false
-Maplewood Poultry Farm,34,94,6,36,9,31,36,true
-Twilight Vineyards,67,96,83,82,82,84,65,false
-Rolling Hills Vineyard,9,56,68,66,30,65,39,true
-Prairie Wind Farms,25,89,51,47,15,78,26,true
-Silver Lake Dairy,85,90,10,16,13,96,21,false
-Sunny Meadow Farm,59,21,39,92,48,40,87,false
-Sunset Orchard,30,80,55,89,9,96,8,true
-Sunny Meadow Farm,52,32,19,68,46,12,56,true
-Autumn Ridge Farm,18,1,39,79,76,86,27,false
-Blue Sky Orchards,74,26,12,65,10,45,54,true
-Winterfell Ranch,100,87,43,47,12,65,9,false
-Willow Creek Homestead,95,19,31,92,42,38,65,false
-Silver Lake Dairy,27,100,41,47,91,77,45,true
-Rainforest Coffee Plantation,57,54,50,11,83,27,71,true
-Golden Harvest Acres,90,61,64,99,52,73,85,false
-Whispering Pines Farmstead,43,9,82,75,21,59,91,false
-Island Retreat Farm,29,40,53,57,76,34,48,false
-Island Retreat Farm,10,45,24,63,51,91,12,true
-Riverbend Cattle Co.,28,48,88,38,83,20,86,true
-Blue Sky Orchards,66,13,8,18,49,60,77,false
-Blue Sky Orchards,55,46,82,36,27,14,91,false
-Spring Meadow Farm,10,20,85,16,92,16,58,true
+Grapes,32,11,65,68,24,43,46,false
+Squash,85,18,27,7,45,65,85,true
+Peanuts,90,31,71,94,77,78,1,true
+Sunflowers,94,20,20,46,58,11,66,false
+Grapes,12,7,68,39,72,30,54,true
+Peas,83,12,71,75,82,30,87,true
+Tomatoes,31,50,47,3,99,36,10,true
+Tea,85,88,92,35,11,33,11,true
+Pumpkins,11,50,97,38,36,96,76,true
+Lettuce,26,9,14,46,36,21,17,false
+Broccoli,92,96,63,46,73,64,77,false
+Lettuce,39,74,48,33,62,65,79,false
+Tobacco,25,56,58,96,75,11,21,false
+Cucumbers,37,16,2,58,47,30,90,true
+Tomatoes,77,73,87,78,21,6,34,false
+Beans,34,24,21,18,64,21,38,false
+Sunflowers,88,95,22,98,54,74,35,false
+Barley,56,15,3,82,28,55,5,true
+Pumpkins,51,43,1,40,57,78,97,false
+Wheat,19,50,5,57,82,50,40,false
+Pumpkins,39,21,87,91,46,93,15,true
+Rice,39,56,36,17,4,17,24,true
+Carrots,41,18,22,31,74,89,66,true
+Rice,11,41,32,91,98,93,79,false
+Wheat,49,5,62,60,77,93,65,false
+Peppers,59,87,33,4,20,38,66,false
+Quinoa,3,96,12,13,99,57,50,true
+Canola,2,76,99,68,91,87,44,false
+Apples,75,76,4,60,64,83,27,true
+Peppers,14,7,26,36,25,29,14,true
+Corn,83,32,6,17,44,24,74,true
+Coffee,91,62,90,23,46,7,6,false
+Squash,29,37,94,71,63,27,25,false
+Soybeans,51,77,55,99,26,45,63,false
+Cucumbers,28,19,46,92,20,9,14,true
+Cotton,53,3,80,22,24,44,90,false
+Tomatoes,1,19,68,97,96,72,91,false
+Coffee,81,58,11,74,41,79,54,false
+Tea,34,17,23,71,34,62,99,false
+Oats,29,5,84,47,16,59,13,true

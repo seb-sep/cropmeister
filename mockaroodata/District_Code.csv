@@ -1,101 +1,101 @@
 code_id,max_water,max_fert,crop_type
-1,78.66,1.24,Blue Sky Orchards
-2,73.06,23.34,Spring Meadow Farm
-3,34.62,5.89,Highland Farm
-4,67.43,83.19,Silver Lake Dairy
-5,50.01,56.57,Rolling Hills Vineyard
-6,42.88,24.04,Twilight Vineyards
-7,11.59,86.4,Silver Lake Dairy
-8,2.11,15.99,Silver Lake Dairy
-9,82.54,53.18,Riverbend Cattle Co.
-10,7.73,83.37,Prairie Wind Farms
-11,54.92,96.74,Eastwood Farms
-12,12.65,27.08,Meadowbrook Estate
-13,35.03,94.05,Prairie Wind Farms
-14,14.84,6.45,Riverbend Cattle Co.
-15,95.61,79.17,Prairie Wind Farms
-16,66.55,12.07,Eastwood Farms
-17,50.43,29.0,Twilight Vineyards
-18,11.76,83.44,Blue Sky Orchards
-19,15.76,66.66,Spring Meadow Farm
-20,80.27,3.48,Prairie Wind Farms
-21,26.05,99.75,Blue Sky Orchards
-22,9.3,4.36,Autumn Ridge Farm
-23,19.65,18.65,Meadowbrook Estate
-24,43.07,16.02,Island Retreat Farm
-25,26.92,98.12,Sunny Meadow Farm
-26,50.55,20.66,Sunny Meadow Farm
-27,52.48,29.39,Rolling Hills Vineyard
-28,98.34,88.54,Rolling Hills Vineyard
-29,31.45,87.91,Prairie Wind Farms
-30,99.76,81.09,Eastwood Farms
-31,75.57,67.38,Autumn Ridge Farm
-32,81.74,97.94,Rainforest Coffee Plantation
-33,94.03,57.93,Autumn Ridge Farm
-34,71.82,52.91,Twilight Vineyards
-35,55.06,73.2,Blue Sky Orchards
-36,8.82,39.68,Riverbend Cattle Co.
-37,41.31,21.2,Meadowbrook Estate
-38,27.22,8.47,Riverbend Cattle Co.
-39,33.24,46.23,Meadowbrook Estate
-40,68.84,94.28,Eastwood Farms
-41,51.87,26.75,Whispering Pines Farmstead
-42,41.8,92.42,Rolling Hills Vineyard
-43,42.24,59.61,Spring Meadow Farm
-44,67.53,8.02,Whispering Pines Farmstead
-45,60.76,95.29,Whispering Pines Farmstead
-46,12.94,6.66,Meadowbrook Estate
-47,5.24,47.2,Willow Creek Homestead
-48,64.25,13.56,Northern Light Farm
-49,54.72,65.5,Sunny Meadow Farm
-50,81.62,88.3,Rolling Hills Vineyard
-51,61.6,65.69,Blue Sky Orchards
-52,50.0,35.44,Autumn Ridge Farm
-53,80.87,86.15,Meadowbrook Estate
-54,33.67,23.55,Riverbend Cattle Co.
-55,45.79,75.08,Rolling Hills Vineyard
-56,77.16,5.08,Sunny Meadow Farm
-57,48.39,44.09,Rolling Hills Vineyard
-58,76.96,26.5,Silver Lake Dairy
-59,52.22,82.26,Twilight Vineyards
-60,26.6,51.32,Prairie Wind Farms
-61,33.12,49.24,Eastwood Farms
-62,99.06,70.9,Meadowbrook Estate
-63,38.9,32.2,Island Retreat Farm
-64,44.89,10.75,Whispering Pines Farmstead
-65,66.54,94.68,Winterfell Ranch
-66,30.23,43.19,Meadowbrook Estate
-67,75.54,90.34,Sunny Meadow Farm
-68,6.86,14.5,Meadowbrook Estate
-69,20.97,26.53,Golden Harvest Acres
-70,33.82,27.97,Spring Meadow Farm
-71,26.64,76.99,Island Retreat Farm
-72,45.63,54.17,Island Retreat Farm
-73,61.09,37.77,Winterfell Ranch
-74,71.37,21.99,Spring Meadow Farm
-75,35.26,62.74,Prairie Wind Farms
-76,8.85,56.89,Prairie Wind Farms
-77,24.71,40.32,Prairie Wind Farms
-78,13.01,4.83,Prairie Wind Farms
-79,57.17,93.62,Island Retreat Farm
-80,41.47,72.13,Northern Light Farm
-81,88.09,80.51,Silver Lake Dairy
-82,65.7,64.2,Island Retreat Farm
-83,25.77,39.13,Eastwood Farms
-84,24.21,26.54,Silver Lake Dairy
-85,10.3,52.27,Twilight Vineyards
-86,44.96,31.28,Eastwood Farms
-87,4.21,25.63,Blue Sky Orchards
-88,96.05,27.97,Maplewood Poultry Farm
-89,65.99,87.46,Northern Light Farm
-90,93.64,94.17,Twilight Vineyards
-91,3.83,92.0,Prairie Wind Farms
-92,36.32,28.94,Sunny Meadow Farm
-93,67.72,87.91,Prairie Wind Farms
-94,71.56,43.51,Eastwood Farms
-95,54.98,95.05,Autumn Ridge Farm
-96,37.82,90.35,Sunny Meadow Farm
-97,53.22,54.49,Northern Light Farm
-98,3.09,90.32,Eastwood Farms
-99,53.92,34.44,Rainforest Coffee Plantation
-100,91.21,59.1,Meadowbrook Estate
+1,4.94,88.03,Broccoli
+2,54.7,8.33,Wheat
+3,60.9,9.55,Peas
+4,20.23,18.62,Wheat
+5,40.98,63.71,Tea
+6,21.09,83.94,Sunflowers
+7,93.8,2.45,Sunflowers
+8,24.73,95.03,Apples
+9,93.54,22.83,Tea
+10,67.33,57.68,Pumpkins
+11,48.38,61.85,Peppers
+12,47.25,90.95,Pumpkins
+13,56.0,72.54,Cucumbers
+14,51.29,20.39,Lettuce
+15,73.58,77.36,Beans
+16,61.46,57.49,Tea
+17,89.12,40.59,Peppers
+18,35.56,21.16,Cotton
+19,65.96,42.52,Beans
+20,30.82,72.49,Wheat
+21,87.85,23.83,Tea
+22,86.47,12.13,Beans
+23,29.28,49.94,Tomatoes
+24,59.55,31.05,Beans
+25,10.05,10.3,Tomatoes
+26,95.07,53.02,Squash
+27,42.44,88.41,Squash
+28,35.87,33.36,Lettuce
+29,43.47,25.58,Carrots
+30,74.66,42.36,Tobacco
+31,50.41,77.81,Rice
+32,92.07,17.38,Peppers
+33,54.51,85.59,Rice
+34,21.98,20.28,Oats
+35,83.9,15.75,Tomatoes
+36,19.3,87.47,Lettuce
+37,37.63,67.33,Canola
+38,72.31,35.41,Oats
+39,49.66,15.51,Pumpkins
+40,51.33,40.9,Carrots
+41,4.62,14.81,Sunflowers
+42,24.12,26.7,Soybeans
+43,82.71,33.64,Tomatoes
+44,17.47,13.11,Pumpkins
+45,56.45,13.14,Peppers
+46,39.34,3.61,Quinoa
+47,9.79,77.18,Peanuts
+48,69.6,9.96,Rice
+49,75.03,80.01,Peas
+50,40.33,79.15,Peppers
+51,98.42,35.7,Rice
+52,36.46,15.96,Lettuce
+53,6.85,56.36,Corn
+54,62.42,79.75,Soybeans
+55,67.31,45.54,Beans
+56,34.15,51.69,Apples
+57,40.52,64.03,Barley
+58,41.38,16.52,Tea
+59,24.78,78.04,Peanuts
+60,38.32,2.59,Cotton
+61,51.58,10.34,Rice
+62,72.8,33.47,Broccoli
+63,22.34,14.31,Tomatoes
+64,14.6,14.37,Oats
+65,33.24,44.15,Apples
+66,75.2,8.77,Carrots
+67,40.75,73.97,Squash
+68,53.15,38.05,Tomatoes
+69,37.68,42.47,Apples
+70,92.74,33.74,Tea
+71,26.6,49.72,Wheat
+72,26.84,60.07,Wheat
+73,96.16,75.4,Barley
+74,1.69,97.92,Grapes
+75,28.66,68.46,Squash
+76,61.49,48.83,Rice
+77,29.64,66.35,Coffee
+78,84.82,76.7,Corn
+79,97.8,68.62,Carrots
+80,23.94,81.85,Rice
+81,76.66,42.63,Coffee
+82,20.28,98.64,Barley
+83,82.55,86.39,Peppers
+84,49.11,92.54,Lettuce
+85,85.56,61.13,Barley
+86,75.42,38.41,Squash
+87,2.8,99.51,Barley
+88,91.42,93.77,Peas
+89,99.99,7.65,Tomatoes
+90,82.59,43.72,Pumpkins
+91,43.47,52.53,Tea
+92,40.64,4.1,Barley
+93,60.61,13.23,Soybeans
+94,68.15,28.1,Grapes
+95,58.17,81.32,Squash
+96,57.69,67.17,Grapes
+97,27.29,23.84,Quinoa
+98,87.91,47.87,Lettuce
+99,91.22,39.89,Wheat
+100,30.0,40.05,Peanuts

@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS Farm
   Farm_ID         INT PRIMARY KEY AUTO_INCREMENT,
   Address_Street VARCHAR(255),
   Address_City   VARCHAR(255),
-  Address_State  VARCHAR(255),
+  Address_State  VARCHAR(255)
 );
 
 CREATE TABLE IF NOT EXISTS Crop
